@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, StatusBar } from 'react-native'
 import React from 'react'
 import Onboarding from 'react-native-onboarding-swiper';
 import Lottie from 'lottie-react-native';
@@ -20,7 +20,11 @@ export default function OnboardingScreen() {
     
 
   return (
-    <View style={styles.container}>
+    <View className="flex-1 bg-white">
+        <StatusBar
+          backgroundColor="transparent"
+          translucent={true}
+        />
       <Onboarding
             onDone={handleDone}
             onSkip={handleDone}
@@ -32,7 +36,7 @@ export default function OnboardingScreen() {
                 {
                     backgroundColor: '#a7f3d0',
                     image: (
-                        <View style={styles.lottie}>
+                        <View className="w-96 h-96">
                             <Lottie source={require('../assets/onboarding-animation/animation_lmnmo3np.json')} autoPlay loop />
                         </View>
                     ),
@@ -42,8 +46,18 @@ export default function OnboardingScreen() {
                 {
                     backgroundColor: '#fef3c7',
                     image: (
-                        <View style={styles.lottie}>
+                        <View className="w-96 h-96">
                             <Lottie source={require('../assets/onboarding-animation/animation_lmnmevbj.json')} autoPlay loop />
+                        </View>
+                    ),
+                    title: 'Work Seamlessly',
+                    subtitle: 'Get your work done seamlessly without interruption',
+                },
+                {
+                    backgroundColor: '#fed4c7',
+                    image: (
+                        <View className="w-96 h-96">
+                            <Lottie source={require('../assets/onboarding-animation/animation_lmoyno0z.json')} autoPlay loop />
                         </View>
                     ),
                     title: 'Work Seamlessly',
@@ -56,14 +70,3 @@ export default function OnboardingScreen() {
   )
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'white'
-    },
-    lottie:{
-        width: width*0.9,
-        height: width
-    },
-    
-})
