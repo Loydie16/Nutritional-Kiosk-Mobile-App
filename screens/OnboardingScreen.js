@@ -41,7 +41,7 @@ export default function OnboardingScreen() {
                         </View>
                     ),
                     title: 'Boost Productivity',
-                    subtitle: 'Subscribe this channel to boost your productivity level',
+                    subtitle: 'With our device, you can boost your productivity level.',
                 },
                 {
                     backgroundColor: '#fef3c7',
@@ -50,8 +50,8 @@ export default function OnboardingScreen() {
                             <Lottie source={require('../assets/onboarding-animation/animation_lmnmevbj.json')} autoPlay loop />
                         </View>
                     ),
-                    title: 'Work Seamlessly',
-                    subtitle: 'Get your work done seamlessly without interruption',
+                    title: 'Track your Progress',
+                    subtitle: 'Get your result seamlessly without interruption and track your progress.',
                 },
                 {
                     backgroundColor: '#fed4c7',
@@ -60,8 +60,8 @@ export default function OnboardingScreen() {
                             <Lottie source={require('../assets/onboarding-animation/animation_lmoyno0z.json')} autoPlay loop />
                         </View>
                     ),
-                    title: 'Work Seamlessly',
-                    subtitle: 'Get your work done seamlessly without interruption',
+                    title: 'With the help of AI',
+                    subtitle: 'Get your result with a suggestion of an Artificiall Intelligence.',
                 },
 
             ]}

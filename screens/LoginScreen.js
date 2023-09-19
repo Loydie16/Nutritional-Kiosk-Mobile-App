@@ -63,7 +63,7 @@ export default function LoginScreen ()  {
                       <View>
                       <TextInput
                         className={`p-4 bg-gray-300 text-gray-1000 rounded-2xl border-2 border-transparent ${
-                          touched.email && errors.email ? 'border-red-500' : 'border-green-300'
+                          touched.email && errors.email ? 'border-red-500' : 'border-transparent'
                         }`}
                         placeholder="Enter your email" 
                         value={values.email}
@@ -81,7 +81,7 @@ export default function LoginScreen ()  {
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                           <TextInput 
                             className={`flex-1 p-4 bg-gray-300 text-gray-1000 rounded-2xl border-2 border-transparent ${
-                              touched.password && errors.password ? 'border-red-500' : 'border-green-300'
+                              touched.password && errors.password ? 'border-red-500' : 'border-transparent'
                             }`}
                             secureTextEntry={!passwordVisible}
                             placeholder="Enter your password"

@@ -73,7 +73,7 @@ export default function SignUpScreen() {
                     <View>
                     <TextInput
                       className={`p-4 bg-gray-300 text-gray-1000 rounded-2xl border-2 border-transparent ${
-                        touched.username && errors.username ? 'border-red-500' : 'border-green-300'
+                        touched.username && errors.username ? 'border-red-500' : 'border-transparent'
                       }`}
                       placeholder="Enter your username"
                       value={values.userame}
@@ -89,7 +89,7 @@ export default function SignUpScreen() {
                     <View>
                     <TextInput
                       className={`p-4 bg-gray-300 text-gray-1000 rounded-2xl border-2 border-transparent ${
-                        touched.email && errors.email ? 'border-red-500' : 'border-green-300'
+                        touched.email && errors.email ? 'border-red-500' : 'border-transparent'
                       }`}
                       placeholder="Enter your email"
                       value={values.email}
@@ -105,7 +105,7 @@ export default function SignUpScreen() {
                     <View>
                     <TextInput
                       className={`p-4 bg-gray-300 text-gray-1000 rounded-2xl border-2 border-transparent ${
-                        touched.password && errors.password ? 'border-red-500' : 'border-green-300'
+                        touched.password && errors.password ? 'border-red-500' : 'border-transparent'
                       }`}
                       secureTextEntry={!showPassword}
                       placeholder="Enter your password"
@@ -116,7 +116,7 @@ export default function SignUpScreen() {
                     
                     <TextInput
                       className={`p-4 bg-gray-300 text-gray-1000 rounded-2xl mt-2 border-2 border-transparent ${
-                        touched.confirmPassword && errors.confirmPassword ? 'border-red-500' : 'border-green-300'
+                        touched.confirmPassword && errors.confirmPassword ? 'border-red-500' : 'border-transparent'
                       }`}
                       secureTextEntry={!showPassword}
                       placeholder="Confirm your password"
