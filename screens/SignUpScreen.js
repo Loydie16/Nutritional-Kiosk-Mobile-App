@@ -16,17 +16,22 @@ export default function SignUpScreen() {
     username: Yup.string()
       .min(6, 'Too Short!')
       .max(50, 'Too Long!')
-      .required('Please enter username'),
+      .required('Please enter username.'),
   
     email: Yup.string().email('Invalid email').required('Required'),
 
     password: Yup.string()
-      .min(8)
-      .required('Please enter password')
+      .min(8, "Your password is too short.")
+      .required('Please enter password.')
       .matches(
         /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
-        'Must contain minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character',
+        'Must contain minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character.',
       ),
+    
+    confirmPassword: Yup.string()
+      .min(8, "Confirm password must be 8 characters long.")
+      .required(' Please enter confirm password.')
+      .oneOf([Yup.ref('password')], "Your password do not match.")
   });
 
   return (
@@ -67,7 +72,9 @@ export default function SignUpScreen() {
                     
                     <View>
                     <TextInput
-                      className="p-4 bg-gray-300 text-gray-1000 rounded-2xl "
+                      className={`p-4 bg-gray-300 text-gray-1000 rounded-2xl border-2 border-transparent ${
+                        touched.username && errors.username ? 'border-red-500' : 'border-green-300'
+                      }`}
                       placeholder="Enter your username"
                       value={values.userame}
                       onChangeText={handleChange('username')}
@@ -81,9 +88,10 @@ export default function SignUpScreen() {
                     <Text className="text-gray-700 ml-4">Email Address</Text>
                     <View>
                     <TextInput
-                      className="p-4 bg-gray-300 text-gray-1000 rounded-2xl "
+                      className={`p-4 bg-gray-300 text-gray-1000 rounded-2xl border-2 border-transparent ${
+                        touched.email && errors.email ? 'border-red-500' : 'border-green-300'
+                      }`}
                       placeholder="Enter your email"
-                      autoCapitalize={false}
                       value={values.email}
                       onChangeText={handleChange('email')}
                       onBlur={() => setFieldTouched('email')}
@@ -94,23 +102,39 @@ export default function SignUpScreen() {
                     </View>
 
                     <Text className="text-gray-700 ml-4">Password</Text>
-                    
+                    <View>
                     <TextInput
-                      className="p-4 bg-gray-300 text-gray-1000 rounded-2xl"
+                      className={`p-4 bg-gray-300 text-gray-1000 rounded-2xl border-2 border-transparent ${
+                        touched.password && errors.password ? 'border-red-500' : 'border-green-300'
+                      }`}
                       secureTextEntry={!showPassword}
                       placeholder="Enter your password"
+                      value={values.password}
+                      onChangeText={handleChange('password')}
+                      onBlur={() => setFieldTouched('password')}
                     />
                     
                     <TextInput
-                      className="p-4 bg-gray-300 text-gray-1000 rounded-2xl"
+                      className={`p-4 bg-gray-300 text-gray-1000 rounded-2xl mt-2 border-2 border-transparent ${
+                        touched.confirmPassword && errors.confirmPassword ? 'border-red-500' : 'border-green-300'
+                      }`}
                       secureTextEntry={!showPassword}
                       placeholder="Confirm your password"
+                      value={values.confirmPassword}
+                      onChangeText={handleChange('confirmPassword')}
+                      onBlur={() => setFieldTouched('confirmPassword')}
                     />
-                    
+                    {touched.password && touched.confirmPassword && (errors.password || errors.confirmPassword) && (
+                      <Text className="text-red-400">
+                        {errors.password && <Text>{errors.password}</Text>}
+                        {errors.confirmPassword && <Text>{ errors.confirmPassword}</Text>}
+                      </Text>
+                    )}
+                    </View>
                     
                     <View className="flex flex-row items-start mb-4">
                       <Checkbox value={showPassword} onValueChange={setShowPassword} />
-                      <Text>Show password</Text>
+                      <Text> Show password</Text>
                     </View>
 
                     <TouchableOpacity disabled={!isValid} className="py-3 bg-yellow-400 rounded-xl" style={{ backgroundColor: isValid ? themeColors.bg2 : 'A5C9CA'}}>

@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from '../screens/LoginScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import OnboardingScreen from '../screens/OnboardingScreen';
+import HomeScreen from '../screens/HomeScreen';
 import { getItem } from '../utils/asyncStorage.js';
 
 const Stack = createNativeStackNavigator();
@@ -41,6 +42,7 @@ if(showOnboarding==null){
         <Stack.Screen name="Onboarding" options={{headerShown: false}} component={OnboardingScreen} />
         <Stack.Screen name="Login" options={{headerShown: false}} component={LoginScreen} />
         <Stack.Screen name="SignUp" options={{headerShown: false}} component={SignUpScreen} />
+        <Stack.Screen name="Home" options={{headerShown: false}} component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   )
@@ -52,6 +54,7 @@ if(showOnboarding==null){
         <Stack.Screen name="Onboarding" options={{headerShown: false}} component={OnboardingScreen} />
         <Stack.Screen name="Login" options={{headerShown: false}} component={LoginScreen} />
         <Stack.Screen name="SignUp" options={{headerShown: false}} component={SignUpScreen} />
+        <Stack.Screen name="Home" options={{headerShown: false}} component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   )

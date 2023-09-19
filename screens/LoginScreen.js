@@ -17,96 +17,136 @@ export default function LoginScreen ()  {
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
+
+  const SignupSchema = Yup.object().shape({
+  
+  
+    email: Yup.string().email('Invalid email.').required('Required'),
+
+    password: Yup.string()
+      .min(8)
+      .required('Required')
+  });
   
     return (
       
       <ScrollView>
       <View className="flex-1 bg-white" style={{backgroundColor: themeColors.bg1}}>
-        <StatusBar
-          backgroundColor="transparent"
-          translucent={true}
-        />
-        <SafeAreaView  className="flex ">
-            <View  className="flex-row justify-center w-96 h-96">
-            <Lottie source={require('../assets/onboarding-animation/animation_lmoz5alw.json')} autoPlay loop
-                />
-            </View>
-        </SafeAreaView>
+      <Formik
+          initialValues={{
+            username: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+        }}
+        
+        validationSchema={SignupSchema}
 
-        <View style={{borderTopLeftRadius: 60, borderTopRightRadius: 60}} className="flex-1 bg-white px-8 ">
-        <SafeAreaView  className="flex ">
-          <View className="form space-y-2">
+        >
+          {({values, errors, touched, handleChange, setFieldTouched, isValid, handleSubmit}) => (
+        <><StatusBar
+                backgroundColor="transparent"
+                translucent={true} /><SafeAreaView className="flex ">
+                  <View className="flex-row justify-center w-96 h-96">
+                    <Lottie source={require('../assets/onboarding-animation/animation_lmoz5alw.json')} autoPlay loop />
+                  </View>
+                </SafeAreaView><View style={{ borderTopLeftRadius: 60, borderTopRightRadius: 60 }} className="flex-1 bg-white px-8 ">
+                  <SafeAreaView className="flex ">
+                    <View className="form space-y-2">
+
+
+                      <View className="flex justify-center items-center ">
+                        <Text className="text-4xl font-bold text-gray-500">Login</Text>
+                      </View>
+
+                      <Text className="text-gray-700 ml-4">Email Address</Text>
+                      <View>
+                      <TextInput
+                        className={`p-4 bg-gray-300 text-gray-1000 rounded-2xl border-2 border-transparent ${
+                          touched.email && errors.email ? 'border-red-500' : 'border-green-300'
+                        }`}
+                        placeholder="Enter your email" 
+                        value={values.email}
+                        onChangeText={handleChange('email')}
+                        onBlur={() => setFieldTouched('email')}
+                      />
+                        
+                        {touched.email && errors.email && (
+                          <Text className="text-red-400 ">{errors.email}</Text>
+                        )}
+                      </View>
+
+                      <Text className="text-gray-700 ml-4">Password</Text>
+                      <View>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                          <TextInput 
+                            className={`flex-1 p-4 bg-gray-300 text-gray-1000 rounded-2xl border-2 border-transparent ${
+                              touched.password && errors.password ? 'border-red-500' : 'border-green-300'
+                            }`}
+                            secureTextEntry={!passwordVisible}
+                            placeholder="Enter your password"
+                            inlineImageLeft='search_icon' 
+                            value={values.password}
+                            onChangeText={handleChange('password')}
+                            onBlur={() => setFieldTouched('password')}
+                          />
+                          <TouchableOpacity onPress={togglePasswordVisibility} style={{ marginLeft: -30 }}>
+                            <Ionicons name={passwordVisible ? 'eye-off' : 'eye'} size={24} />
+                          </TouchableOpacity>
+                        </View>
+                        {touched.password && errors.password && (
+                          <Text className="text-red-400 ">{errors.password}</Text>
+                        )}
+                      </View>
+
+
+                      <View className="flex items-end">
+                        <TouchableOpacity>
+                          <Text className="text-gray-700 mb-5">Forgot Password?</Text>
+                        </TouchableOpacity>
+                      </View>
+
+                      <TouchableOpacity
+                        className="py-3 bg-300 rounded-xl" style={{ backgroundColor: themeColors.bg1 }}
+                        onPress={() => navigation.navigate('Home')}>
+                        <Text
+                          className="text-3xl font-bold text-center text-700 text-white"
+                        >
+                          Login
+                        </Text>
+                      </TouchableOpacity>
+
+                    </View>
+
+                    <View className="flex-row justify-center mt-12">
+                      <Text className="text-gray-500 font-semibold text-xl">
+                        Don't have an account?
+                      </Text>
+                      <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+                        <Text className="font-semibold text-500 text-xl" style={{ color: themeColors.bg1 }}> Sign Up</Text>
+                      </TouchableOpacity>
+                    </View>
+
+                    <View className="flex-row justify-center mt-7">
+                      <Text className="text-gray-500 font-semibold text-m">
+                        Read our
+                      </Text>
+                      <TouchableOpacity>
+                        <Text className="font-semibold text-blue-500 text-m"> Terms </Text>
+                      </TouchableOpacity>
+                      <Text className="text-gray-500 font-semibold text-m">
+                        and
+                      </Text>
+                      <TouchableOpacity>
+                        <Text className="font-semibold text-blue-500 text-m"> Agreements</Text>
+                      </TouchableOpacity>
+                    </View>
+                    <View className="m-3"></View>
+                  </SafeAreaView>
+                </View></>
           
-
-            <View className="flex justify-center items-center ">
-                <Text className="text-4xl font-bold text-gray-500">Login</Text>
-            </View>
-
-            <Text className="text-gray-700 ml-4">Email Address</Text>
-            <TextInput 
-              className="p-4 bg-gray-300 text-gray-1000 rounded-2xl mb-3"
-              placeholder="Enter your email"
-            />
-
-            <Text className="text-gray-700 ml-4">Password</Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <TextInput className="flex-1 p-4 bg-gray-300 text-gray-1000 rounded-2xl"
-                
-                secureTextEntry={!passwordVisible}
-                placeholder="Enter your password"
-                inlineImageLeft='search_icon'
-              />
-              <TouchableOpacity onPress={togglePasswordVisibility} style={{ marginLeft: -30 }}>
-                <Ionicons name={passwordVisible ? 'eye-off' : 'eye'} size={24}  />
-              </TouchableOpacity>
-            </View>
-
-
-            <View className="flex items-end">
-              <TouchableOpacity>
-                <Text className="text-gray-700 mb-5">Forgot Password?</Text>
-              </TouchableOpacity>
-            </View>
-            
-            <TouchableOpacity 
-              className="py-3 bg-300 rounded-xl" style={{backgroundColor: themeColors.bg1}}>
-                <Text 
-                    className="text-3xl font-bold text-center text-700 text-white" 
-                >
-                        Login
-                </Text>
-             </TouchableOpacity>
-
-            </View>
-
-            <View className="flex-row justify-center mt-12">
-              <Text className="text-gray-500 font-semibold text-xl">
-                  Don't have an account?
-              </Text>
-              <TouchableOpacity onPress={()=> navigation.navigate('SignUp')}>
-                  <Text className="font-semibold text-500 text-xl" style={{color: themeColors.bg1}}> Sign Up</Text>
-              </TouchableOpacity>
-            </View>
-
-            <View className="flex-row justify-center mt-7">
-              <Text className="text-gray-500 font-semibold text-m">
-                  Read our
-              </Text>
-              <TouchableOpacity>
-                  <Text className="font-semibold text-blue-500 text-m"> Terms </Text>
-              </TouchableOpacity>
-              <Text className="text-gray-500 font-semibold text-m">
-                   and
-              </Text>
-              <TouchableOpacity>
-                  <Text className="font-semibold text-blue-500 text-m"> Agreements</Text>
-              </TouchableOpacity>
-            </View>
-            <View className="m-3"></View>
-            </SafeAreaView>
-          </View>
-          
-          
+          )}
+          </Formik>
       </View>
       </ScrollView>
     )
