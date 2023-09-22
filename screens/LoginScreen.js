@@ -3,7 +3,7 @@ import React, {useState} from 'react'
 import { SafeAreaView} from 'react-native-safe-area-context';
 import { themeColors } from '../theme'
 import { useNavigation } from '@react-navigation/native'
-import { Ionicons } from '@expo/vector-icons';
+import { TextInput as PaperTextInput } from 'react-native-paper';
 import Lottie from 'lottie-react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -15,8 +15,9 @@ export default function LoginScreen ()  {
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible);
+    setPasswordVisible((prevState) => !prevState);
   };
+  
 
   const SignupSchema = Yup.object().shape({
   
@@ -61,11 +62,13 @@ export default function LoginScreen ()  {
 
                       <Text className="text-gray-700 ml-4">Email Address</Text>
                       <View>
-                      <TextInput
-                        className={`p-4 bg-gray-300 text-gray-1000 rounded-2xl border-2 border-transparent ${
+                      <PaperTextInput
+                        className={` bg-gray-300 text-gray-1000 rounded-2xl border-2 border-transparent ${
                           touched.email && errors.email ? 'border-red-500' : 'border-transparent'
                         }`}
                         placeholder="Enter your email" 
+                        activeUnderlineColor='transparent'
+                        underlineColor='transparent'
                         value={values.email}
                         onChangeText={handleChange('email')}
                         onBlur={() => setFieldTouched('email')}
@@ -79,20 +82,27 @@ export default function LoginScreen ()  {
                       <Text className="text-gray-700 ml-4">Password</Text>
                       <View>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                          <TextInput 
-                            className={`flex-1 p-4 bg-gray-300 text-gray-1000 rounded-2xl border-2 border-transparent ${
+                          <PaperTextInput
+                            className={`flex-1 bg-gray-300 text-gray-1000 rounded-2xl border-2 border-transparent ${
                               touched.password && errors.password ? 'border-red-500' : 'border-transparent'
                             }`}
                             secureTextEntry={!passwordVisible}
+                            right={
+                              <PaperTextInput.Icon   
+                                icon={passwordVisible ? 'eye-off' : 'eye'}
+                                onPress={togglePasswordVisibility}
+                              />
+                            }
+                            activeUnderlineColor='transparent'
+                            underlineColor='transparent'
                             placeholder="Enter your password"
                             inlineImageLeft='search_icon' 
                             value={values.password}
                             onChangeText={handleChange('password')}
                             onBlur={() => setFieldTouched('password')}
+                            
                           />
-                          <TouchableOpacity onPress={togglePasswordVisibility} style={{ marginLeft: -30 }}>
-                            <Ionicons name={passwordVisible ? 'eye-off' : 'eye'} size={24} />
-                          </TouchableOpacity>
+                        
                         </View>
                         {touched.password && errors.password && (
                           <Text className="text-red-400 ">{errors.password}</Text>
@@ -108,7 +118,7 @@ export default function LoginScreen ()  {
 
                       <TouchableOpacity
                         className="py-3 bg-300 rounded-xl" style={{ backgroundColor: themeColors.bg1 }}
-                        onPress={() => navigation.navigate('Home')}>
+                        onPress={() => navigation.navigate('BottomNavBar')}>
                         <Text
                           className="text-3xl font-bold text-center text-700 text-white"
                         >

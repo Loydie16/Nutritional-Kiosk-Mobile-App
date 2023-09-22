@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Image, TextInput,  ScrollView, StatusBar } from 'react-native';
+import { View, Text, TouchableOpacity, Image, TextInput,  ScrollView, StatusBar, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { themeColors } from '../theme';
 import { useNavigation } from '@react-navigation/native';
@@ -18,11 +18,17 @@ export default function SignUpScreen() {
       .max(50, 'Too Long!')
       .required('Please enter username.'),
   
-    email: Yup.string().email('Invalid email').required('Required'),
+    email: Yup.string()
+      .email('Invalid email')
+      .required('Required')
+      .test('is-complete-email', 'Email must be complete', function (value) {
+        // Use a regex pattern to check for a complete email address
+        return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value);
+      }),
 
     password: Yup.string()
-      .min(8, "Your password is too short.")
-      .required('Please enter password.')
+      .min(8, "Your password is too short. ")
+      .required('Please enter password. ')
       .matches(
         /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
         'Must contain minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character.',
@@ -31,7 +37,7 @@ export default function SignUpScreen() {
     confirmPassword: Yup.string()
       .min(8, "Confirm password must be 8 characters long.")
       .required(' Please enter confirm password.')
-      .oneOf([Yup.ref('password')], "Your password do not match.")
+      .oneOf([Yup.ref('password')], " Your password do not match.")
   });
 
   return (
@@ -50,6 +56,7 @@ export default function SignUpScreen() {
         }}
         
         validationSchema={SignupSchema}
+        onSubmit={values => Alert.alert(JSON.stringify(values))}
 
         >
           {({values, errors, touched, handleChange, setFieldTouched, isValid, handleSubmit}) => (
@@ -137,7 +144,7 @@ export default function SignUpScreen() {
                       <Text> Show password</Text>
                     </View>
 
-                    <TouchableOpacity disabled={!isValid} className="py-3 bg-yellow-400 rounded-xl" style={{ backgroundColor: isValid ? themeColors.bg2 : 'A5C9CA'}}>
+                    <TouchableOpacity disabled={!isValid} className="py-3 bg-yellow-400 rounded-xl" style={{ backgroundColor: isValid ? themeColors.bg2 : 'lightgray'}} onPress={handleSubmit}>
                       <Text className="text-3xl font-bold text-center text-gray-700 text-white">
                         Create account
                       </Text>

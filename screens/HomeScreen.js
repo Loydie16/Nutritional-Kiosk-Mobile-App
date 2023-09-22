@@ -7,7 +7,7 @@ import { setItem } from '../utils/asyncStorage';
 
 const {width, height} = Dimensions.get('window');
 
-export default function OnboardingScreen() {
+export default function HomeScreen() {
     
 
   return (
