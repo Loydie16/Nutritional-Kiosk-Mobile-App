@@ -32,7 +32,7 @@ export default function LoginScreen ()  {
     return (
       
       <ScrollView>
-      <View className="flex-1 bg-white" style={{backgroundColor: themeColors.bg1}}>
+      <View className="flex-1 " style={{backgroundColor: themeColors.bg1}}>
       <Formik
           initialValues={{
             username: '',
@@ -47,13 +47,15 @@ export default function LoginScreen ()  {
           {({values, errors, touched, handleChange, setFieldTouched, isValid, handleSubmit}) => (
         <><StatusBar
                 backgroundColor="transparent"
-                translucent={true} /><SafeAreaView className="flex ">
-                  <View className="flex-row justify-center w-96 h-96">
+                translucent={true} />
+                <SafeAreaView className="flex ">
+                  <View className="flex-row justify-center w-96 h-96" >
                     <Lottie source={require('../assets/onboarding-animation/animation_lmoz5alw.json')} autoPlay loop />
                   </View>
-                </SafeAreaView><View style={{ borderTopLeftRadius: 60, borderTopRightRadius: 60 }} className="flex-1 bg-white px-8 ">
-                  <SafeAreaView className="flex ">
-                    <View className="form space-y-2">
+                </SafeAreaView>
+                <View style={{ borderTopLeftRadius: 60, borderTopRightRadius: 60 }} className="flex-1 bg-white px-8 " >
+                  <SafeAreaView className="flex " >
+                    <View className="form space-y-2" >
 
 
                       <View className="flex justify-center items-center ">
@@ -63,7 +65,7 @@ export default function LoginScreen ()  {
                       <Text className="text-gray-700 ml-4">Email Address</Text>
                       <View>
                       <PaperTextInput
-                        className={` bg-gray-300 text-gray-1000 rounded-2xl border-2 border-transparent ${
+                        className={`bg-gray-300 text-gray-1000 rounded-2xl border-2 border-transparent ${
                           touched.email && errors.email ? 'border-red-500' : 'border-transparent'
                         }`}
                         placeholder="Enter your email" 

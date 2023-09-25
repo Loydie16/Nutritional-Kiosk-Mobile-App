@@ -1,19 +1,35 @@
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, StatusBar } from 'react-native'
-import React from 'react'
-import Onboarding from 'react-native-onboarding-swiper';
-import Lottie from 'lottie-react-native';
-import { useNavigation } from '@react-navigation/native';
-import { setItem } from '../utils/asyncStorage';
+import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity, StatusBar } from 'react-native'
+import React, {useState} from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { themeColors } from '../theme'
 
-const {width, height} = Dimensions.get('window');
+
 
 export default function HomeScreen() {
     
 
   return (
-    <View className="flex-1 bg-white justify-center items-center">
-        <Text className="font-extrabold text-7xl">Home Screen</Text>
-    </View>
+    <SafeAreaView className="flex-1">
+      <StatusBar
+        backgroundColor="transparent"
+        translucent={true} />
+
+        <View className="flex-row justify-between items-center p-4">
+          <Text className="font-bold text-3xl">Hello, Username!</Text>
+          <Image source={require('../assets/images/HelloHand.png')} className="w-28 h-28"/>
+        </View>
+
+        <View className="flex-1 p-4">
+          <Text className="font-bold text-xl">Your recent record:</Text>
+          <TouchableOpacity className='bg-purple-200 p-4 rounded-lg mt-4'>
+            <View>
+              <Text>Height: </Text>
+              <Text>Height: </Text>
+              <Text>Height: </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+    </SafeAreaView>
   )
 }
 
