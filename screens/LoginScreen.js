@@ -83,7 +83,7 @@ export default function LoginScreen ()  {
 
                       <Text className="text-gray-700 ml-4">Password</Text>
                       <View>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        
                           <PaperTextInput
                             className={`flex-1 bg-gray-300 text-gray-1000 rounded-2xl border-2 border-transparent ${
                               touched.password && errors.password ? 'border-red-500' : 'border-transparent'
@@ -105,7 +105,7 @@ export default function LoginScreen ()  {
                             
                           />
                         
-                        </View>
+                       
                         {touched.password && errors.password && (
                           <Text className="text-red-400 ">{errors.password}</Text>
                         )}

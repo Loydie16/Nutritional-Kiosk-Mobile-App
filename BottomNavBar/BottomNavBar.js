@@ -63,6 +63,7 @@ export default function BottomNavBar() {
             component={Profile}
             options={{
               tabBarLabel: 'Profile',
+              headerShown: false,
               tabBarIcon: ({ color, size }) => (
                 <MaterialCommunityIcons name="account" color={color} size={size} />
               ),
