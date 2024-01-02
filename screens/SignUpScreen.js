@@ -61,8 +61,8 @@ export default function SignUpScreen() {
         >
           {({values, errors, touched, handleChange, setFieldTouched, isValid, handleSubmit}) => (
             <View className="flex-1 bg-white" style={{ backgroundColor: themeColors.bg2 }}>
-              <SafeAreaView className="flex">
-                <View className="flex-row justify-center w-96 h-96">
+              <SafeAreaView className="flex items-center ">
+                <View className="flex-row justify-center w-96 h-96 ">
                   <Lottie source={require('../assets/onboarding-animation/animation_lmozb2xr.json')} autoPlay loop
                         />
                 </View>
@@ -90,6 +90,7 @@ export default function SignUpScreen() {
                     {touched.username && errors.username && (
                       <Text className="text-red-400 ">{errors.username}</Text>
                     )}
+                    
                    </View>
 
                     <Text className="text-gray-700 ml-4">Email Address</Text>
@@ -120,6 +121,12 @@ export default function SignUpScreen() {
                       onChangeText={handleChange('password')}
                       onBlur={() => setFieldTouched('password')}
                     />
+                    {touched.password  && errors.password && (
+                      <Text className="text-red-400">
+                        {errors.password && <Text>{errors.password}</Text>}
+                        
+                      </Text>
+                    )}
                     
                     <TextInput
                       className={`p-4 bg-gray-300 text-gray-1000 rounded-2xl mt-2 border-2 border-transparent ${
@@ -131,9 +138,9 @@ export default function SignUpScreen() {
                       onChangeText={handleChange('confirmPassword')}
                       onBlur={() => setFieldTouched('confirmPassword')}
                     />
-                    {touched.password && touched.confirmPassword && (errors.password || errors.confirmPassword) && (
+                    {touched.confirmPassword && errors.confirmPassword && (
                       <Text className="text-red-400">
-                        {errors.password && <Text>{errors.password}</Text>}
+                        
                         {errors.confirmPassword && <Text>{ errors.confirmPassword}</Text>}
                       </Text>
                     )}

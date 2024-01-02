@@ -36,10 +36,11 @@ export default function BottomNavBar() {
           />
 
           <Tab.Screen
-            name="BMIScreen"
+            name="BMI Screen"
             component={BMIScreen}
             options={{
-              tabBarLabel: 'BMI Calculator',
+              tabBarLabel: 'BMI Calc',
+              headerShown: false,
               tabBarIcon: ({ color, size }) => (
                 <MaterialCommunityIcons name="calculator" color={color} size={size} />
               ),
@@ -52,7 +53,7 @@ export default function BottomNavBar() {
             options={{
               tabBarLabel: 'Scan',
               tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons name="qrcode-scan" color={color} size={30}  />
+                <MaterialCommunityIcons name="qrcode-scan" color={color} size={size}  />
               ),
               
             }}
@@ -72,12 +73,12 @@ export default function BottomNavBar() {
           />
 
           <Tab.Screen
-            name="Logout"
+            name="Settings"
             component={LogoutScreen}
             options={{
-              tabBarLabel: 'Logout',
+              tabBarLabel: 'Settings',
               tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons name="logout" color={color} size={size} />
+                <MaterialCommunityIcons name="cog" color={color} size={size} />
               ),
               
             }}

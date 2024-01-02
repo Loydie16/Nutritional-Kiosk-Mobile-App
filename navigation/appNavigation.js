@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
 import LoginScreen from '../screens/LoginScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import OnboardingScreen from '../screens/OnboardingScreen';
@@ -18,48 +17,26 @@ export default function AppNavigation() {
     checkIfAlreadyOnboarded();
   },[])
 
-const checkIfAlreadyOnboarded = async ()=>{
-  let onboarded = await getItem('onboarded');
-  if(onboarded==1){
-    // hide onboarding
-    setShowOnboarding(false);
-  }else{
-    // show onboarding
-    setShowOnboarding(true);
+  const checkIfAlreadyOnboarded = async () => {
+    let onboarded = await getItem('onboarded');
+    setShowOnboarding(onboarded !== '1');
+  };
+
+  if (showOnboarding === null) {
+    return null;
   }
+
+
+
+return (
+  <NavigationContainer>
+    <Stack.Navigator initialRouteName={showOnboarding ? 'Onboarding' : 'Login'}>
+      <Stack.Screen name="Onboarding" options={{ headerShown: false }} component={OnboardingScreen} />
+      <Stack.Screen name="Login" options={{ headerShown: false }} component={LoginScreen} />
+      <Stack.Screen name="SignUp" options={{ headerShown: false }} component={SignUpScreen} />
+      <Stack.Screen name="BottomNavBar" options={{ headerShown: false }} component={BottomNavBar} />
+      <Stack.Screen name="Details" options={{ headerShown: false }} component={DetailsScreen} />
+    </Stack.Navigator>
+  </NavigationContainer>
+);
 }
-
-if(showOnboarding==null){
-  return null;
-}
-
-
-
-  if(showOnboarding){
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName='Onboarding'>
-        <Stack.Screen name="Onboarding" options={{headerShown: false}} component={OnboardingScreen} />
-        <Stack.Screen name="Login" options={{headerShown: false}} component={LoginScreen} />
-        <Stack.Screen name="SignUp" options={{headerShown: false}} component={SignUpScreen} />
-        <Stack.Screen name="BottomNavBar" options={{headerShown: false}} component={BottomNavBar} />
-        <Stack.Screen name="Details" options={{headerShown: false}} component={DetailsScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  )
-  }
-  else{
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName='Home'>
-        <Stack.Screen name="Onboarding" options={{headerShown: false}} component={OnboardingScreen} />
-        <Stack.Screen name="Login" options={{headerShown: false}} component={LoginScreen} />
-        <Stack.Screen name="SignUp" options={{headerShown: false}} component={SignUpScreen} />
-        <Stack.Screen name="BottomNavBar" options={{headerShown: false}} component={BottomNavBar} />
-        <Stack.Screen name="Details" options={{headerShown: false}} component={DetailsScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  )
-  }
-}
-

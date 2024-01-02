@@ -15,9 +15,6 @@ export default function OnboardingScreen() {
         setItem('onboarded', '1');
     }
 
-    
-
-    
 
   return (
     <View className="flex-1 bg-white">

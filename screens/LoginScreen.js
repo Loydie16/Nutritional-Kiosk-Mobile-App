@@ -3,6 +3,7 @@ import React, {useState} from 'react'
 import { SafeAreaView} from 'react-native-safe-area-context';
 import { themeColors } from '../theme'
 import { useNavigation } from '@react-navigation/native'
+import { removeItem } from '../utils/asyncStorage';
 import { TextInput as PaperTextInput } from 'react-native-paper';
 import Lottie from 'lottie-react-native';
 import { Formik } from 'formik';
@@ -18,6 +19,10 @@ export default function LoginScreen ()  {
     setPasswordVisible((prevState) => !prevState);
   };
   
+  const handleReset = async ()=>{
+    await removeItem('onboarded');
+    navigation.push('Onboarding');
+  }
 
   const SignupSchema = Yup.object().shape({
   
@@ -31,7 +36,7 @@ export default function LoginScreen ()  {
   
     return (
       
-      <ScrollView>
+      <ScrollView >
       <View className="flex-1 " style={{backgroundColor: themeColors.bg1}}>
       <Formik
           initialValues={{
@@ -48,14 +53,14 @@ export default function LoginScreen ()  {
         <><StatusBar
                 backgroundColor="transparent"
                 translucent={true} />
-                <SafeAreaView className="flex ">
-                  <View className="flex-row justify-center w-96 h-96" >
+                <SafeAreaView className="flex items-center ">
+                  <View className="flex-row justify-center w-96 h-96 " >
                     <Lottie source={require('../assets/onboarding-animation/animation_lmoz5alw.json')} autoPlay loop />
                   </View>
                 </SafeAreaView>
                 <View style={{ borderTopLeftRadius: 60, borderTopRightRadius: 60 }} className="flex-1 bg-white px-8 " >
-                  <SafeAreaView className="flex " >
-                    <View className="form space-y-2" >
+                  <View className="flex pt-8  " >
+                    <View className="form space-y-2 " >
 
 
                       <View className="flex justify-center items-center ">
@@ -112,14 +117,14 @@ export default function LoginScreen ()  {
                       </View>
 
 
-                      <View className="flex items-end">
+                      <View className="flex items-end ">
                         <TouchableOpacity>
                           <Text className="text-gray-700 mb-5">Forgot Password?</Text>
                         </TouchableOpacity>
                       </View>
 
                       <TouchableOpacity
-                        className="py-3 bg-300 rounded-xl" style={{ backgroundColor: themeColors.bg1 }}
+                        className="py-3 bg-300 rounded-xl " style={{ backgroundColor: themeColors.bg1 }}
                         onPress={() => navigation.navigate('BottomNavBar')}>
                         <Text
                           className="text-3xl font-bold text-center text-700 text-white"
@@ -130,8 +135,8 @@ export default function LoginScreen ()  {
 
                     </View>
 
-                    <View className="flex-row justify-center mt-12">
-                      <Text className="text-gray-500 font-semibold text-xl">
+                    <View className="row justify-center mt-12  items-center ">
+                      <Text className="text-gray-500 font-semibold text-xl ">
                         Don't have an account?
                       </Text>
                       <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
@@ -144,7 +149,7 @@ export default function LoginScreen ()  {
                         Read our
                       </Text>
                       <TouchableOpacity>
-                        <Text className="font-semibold text-blue-500 text-m"> Terms </Text>
+                        <Text className="font-semibold text-blue-500 text-m" onPress={handleReset}> Terms </Text>
                       </TouchableOpacity>
                       <Text className="text-gray-500 font-semibold text-m">
                         and
@@ -154,7 +159,7 @@ export default function LoginScreen ()  {
                       </TouchableOpacity>
                     </View>
                     <View className="m-3"></View>
-                  </SafeAreaView>
+                  </View>
                 </View></>
           
           )}
