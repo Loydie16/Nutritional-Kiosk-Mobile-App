@@ -58,7 +58,7 @@ export default function LoginScreen ()  {
                     <Lottie source={require('../assets/onboarding-animation/animation_lmoz5alw.json')} autoPlay loop />
                   </View>
                 </SafeAreaView>
-                <View style={{ borderTopLeftRadius: 60, borderTopRightRadius: 60 }} className="flex-1 bg-white px-8 " >
+                <View style={{ borderTopLeftRadius: 60, borderTopRightRadius: 60 }} className="flex-1 bg-white px-8  " >
                   <View className="flex pt-8  " >
                     <View className="form space-y-2 " >
 
@@ -107,7 +107,6 @@ export default function LoginScreen ()  {
                             value={values.password}
                             onChangeText={handleChange('password')}
                             onBlur={() => setFieldTouched('password')}
-                            
                           />
                         
                        

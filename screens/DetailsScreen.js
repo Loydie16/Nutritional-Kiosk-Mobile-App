@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, TextInput, ScrollView, StatusBar  } from 'react-native'
-import { SafeAreaView} from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 function DetailsScreen({ route }) {
   const { item } = route.params;

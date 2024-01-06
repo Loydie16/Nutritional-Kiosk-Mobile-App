@@ -6,6 +6,7 @@ import SignUpScreen from '../screens/SignUpScreen';
 import OnboardingScreen from '../screens/OnboardingScreen';
 import BottomNavBar from '../BottomNavBar/BottomNavBar';
 import DetailsScreen from '../screens/DetailsScreen';
+import ResultScreen from '../screens/ResultScreen';
 import { getItem } from '../utils/asyncStorage.js';
 
 const Stack = createNativeStackNavigator();
@@ -36,6 +37,7 @@ return (
       <Stack.Screen name="SignUp" options={{ headerShown: false }} component={SignUpScreen} />
       <Stack.Screen name="BottomNavBar" options={{ headerShown: false }} component={BottomNavBar} />
       <Stack.Screen name="Details" options={{ headerShown: false }} component={DetailsScreen} />
+      <Stack.Screen name="Results" options={{ headerShown: true, title: 'Previous Result' }} component={ResultScreen} />
     </Stack.Navigator>
   </NavigationContainer>
 );

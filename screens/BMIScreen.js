@@ -1,42 +1,41 @@
-import { View, Text, BackHandler } from 'react-native'
-import React, { useRef } from 'react'
-import { WebView } from 'react-native-webview'
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, BackHandler, ActivityIndicator } from 'react-native';
+import { WebView } from 'react-native-webview';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function BMIScreen() {
-
+export default function BMIScreen({ navigation }) {
   const webViewRef = useRef(null);
+  const [canGoBack, setCanGoBack] = useState(false);
 
-  // Event handler for back button press
-  const handleBackButton = () => {
-    if (webViewRef.current) {
-      // Check if WebView can go back
+  const renderLoadingIndicator = () => (
+    <View className="flex-1 ">
+      <ActivityIndicator size="large" color="#0000ff" />
+    </View>
+  );
+
+  const handleBackPress = () => {
+    if (canGoBack) {
       webViewRef.current.goBack();
-      return true; // Prevent default behavior
+      return true; // Prevent default back button behavior
     }
-    return false; // Allow def  ault behavior (exit the app if not in WebView)
+    return false; // Allow default back button behavior
   };
 
-  // Add event listener for Android back button
-  React.useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackPress);
 
-    return () => {
-      // Remove event listener when component unmounts
-      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
-    };
-  }, []);
+    return () => backHandler.remove(); // Remove the event listener when the component unmounts
+  }, [canGoBack]);
 
   return (
-    
-    <SafeAreaView className="flex-1 ">
-      <WebView 
-        
+    <SafeAreaView className="flex-1">
+      <WebView
         ref={webViewRef}
         source={{ uri: 'https://www.calculator.net/bmi-calculator.html' }}
-        onNavigationStateChange={this.handleWebViewNavigationStateChange}
+        renderLoading={renderLoadingIndicator}
+        startInLoadingState
+        onNavigationStateChange={(navState) => setCanGoBack(navState.canGoBack)}
       />
     </SafeAreaView>
-  
-  ) 
+  );
 }

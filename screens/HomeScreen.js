@@ -1,15 +1,18 @@
-import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity, StatusBar, FlatList } from 'react-native'
+import { View, Text, Image, ScrollView, Dimensions, TouchableOpacity, StatusBar, FlatList, Platform, PixelRatio } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'; // Import useNavigation
+import { LineChart } from 'react-native-chart-kit';
+import { textS, widthRatio, heightRatio, moderateScale } from '../utils/sizes';
 
 export default function HomeScreen() {
   const navigation = useNavigation(); // Initialize navigation
 
+
   const recentRecord = {
     height: '178',
     weight: '60',
-    date: 'September 25, 2023',
+    date: '11/25/23',
     time: '12:45:55',
     bmi: '20',
     classification: 'Normal',
@@ -106,78 +109,135 @@ export default function HomeScreen() {
       bmi: '21.4',
       classification: 'Normal',
     },
+    
   ];
 
+  const labels = items.map((item) => item.date);
+  const values = items.map((item) => parseFloat(item.bmi));
+
+  // Set the threshold for enabling scrolling
+  const scrollableThreshold = 15;
+  const isScrollable = items.length > scrollableThreshold;
+  
   return (
-    <SafeAreaView className="flex-1">
+    <>
       <StatusBar
         backgroundColor="transparent"
-        translucent={true}
-      />
+        barStyle="dark-content"
+      /> 
+      <View className="flex-1 bg-neutral-200 ">  
+        <View className="h-1/5 bg-neutral-100 rounded-b-3xl">
+          <SafeAreaView className="flex-1 p-4  ">
+            <View className="flex-row items-center w-full    ">
+              <View className="w-5/6    ">
+                <Text className="font-bold pl-2 " style={{ fontSize: textS(15)}}>Hello, </Text>
+                <Text className="font-bold pl-2" style={{ fontSize: textS(20)}}>Username!</Text>
+              </View>
+              <View className="items-end   self-center">
+                <Image source={require('../assets/images/Profile-icon.png')}/>
+              </View>
+            </View>
+            
+          </SafeAreaView>
+        </View>
 
-      <View className="flex-row justify-between items-center p-4">
-        <Text className="font-bold text-3xl">Hello, Username!</Text>
-        <Image source={require('../assets/images/HelloHand.png')} className="w-28 h-28" />
-      </View>
-
-      <View className="flex-1 p-4 bg-slate-200 rounded-t-3xl">
-        <Text className="font-bold text-xl">Your recent record:</Text>
-        <TouchableOpacity
-          className='bg-purple-200 p-4 rounded-lg mt-4'
-          onPress={() => navigation.navigate('Details', { item: recentRecord })} // Pass recentRecord data to DetailsScreen
-        >
-          <View className="flex-col justify-between items-start gap-1 ">
-            <Text>Height: {recentRecord.height} CM </Text>
-            <Text>Weight: {recentRecord.weight} KG </Text>
-          </View>
-          <View className="justify-center items-center p-4">
-            <Text className="font-bold text-2xl">BMI: {recentRecord.bmi} </Text>
-            <Text className="font-bold text-2xl">Classification: {recentRecord.classification} </Text>
-          </View>
-          <View className="flex-row justify-between items-center ">
-            <Text>Date: {recentRecord.date} </Text>
-            <Text>Time: {recentRecord.time} </Text>
-          </View>
-          <View className="justify-center items-center">
-            <Text className="pt-4 italic">Click to View Recommendation</Text>
-          </View>
-        </TouchableOpacity>
-
-        <Text className="font-bold text-xl pt-4">Your previous records:</Text>
-
-        <View className="flex-1 mt-3">
-          <FlatList 
-              data={items}
-              numColumns={1}
-              keyExtractor={item=> item.id}
-              showsVerticalScrollIndicator={false}
-              
-              className="mx-1"
-              renderItem={({item})=>{
-                  return (
-                    <TouchableOpacity className='bg-purple-200 p-4 rounded-lg mt-4' onPress={() => navigation.navigate('Details', { item })}>
-                      <View className="flex-col justify-between items-start gap-1 ">
-                        <Text>Height: {item.height} CM</Text>
-                        <Text>Weight: {item.weight} KG </Text> 
-                      </View>
-                      <View className="justify-center items-center p-4">
-                        <Text className="font-bold text-2xl">BMI: {item.bmi} </Text>
-                        <Text className="font-bold text-2xl">Classification: {item.classification} </Text>
-                      </View>
-                      <View className="flex-row justify-between items-center ">
-                        <Text>Date: {item.date} </Text>
-                        <Text>Time: {item.time} </Text> 
-                      </View>
-                      <View className="justify-center items-center">
-                        <Text className="pt-4 italic">Click to View Recommendation</Text>
-                      </View>
-                  </TouchableOpacity>
-                      
-                  )
+        <View className="flex-1justify-self-center bg-neutral-100 mt-3  rounded-3xl self-center " style={{width: widthRatio(350)}}>
+          <Text className=" font-bold  pl-4 pt-2" style={{ fontSize: textS(12)}}>
+            Line chart of all BMI records
+          </Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} >
+            <LineChart
+              data={{
+                labels,
+                datasets: [
+                  {
+                    data: values,
+                    strokeWidth: 2, 
+                  },
+                ],
               }}
-          />
+              width={isScrollable ? 3000 : Dimensions.get('window').width - 25}
+              height={heightRatio(200)}
+              
+              bezier
+              chartConfig={{
+                backgroundColor: '#1cc910',
+                backgroundGradientFrom: '#eff3ff',
+                backgroundGradientTo: '#efefef',
+                decimalPlaces: 2,            
+                color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                style: {
+                  borderRadius: 16,
+                },
+                propsForVerticalLabels: {
+                  rotation: 30,
+                  fontSize: 10, 
+                },
+                yLabelsOffset: -10,
+                xLabelsOffset: -10, 
+              }}
+              style={{
+                marginVertical: heightRatio(8),
+                paddingHorizontal: 10,
+                borderRadius: moderateScale(16),
+                alignSelf: 'center',
+              }}
+            />
+          </ScrollView>
+        </View>
+
+        <View className="flex-1 bg-neutral-100 self-center my-3 rounded-3xl " style={{width: widthRatio(350)}}>
+          <View className="flex-row justify-between">
+            <Text className="pl-4 pt-3   font-bold " style={{ fontSize: textS(12)}}>
+              Your Recent Record
+            </Text>
+            <TouchableOpacity className=" " onPress={() => navigation.navigate('Results', { item: items })}>
+              <Text className="pt-3 pr-4 font-bold " style={{ fontSize: textS(12), color: '#1cc910'}}>
+                View All 
+              </Text>
+            </TouchableOpacity>
+          </View>
+          
+          <View className="flex-1 bg-slate-200  m-3 rounded-3xl  ">
+            <View className="flex-row justify-between p-4  ">
+              <Text className="" style={{ fontSize: textS(10)}}>
+                Height: {recentRecord.height} CM
+              </Text>
+              <Text className="" style={{ fontSize: textS(10)}}>
+                Weight: {recentRecord.bmi} KG
+              </Text>
+            </View>
+
+            <View className=" flex-1  justify-center items-center p-4">
+              <Text className="font-bold " style={{ fontSize: textS(20)}}>
+                BMI: {recentRecord.bmi}
+              </Text>
+              <Text className="font-bold " style={{ fontSize: textS(14)}}>
+                Classification: {recentRecord.classification}
+              </Text>
+            </View>
+
+            <View className=" flex-row justify-between  " >
+              <Text className="px-4 pb-2 pt-3" style={{ fontSize: textS(10)}}>
+                Date: {recentRecord.date} 
+              </Text>
+              <Text className="px-4 pb-2 pt-3" style={{ fontSize: textS(10)}}>
+                Time: {recentRecord.time} 
+              </Text> 
+            </View>
+            
+            
+            <View className="justify-center items-center">
+              <TouchableOpacity className=" " onPress={() => navigation.navigate('Details', { item: recentRecord })}>
+                <Text className="pb-2 italic" style={{ fontSize: textS(8)}}>
+                  Click this to View Recommendation
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        
         </View>
       </View>
-    </SafeAreaView>
+    </>
   );
 }

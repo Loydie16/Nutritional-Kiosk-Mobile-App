@@ -16,6 +16,7 @@ export default function BottomNavBar() {
     }
 
     return (
+      <>
         <Tab.Navigator
           initialRouteName="Home"
           screenOptions={{
@@ -86,6 +87,7 @@ export default function BottomNavBar() {
           
           
         </Tab.Navigator>
+        </>
       );
     }
 
