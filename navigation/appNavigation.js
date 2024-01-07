@@ -36,7 +36,7 @@ return (
       <Stack.Screen name="Login" options={{ headerShown: false }} component={LoginScreen} />
       <Stack.Screen name="SignUp" options={{ headerShown: false }} component={SignUpScreen} />
       <Stack.Screen name="BottomNavBar" options={{ headerShown: false }} component={BottomNavBar} />
-      <Stack.Screen name="Details" options={{ headerShown: false }} component={DetailsScreen} />
+      <Stack.Screen name="Details" options={{ headerShown: true, title: 'Recommendation' }} component={DetailsScreen} />
       <Stack.Screen name="Results" options={{ headerShown: true, title: 'Previous Result' }} component={ResultScreen} />
     </Stack.Navigator>
   </NavigationContainer>
