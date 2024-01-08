@@ -3,7 +3,7 @@ import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Home, Profile, BMIScreen, QRScanner } from "../screens";
-
+import Icon from 'react-native-vector-icons/Feather';
 
 
 
@@ -64,8 +64,13 @@ export default function BottomNavBar() {
             name="Profile"
             component={Profile}
             options={{
+              headerTitle: 'Account Information',
               tabBarLabel: 'Profile',
-              headerShown: false,
+              headerRight: () => (
+                <TouchableOpacity>
+                  <Text style={{ color: '#1e81b0', fontSize: 18, marginRight: 15 }}>Edit <Icon name="edit" size={15}  /></Text>
+                </TouchableOpacity>
+              ),
               tabBarIcon: ({ color, size }) => (
                 <MaterialCommunityIcons name="account" color={color} size={size} />
               ),

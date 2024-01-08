@@ -125,7 +125,7 @@ export default function HomeScreen() {
         backgroundColor="transparent"
         barStyle="dark-content"
       /> 
-      <View className="flex-1 bg-neutral-200 ">  
+      <View className="flex-1 bg-neutral-200">  
         <View className="h-1/5 bg-neutral-100 rounded-b-3xl">
           <SafeAreaView className="flex-1 p-4  ">
             <View className="flex-row items-center w-full    ">

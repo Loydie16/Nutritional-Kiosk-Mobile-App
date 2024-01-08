@@ -79,6 +79,11 @@ export default function LoginScreen ()  {
                         value={values.email}
                         onChangeText={handleChange('email')}
                         onBlur={() => setFieldTouched('email')}
+                        right={
+                          <PaperTextInput.Icon   
+                            icon='email'
+                          />
+                        }
                       />
                         
                         {touched.email && errors.email && (
