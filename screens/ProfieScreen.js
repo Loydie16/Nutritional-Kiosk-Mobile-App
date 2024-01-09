@@ -148,6 +148,7 @@ export default function ProfileScreen() {
               className="bg-gray-300 text-black rounded-xl border-2 border-transparent mt-2  "
               placeholder='Old Password'
               activeUnderlineColor='transparent'
+              secureTextEntry={!showPassword}
               underlineColor='transparent'  
               disabled={true}        
               right={
@@ -160,6 +161,7 @@ export default function ProfileScreen() {
               className="bg-gray-300 text-black rounded-xl border-2 border-transparent mt-2  "
               placeholder='New Password'
               activeUnderlineColor='transparent'
+              secureTextEntry={!showPassword}
               underlineColor='transparent'  
               disabled={true}     
               right={
@@ -173,6 +175,7 @@ export default function ProfileScreen() {
               className="bg-gray-300 text-black rounded-xl border-2 border-transparent mt-2  "
               placeholder='Confirm New Password'
               activeUnderlineColor='transparent'
+              secureTextEntry={!showPassword}
               underlineColor='transparent'  
               disabled={true}     
               right={
@@ -183,9 +186,11 @@ export default function ProfileScreen() {
             />
             
           </View>  
-          <View className="flex-row mb-4 ml-5">
+          <View className="flex-row items-center mb-4 ml-5">
             <Checkbox value={showPassword} onValueChange={setShowPassword} />
-            <Text> Show password</Text>
+            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+              <Text> Show password</Text>
+            </TouchableOpacity>
           </View>    
         </View>
       </View>

@@ -146,9 +146,11 @@ export default function SignUpScreen() {
                     )}
                     </View>
                     
-                    <View className="flex flex-row items-start mb-4">
+                    <View className="flex flex-row items-center mb-4">
                       <Checkbox value={showPassword} onValueChange={setShowPassword} />
-                      <Text> Show password</Text>
+                      <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                        <Text> Show password</Text>
+                      </TouchableOpacity>
                     </View>
 
                     <TouchableOpacity disabled={!isValid} className="py-3 bg-yellow-400 rounded-xl" style={{ backgroundColor: isValid ? themeColors.bg2 : 'lightgray'}} onPress={handleSubmit}>

@@ -2,8 +2,9 @@ import { View, Text, Dimensions, TouchableOpacity, StatusBar } from 'react-nativ
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Home, Profile, BMIScreen, QRScanner } from "../screens";
+import { Home, Profile, BMIScreen, QRScanner, SettingScreen } from "../screens";
 import Icon from 'react-native-vector-icons/Feather';
+
 
 
 
@@ -11,9 +12,7 @@ export default function BottomNavBar() {
     
     const Tab = createBottomTabNavigator();
 
-    function LogoutScreen(){
-
-    }
+   
 
     return (
       <>
@@ -50,7 +49,7 @@ export default function BottomNavBar() {
 
           <Tab.Screen
             name="QRScanner"
-            component={QRScanner}
+            component={QRScanner} 
             options={{
               tabBarLabel: 'Scan',
               tabBarIcon: ({ color, size }) => (
@@ -80,11 +79,11 @@ export default function BottomNavBar() {
 
           <Tab.Screen
             name="Settings"
-            component={LogoutScreen}
+            component={SettingScreen}
             options={{
               tabBarLabel: 'Settings',
               tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons name="cog" color={color} size={size} />
+                <MaterialCommunityIcons name="cog" color={color} size={size}  />
               ),
               
             }}
