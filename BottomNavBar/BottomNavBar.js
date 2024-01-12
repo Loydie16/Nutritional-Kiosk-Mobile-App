@@ -64,7 +64,7 @@ export default function BottomNavBar() {
             component={Profile}
             options={{
               headerTitle: 'Account Information',
-              tabBarLabel: 'Profile',
+              tabBarLabel: 'Account',
               headerRight: () => (
                 <TouchableOpacity>
                   <Text style={{ color: '#1e81b0', fontSize: 18, marginRight: 15 }}>Edit <Icon name="edit" size={15}  /></Text>
