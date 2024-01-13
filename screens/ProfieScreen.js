@@ -15,8 +15,10 @@ import Icon from "react-native-vector-icons/Feather";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { RadioButton } from "react-native-paper";
 import Checkbox from "expo-checkbox";
+import { useColorScheme } from "../theme/colorScheme";
 
 export default function ProfileScreen() {
+  
   const [gender, genderChecked] = useState();
   const [showPassword, setShowPassword] = useState(false);
   const [age, setAge] = useState("");
@@ -79,7 +81,7 @@ export default function ProfileScreen() {
   return (
     <>
       <ScrollView className="flex-1">
-        <View className="flex-1 m-2 rounded-2xl  bg-slate-200  ">
+        <View className="flex-1 m-2 rounded-2xl  bg-slate-200 dark:bg-#FF0000 ">
           <View className="form space-y-2   ">
             <View className="px-5 pt-2  ">
               <Text className=" text-l  ">Username</Text>

@@ -1,20 +1,23 @@
-import { View, Text, TouchableOpacity, BackHandler, Switch } from 'react-native'
-import React, { useState, useEffect }from 'react'
-import Lottie from 'lottie-react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  BackHandler,
+  Switch,
+} from "react-native";
+import React, { useState, useEffect } from "react";
+import Lottie from "lottie-react-native";
 import Icon from "react-native-vector-icons/Feather";
 import Modal from "react-native-modal";
-import { useColorScheme } from 'nativewind';
+import { useColorScheme } from "../theme/colorScheme";
 
 export default function SettingScreen() {
-
-  const {colorScheme, toggleColorScheme} = useColorScheme();
+  const { colorScheme, toggleColorScheme } = useColorScheme();
   const [isModalVisible, setModalVisible] = useState(false);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
-
-  
 
   const handleBackPress = () => {
     if (isModalVisible) {
@@ -24,10 +27,9 @@ export default function SettingScreen() {
     return false;
   };
 
-
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
+      "hardwareBackPress",
       handleBackPress
     );
 
@@ -36,61 +38,105 @@ export default function SettingScreen() {
 
   return (
     <View className="flex-1 flex-col space-y-3 p-4">
-      <TouchableOpacity className="flex-row items-center justify-between rounded-2xl h-16 bg-slate-300">
-        <Text className="text-xl px-4">Account</Text>
+      <TouchableOpacity
+        onPress={toggleColorScheme}
+        className="flex-row items-center justify-between rounded-2xl h-16 bg-slate-300 dark:bg-neutral-950 "
+      >
+        <View className="px-4 flex-row items-center justify-center">
+          <Icon name="moon" size={20} color="#000" />
+          <Text className="text-xl"> Dark Mode </Text>
+        </View>
         <View className="px-4">
-          <Icon name="chevron-right" size={20} color="#000" />
+          <Switch
+            value={colorScheme === "dark"}
+            onValueChange={toggleColorScheme}
+          />
         </View>
       </TouchableOpacity>
-      
+
       <TouchableOpacity className="flex-row items-center justify-between rounded-2xl h-16 bg-slate-300">
-        <Text className="text-xl px-4">Account</Text>
+        <View className="px-4 flex-row items-center justify-center">
+          <Icon name="alert-circle" size={20} color="#000" />
+          <Text className="text-xl"> About App</Text>
+        </View>
         <View className="px-4">
           <Icon name="chevron-right" size={20} color="#000" />
         </View>
       </TouchableOpacity>
 
       <TouchableOpacity className="flex-row items-center justify-between rounded-2xl h-16 bg-slate-300">
-        <Text className="text-xl px-4">Account</Text>
+        <View className="px-4 flex-row items-center justify-center">
+          <Icon name="help-circle" size={20} color="#000" />
+          <Text className="text-xl"> Help and Support </Text>
+        </View>
         <View className="px-4">
           <Icon name="chevron-right" size={20} color="#000" />
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={toggleColorScheme} className="flex-row items-center justify-between rounded-2xl h-16 bg-slate-300">
-        <Text className="text-xl px-4">Dark Mode</Text>
+      <TouchableOpacity className="flex-row items-center justify-between rounded-2xl h-16 bg-slate-300">
+        <View className="px-4 flex-row items-center justify-center">
+          <Icon name="file-text" size={20} color="#000" />
+          <Text className="text-xl"> Terms and Conditions </Text>
+        </View>
         <View className="px-4">
-          <Switch value={colorScheme == 'dark'} onChange={toggleColorScheme}/>
+          <Icon name="chevron-right" size={20} color="#000" />
+        </View>
+      </TouchableOpacity>
+
+      <TouchableOpacity className="flex-row items-center justify-between rounded-2xl h-16 bg-slate-300">
+        <View className="px-4 flex-row items-center justify-center">
+          <Icon name="git-merge" size={20} color="#000" />
+          <Text className="text-xl"> Version </Text>
+        </View>
+        <View className="px-4">
+          <Text className="text-l">1.0.0</Text>
         </View>
       </TouchableOpacity>
 
       <View className="flex-1" />
-      
-      <TouchableOpacity className="flex-row items-center justify-between rounded-2xl h-16 bg-red-400" onPress={toggleModal}>
-        <Text className="text-xl px-4">Logout</Text>
-        <View className="px-4">
+
+      <TouchableOpacity
+        className="flex-row items-center justify-between rounded-2xl h-16 bg-red-400"
+        onPress={toggleModal}
+      >
+        <View className="px-4 flex-row items-center justify-center">
           <Icon name="log-out" size={20} color="#000" />
+          <Text className="text-xl"> Logout </Text>
+        </View>
+        <View className="px-4">
+          <Icon name="chevron-right" size={20} color="#000" />
         </View>
       </TouchableOpacity>
 
-      <Modal 
-        isVisible={isModalVisible} 
+      <Modal
+        isVisible={isModalVisible}
         onBackdropPress={() => setModalVisible(false)}
         animationIn={"fadeInUp"}
         animationInTiming={500}
       >
         <View className="items-center justify-center bg-white rounded-2xl p-6">
-          <Text className="text-xl self-center justify-center">Are you sure you want to logout?</Text>
+          <Text className="text-xl self-center justify-center">
+            Are you sure you want to logout?
+          </Text>
           <View className="flex-row justify-evenly mt-10 w-full h-10 ">
-            <TouchableOpacity className="bg-red-400 rounded-xl w-24 items-center justify-center" title="Hide modal" onPress={toggleModal} >
+            <TouchableOpacity
+              className="bg-red-400 rounded-xl w-24 items-center justify-center"
+              title="Hide modal"
+              onPress={toggleModal}
+            >
               <Text>Yes</Text>
             </TouchableOpacity>
-            <TouchableOpacity className="bg-green-400 rounded-xl w-24 items-center justify-center" title="Hide modal" onPress={toggleModal} >
+            <TouchableOpacity
+              className="bg-green-400 rounded-xl w-24 items-center justify-center"
+              title="Hide modal"
+              onPress={toggleModal}
+            >
               <Text>No</Text>
             </TouchableOpacity>
           </View>
         </View>
       </Modal>
     </View>
-  )
+  );
 }
