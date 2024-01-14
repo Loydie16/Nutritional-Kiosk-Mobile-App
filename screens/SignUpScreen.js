@@ -119,7 +119,6 @@ export default function SignUpScreen() {
   });
 
   return (
-
     <ScrollView>
       <StatusBar backgroundColor="transparent" translucent={true} />
       <Formik
@@ -129,7 +128,6 @@ export default function SignUpScreen() {
           password: "",
           confirmPassword: "",
           birthDate: new Date(),
-          
         }}
         validationSchema={SignupSchema}
         onSubmit={(values) => Alert.alert(JSON.stringify(values))}
@@ -180,6 +178,10 @@ export default function SignUpScreen() {
                           : "border-transparent"
                       }`}
                       placeholder="Enter your username"
+                      cursorColor="black"
+                      selectionColor="black"
+                      activeUnderlineColor="transparent"
+                      underlineColor="transparent"
                       value={values.username}
                       onChangeText={handleChange("username")}
                       onBlur={() => setFieldTouched("username")}
@@ -198,6 +200,10 @@ export default function SignUpScreen() {
                           : "border-transparent"
                       }`}
                       placeholder="Enter your email"
+                      cursorColor="black"
+                      selectionColor="black"
+                      activeUnderlineColor="transparent"
+                      underlineColor="transparent"
                       value={values.email}
                       onChangeText={handleChange("email")}
                       onBlur={() => setFieldTouched("email")}
@@ -218,10 +224,11 @@ export default function SignUpScreen() {
                       }`}
                       placeholder="MM-DD-YYYY"
                       placeholderTextColor={"#4a4650"}
+                      cursorColor="black"
+                      selectionColor="black"
                       activeUnderlineColor="transparent"
                       underlineColor="transparent"
                       editable={false}
-                      
                       value={formattedDate}
                       right={
                         <PaperTextInput.Icon
@@ -247,7 +254,6 @@ export default function SignUpScreen() {
                   <View className="flex-row justify-between  ">
                     <Text className=" text-gray-700 ml-4  ">Age | Gender</Text>
                     {/* <Text className=" text-gray-700   ">Gender</Text> */}
-                    
                   </View>
 
                   <View className="flex-row  items-center ">
@@ -256,6 +262,8 @@ export default function SignUpScreen() {
                       style={{ textDecorationColor: "#4a4650" }}
                       placeholder="0"
                       placeholderTextColor={"#4a4650"}
+                      cursorColor="black"
+                      selectionColor="black"
                       activeUnderlineColor="transparent"
                       underlineColor="transparent"
                       editable={false}
@@ -267,7 +275,6 @@ export default function SignUpScreen() {
                         height: "100%",
                         width: 2,
                         backgroundColor: "#4a4650",
-                        
                       }}
                       bold={true}
                       horizontalInset={true}
@@ -289,9 +296,11 @@ export default function SignUpScreen() {
                           value="Female"
                           color="pink"
                           status={gender === "Female" ? "checked" : "unchecked"}
-                          onPress={() => genderChecked("Female")}  
+                          onPress={() => genderChecked("Female")}
                         />
-                        <TouchableOpacity onPress={() => genderChecked("Female")}>
+                        <TouchableOpacity
+                          onPress={() => genderChecked("Female")}
+                        >
                           <Text className="text-xl">Female</Text>
                         </TouchableOpacity>
                       </View>
@@ -311,6 +320,10 @@ export default function SignUpScreen() {
                       }`}
                       secureTextEntry={!showPassword}
                       placeholder="Enter your password"
+                      cursorColor="black"
+                      selectionColor="black"
+                      activeUnderlineColor="transparent"
+                      underlineColor="transparent"
                       value={values.password}
                       onChangeText={handleChange("password")}
                       onBlur={() => setFieldTouched("password")}
@@ -329,6 +342,10 @@ export default function SignUpScreen() {
                       }`}
                       secureTextEntry={!showPassword}
                       placeholder="Confirm your password"
+                      cursorColor="black"
+                      selectionColor="black"
+                      activeUnderlineColor="transparent"
+                      underlineColor="transparent"
                       value={values.confirmPassword}
                       onChangeText={handleChange("confirmPassword")}
                       onBlur={() => setFieldTouched("confirmPassword")}

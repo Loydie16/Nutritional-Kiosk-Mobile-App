@@ -90,6 +90,8 @@ export default function LoginScreen() {
                             : "border-transparent"
                         }`}
                         placeholder="Enter your email"
+                        cursorColor="black"
+                        selectionColor="black"
                         activeUnderlineColor="transparent"
                         underlineColor="transparent"
                         value={values.email}
@@ -118,6 +120,8 @@ export default function LoginScreen() {
                             onPress={togglePasswordVisibility}
                           />
                         }
+                        cursorColor="black"
+                        selectionColor="black"
                         activeUnderlineColor="transparent"
                         underlineColor="transparent"
                         placeholder="Enter your password"

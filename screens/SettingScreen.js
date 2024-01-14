@@ -155,7 +155,7 @@ export default function SettingScreen() {
         animationIn={"fadeInUp"}
         animationInTiming={500}
       >
-        <View className="items-center justify-center bg-white border-2 border-slate-400rounded-2xl p-6 dark:bg-[#232323] dark:border-2 dark:border-slate-400 ">
+        <View className="items-center justify-center bg-white border-2 border-slate-400 rounded-2xl p-6 dark:bg-[#232323] dark:border-2 dark:border-slate-400 ">
           <Text className="text-xl self-center justify-center dark:text-white">
             Are you sure you want to logout?
           </Text>

@@ -88,6 +88,8 @@ export default function ProfileScreen() {
               <Text className=" text-l dark:text-white ">Username</Text>
               <PaperTextInput
                 className="bg-gray-300 text-black rounded-xl border-2 border-transparent mt-2  "
+                cursorColor="black"
+                selectionColor="black"
                 activeUnderlineColor="transparent"
                 underlineColor="transparent"
                 editable={false}
@@ -99,6 +101,8 @@ export default function ProfileScreen() {
               <Text className=" text-l dark:text-white ">Email</Text>
               <PaperTextInput
                 className="bg-gray-300 text-black rounded-xl border-2 border-transparent mt-2  "
+                cursorColor="black"
+                selectionColor="black"
                 activeUnderlineColor="transparent"
                 underlineColor="transparent"
                 editable={false}
@@ -112,6 +116,8 @@ export default function ProfileScreen() {
               <PaperTextInput
                 className="bg-gray-300 text-black rounded-xl border-2 border-transparent mt-2  "
                 style={{ textDecorationColor: "#4a4650" }}
+                cursorColor="black"
+                selectionColor="black"
                 activeUnderlineColor="transparent"
                 underlineColor="transparent"
                 editable={false}
@@ -142,6 +148,8 @@ export default function ProfileScreen() {
                 className="bg-gray-300 text-gray-1000 rounded-2xl border-2 border-transparent"
                 placeholder="0"
                 placeholderTextColor={"#4a4650"}
+                cursorColor="black"
+                selectionColor="black"
                 activeUnderlineColor="transparent"
                 underlineColor="transparent"
                 editable={false}
@@ -197,6 +205,8 @@ export default function ProfileScreen() {
               <PaperTextInput
                 className="bg-gray-300 text-black rounded-xl border-2 border-transparent mt-2  "
                 placeholder="Old Password"
+                cursorColor="black"
+                selectionColor="black"
                 activeUnderlineColor="transparent"
                 secureTextEntry={!showPassword}
                 underlineColor="transparent"
@@ -206,6 +216,8 @@ export default function ProfileScreen() {
               <PaperTextInput
                 className="bg-gray-300 text-black rounded-xl border-2 border-transparent mt-2  "
                 placeholder="New Password"
+                cursorColor="black"
+                selectionColor="black"
                 activeUnderlineColor="transparent"
                 secureTextEntry={!showPassword}
                 underlineColor="transparent"
@@ -215,6 +227,8 @@ export default function ProfileScreen() {
               <PaperTextInput
                 className="bg-gray-300 text-black rounded-xl border-2 border-transparent mt-2  "
                 placeholder="Confirm New Password"
+                cursorColor="black"
+                selectionColor="black"
                 activeUnderlineColor="transparent"
                 secureTextEntry={!showPassword}
                 underlineColor="transparent"
