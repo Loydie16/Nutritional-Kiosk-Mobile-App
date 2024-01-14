@@ -220,7 +220,7 @@ export default function SignUpScreen() {
                       placeholderTextColor={"#4a4650"}
                       activeUnderlineColor="transparent"
                       underlineColor="transparent"
-                      disabled={true}
+                      editable={false}
                       
                       value={formattedDate}
                       right={
@@ -258,7 +258,7 @@ export default function SignUpScreen() {
                       placeholderTextColor={"#4a4650"}
                       activeUnderlineColor="transparent"
                       underlineColor="transparent"
-                      disabled={true}
+                      editable={false}
                       value={age}
                     />
                     <Text className="pl-2">years old</Text>

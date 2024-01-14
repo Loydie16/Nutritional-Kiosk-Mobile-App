@@ -20,7 +20,7 @@ import { useColorScheme } from "../theme/colorScheme";
 export default function HomeScreen() {
   const navigation = useNavigation(); // Initialize navigation
   const { colorScheme } = useColorScheme();
-  
+
   const recentRecord = {
     height: "178",
     weight: "60",
@@ -132,11 +132,14 @@ export default function HomeScreen() {
 
   return (
     <>
-      <StatusBar backgroundColor="transparent" barStyle="dark-content" />
-      <View className="flex-1 bg-neutral-200 dark:bg-[#121212] ">
-        <View className="h-1/5 bg-neutral-100 dark:bg-[#373737] rounded-b-3xl">
+      <StatusBar
+        backgroundColor="transparent"
+        barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
+      />
+      <View className="flex-1 bg-neutral-200 dark:bg-[#000000]  ">
+        <View className="h-1/5 bg-neutral-100  dark:bg-[#232323] dark:border-slate-400 rounded-b-3xl">
           <SafeAreaView className="flex-1 p-4  ">
-            <View className="flex-row items-center w-full    ">
+            <View className="flex-row items-center w-full">
               <View className="w-5/6    ">
                 <Text
                   className="font-bold pl-2 dark:text-white"
@@ -152,14 +155,19 @@ export default function HomeScreen() {
                 </Text>
               </View>
               <View className="items-end   self-center">
-                <Image source={require("../assets/images/Profile-icon.png")} />
+                <Image
+                  source={require("../assets/images/Profile-icon.png")}
+                  style={{
+                    tintColor: colorScheme === "dark" ? "#ffffff" : "#000000",
+                  }}
+                />
               </View>
             </View>
           </SafeAreaView>
         </View>
 
         <View
-          className="flex-1justify-self-center bg-neutral-100 dark:bg-[#373737] mt-3  rounded-3xl self-center "
+          className="flex-1justify-self-center bg-neutral-100 border-2 border-slate-400 dark:bg-[#232323] dark:border-2 dark:border-slate-400 mt-3  rounded-3xl self-center "
           style={{ width: widthRatio(350) }}
         >
           <Text
@@ -168,7 +176,11 @@ export default function HomeScreen() {
           >
             Line chart of all BMI records
           </Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            className="self-center"
+          >
             <LineChart
               data={{
                 labels,
@@ -184,10 +196,15 @@ export default function HomeScreen() {
               bezier
               chartConfig={{
                 backgroundColor: "#1cc910",
-                backgroundGradientFrom: "#eff3ff",
-                backgroundGradientTo: "#efefef",
+                backgroundGradientFrom:
+                  colorScheme === "dark" ? "#29323c" : "#eff3ff",
+                backgroundGradientTo:
+                  colorScheme === "dark" ? "#485563" : "#efefef",
                 decimalPlaces: 2,
-                color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                color: (opacity = 1) =>
+                  colorScheme === "dark"
+                    ? `#ffffff`
+                    : `rgba(0, 0, 0, ${opacity})`,
                 style: {
                   borderRadius: 16,
                 },
@@ -202,14 +219,14 @@ export default function HomeScreen() {
                 marginVertical: heightRatio(8),
                 paddingHorizontal: 10,
                 borderRadius: moderateScale(16),
-                alignSelf: "center",
+                
               }}
             />
           </ScrollView>
         </View>
 
         <View
-          className="flex-1 bg-neutral-100 dark:bg-[#373737] self-center my-3 rounded-3xl "
+          className="flex-1 bg-neutral-100 border-2 border-slate-400 dark:bg-[#232323] dark:border-2 dark:border-slate-400 self-center my-3 rounded-3xl "
           style={{ width: widthRatio(350) }}
         >
           <View className="flex-row justify-between">
@@ -232,7 +249,7 @@ export default function HomeScreen() {
             </TouchableOpacity>
           </View>
 
-          <View className="flex-1 bg-slate-200 dark:bg-[#696969] m-3 rounded-3xl  ">
+          <View className="flex-1 bg-slate-200 border-2 border-slate-400 dark:bg-[#131f29] dark:border-2 dark:border-slate-400  m-3 rounded-3xl  ">
             <View className="flex-row justify-between p-4  ">
               <Text className="dark:text-white" style={{ fontSize: textS(10) }}>
                 Height: {recentRecord.height} CM
@@ -242,20 +259,32 @@ export default function HomeScreen() {
               </Text>
             </View>
 
-            <View className=" flex-1  justify-center items-center p-4">
-              <Text className="font-bold dark:text-white" style={{ fontSize: textS(20) }}>
+            <View className=" flex-1 justify-center items-center p-3">
+              <Text
+                className="font-bold dark:text-white"
+                style={{ fontSize: textS(20) }}
+              >
                 BMI: {recentRecord.bmi}
               </Text>
-              <Text className="font-bold dark:text-white" style={{ fontSize: textS(14) }}>
+              <Text
+                className="font-bold dark:text-white"
+                style={{ fontSize: textS(14) }}
+              >
                 Classification: {recentRecord.classification}
               </Text>
             </View>
 
             <View className=" flex-row justify-between  ">
-              <Text className="px-4 pb-2 pt-3 dark:text-white" style={{ fontSize: textS(10) }}>
+              <Text
+                className="px-4 pb-2 pt-3 dark:text-white"
+                style={{ fontSize: textS(10) }}
+              >
                 Date: {recentRecord.date}
               </Text>
-              <Text className="px-4 pb-2 pt-3 dark:text-white" style={{ fontSize: textS(10) }}>
+              <Text
+                className="px-4 pb-2 pt-3 dark:text-white"
+                style={{ fontSize: textS(10) }}
+              >
                 Time: {recentRecord.time}
               </Text>
             </View>
@@ -267,7 +296,10 @@ export default function HomeScreen() {
                   navigation.navigate("Details", { item: recentRecord })
                 }
               >
-                <Text className="pb-2 italic dark:text-white" style={{ fontSize: textS(8) }}>
+                <Text
+                  className="pb-2 italic dark:text-white"
+                  style={{ fontSize: textS(8) }}
+                >
                   Click this to View Recommendation
                 </Text>
               </TouchableOpacity>

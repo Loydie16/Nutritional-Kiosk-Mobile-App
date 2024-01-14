@@ -37,14 +37,18 @@ export default function SettingScreen() {
   }, []);
 
   return (
-    <View className="flex-1 flex-col space-y-3 p-4">
+    <View className="flex-1 flex-col space-y-3 p-4 dark:bg-[#000000]">
       <TouchableOpacity
         onPress={toggleColorScheme}
-        className="flex-row items-center justify-between rounded-2xl h-16 bg-slate-300 dark:bg-neutral-950 "
+        className="flex-row items-center justify-between rounded-2xl h-16 bg-slate-300 border-2 border-slate-400 dark:bg-[#232323] dark:border-2 dark:border-slate-400  "
       >
         <View className="px-4 flex-row items-center justify-center">
-          <Icon name="moon" size={20} color="#000" />
-          <Text className="text-xl"> Dark Mode </Text>
+          <Icon
+            name="moon"
+            size={20}
+            color={colorScheme === "dark" ? "#ffffff" : "#000"}
+          />
+          <Text className="text-xl dark:text-white"> Dark Mode </Text>
         </View>
         <View className="px-4">
           <Switch
@@ -54,58 +58,94 @@ export default function SettingScreen() {
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity className="flex-row items-center justify-between rounded-2xl h-16 bg-slate-300">
+      <TouchableOpacity className="flex-row items-center justify-between rounded-2xl h-16 bg-slate-300 border-2 border-slate-400 dark:bg-[#232323] dark:border-2 dark:border-slate-400 ">
         <View className="px-4 flex-row items-center justify-center">
-          <Icon name="alert-circle" size={20} color="#000" />
-          <Text className="text-xl"> About App</Text>
+          <Icon
+            name="alert-circle"
+            size={20}
+            color={colorScheme === "dark" ? "#ffffff" : "#000"}
+          />
+          <Text className="text-xl dark:text-white"> About App</Text>
         </View>
         <View className="px-4">
-          <Icon name="chevron-right" size={20} color="#000" />
+          <Icon
+            name="chevron-right"
+            size={20}
+            color={colorScheme === "dark" ? "#ffffff" : "#000"}
+          />
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity className="flex-row items-center justify-between rounded-2xl h-16 bg-slate-300">
+      <TouchableOpacity className="flex-row items-center justify-between rounded-2xl h-16 bg-slate-300 border-2 border-slate-400 dark:bg-[#232323] dark:border-2 dark:border-slate-400 ">
         <View className="px-4 flex-row items-center justify-center">
-          <Icon name="help-circle" size={20} color="#000" />
-          <Text className="text-xl"> Help and Support </Text>
+          <Icon
+            name="help-circle"
+            size={20}
+            color={colorScheme === "dark" ? "#ffffff" : "#000"}
+          />
+          <Text className="text-xl dark:text-white"> Help and Support </Text>
         </View>
         <View className="px-4">
-          <Icon name="chevron-right" size={20} color="#000" />
+          <Icon
+            name="chevron-right"
+            size={20}
+            color={colorScheme === "dark" ? "#ffffff" : "#000"}
+          />
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity className="flex-row items-center justify-between rounded-2xl h-16 bg-slate-300">
+      <TouchableOpacity className="flex-row items-center justify-between rounded-2xl h-16 bg-slate-300 border-2 border-slate-400 dark:bg-[#232323] dark:border-2 dark:border-slate-400 ">
         <View className="px-4 flex-row items-center justify-center">
-          <Icon name="file-text" size={20} color="#000" />
-          <Text className="text-xl"> Terms and Conditions </Text>
+          <Icon
+            name="file-text"
+            size={20}
+            color={colorScheme === "dark" ? "#ffffff" : "#000"}
+          />
+          <Text className="text-xl dark:text-white"> Terms & Conditions</Text>
         </View>
         <View className="px-4">
-          <Icon name="chevron-right" size={20} color="#000" />
+          <Icon
+            name="chevron-right"
+            size={20}
+            color={colorScheme === "dark" ? "#ffffff" : "#000"}
+          />
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity className="flex-row items-center justify-between rounded-2xl h-16 bg-slate-300">
+      <TouchableOpacity className="flex-row items-center justify-between rounded-2xl h-16 bg-slate-300 border-2 border-slate-400 dark:bg-[#232323] dark:border-2 dark:border-slate-400 ">
         <View className="px-4 flex-row items-center justify-center">
-          <Icon name="git-merge" size={20} color="#000" />
-          <Text className="text-xl"> Version </Text>
+          <Icon
+            name="git-merge"
+            size={20}
+            color={colorScheme === "dark" ? "#ffffff" : "#000"}
+          />
+          <Text className="text-xl dark:text-white"> Version </Text>
         </View>
         <View className="px-4">
-          <Text className="text-l">1.0.0</Text>
+          <Text className="text-l dark:text-white">1.0.0</Text>
         </View>
       </TouchableOpacity>
 
       <View className="flex-1" />
 
       <TouchableOpacity
-        className="flex-row items-center justify-between rounded-2xl h-16 bg-red-400"
+        className="flex-row items-center justify-between rounded-2xl h-16 bg-red-400 border-2 border-red-600"
         onPress={toggleModal}
       >
         <View className="px-4 flex-row items-center justify-center">
-          <Icon name="log-out" size={20} color="#000" />
-          <Text className="text-xl"> Logout </Text>
+          <Icon
+            name="log-out"
+            size={20}
+            color={colorScheme === "dark" ? "#ffffff" : "#000"}
+          />
+          <Text className="text-xl dark:text-white"> Logout </Text>
         </View>
         <View className="px-4">
-          <Icon name="chevron-right" size={20} color="#000" />
+          <Icon
+            name="chevron-right"
+            size={20}
+            color={colorScheme === "dark" ? "#ffffff" : "#000"}
+          />
         </View>
       </TouchableOpacity>
 
@@ -115,8 +155,8 @@ export default function SettingScreen() {
         animationIn={"fadeInUp"}
         animationInTiming={500}
       >
-        <View className="items-center justify-center bg-white rounded-2xl p-6">
-          <Text className="text-xl self-center justify-center">
+        <View className="items-center justify-center bg-white border-2 border-slate-400rounded-2xl p-6 dark:bg-[#232323] dark:border-2 dark:border-slate-400 ">
+          <Text className="text-xl self-center justify-center dark:text-white">
             Are you sure you want to logout?
           </Text>
           <View className="flex-row justify-evenly mt-10 w-full h-10 ">

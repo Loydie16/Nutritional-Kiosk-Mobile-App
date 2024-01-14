@@ -15,7 +15,7 @@ import Icon from "react-native-vector-icons/Feather";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { RadioButton } from "react-native-paper";
 import Checkbox from "expo-checkbox";
-import { useColorScheme } from "../theme/colorScheme";
+
 
 export default function ProfileScreen() {
   
@@ -27,6 +27,7 @@ export default function ProfileScreen() {
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const [formattedDate, setFormattedDate] = useState("");
+
 
   const onChange = (event, selectedDate) => {
     if (event.type === "dismissed") {
@@ -80,39 +81,40 @@ export default function ProfileScreen() {
 
   return (
     <>
-      <ScrollView className="flex-1">
-        <View className="flex-1 m-2 rounded-2xl  bg-slate-200 dark:bg-#FF0000 ">
+      <ScrollView className="flex-1 dark:bg-[#000000]">
+        <View className="flex-1 m-2 rounded-2xl  bg-slate-200 border-2 border-slate-400 dark:bg-[#232323] dark:border-2 dark:border-slate-400 ">
           <View className="form space-y-2   ">
             <View className="px-5 pt-2  ">
-              <Text className=" text-l  ">Username</Text>
+              <Text className=" text-l dark:text-white ">Username</Text>
               <PaperTextInput
                 className="bg-gray-300 text-black rounded-xl border-2 border-transparent mt-2  "
                 activeUnderlineColor="transparent"
                 underlineColor="transparent"
-                disabled={true}
+                editable={false}
                 value="Johndoe"
                 right={<PaperTextInput.Icon icon="account" />}
               />
             </View>
             <View className="px-5 pt-2 ">
-              <Text className=" text-l  ">Email</Text>
+              <Text className=" text-l dark:text-white ">Email</Text>
               <PaperTextInput
                 className="bg-gray-300 text-black rounded-xl border-2 border-transparent mt-2  "
                 activeUnderlineColor="transparent"
                 underlineColor="transparent"
-                disabled={true}
+                editable={false}
                 value="Johndoe@gmail.com"
                 right={<PaperTextInput.Icon icon="email" />}
               />
             </View>
             <View className="px-5 pt-2 ">
-              <Text className=" text-l  ">Birthdate</Text>
+              <Text className=" text-l dark:text-white ">Birthdate</Text>
 
               <PaperTextInput
                 className="bg-gray-300 text-black rounded-xl border-2 border-transparent mt-2  "
+                style={{ textDecorationColor: "#4a4650" }}
                 activeUnderlineColor="transparent"
                 underlineColor="transparent"
-                disabled={true}
+                editable={false}
                 value={formattedDate}
                 right={
                   <PaperTextInput.Icon
@@ -132,21 +134,20 @@ export default function ProfileScreen() {
               )}
             </View>
             <View className=" px-5 pt-2 ">
-              <Text className=" text-l  ">Age | Gender</Text>
+              <Text className=" text-l dark:text-white ">Age | Gender</Text>
               {/* <Text className=" text-gray-700   ">Gender</Text> */}
             </View>
             <View className="flex-row  items-center px-5  mb-4 ">
               <PaperTextInput
                 className="bg-gray-300 text-gray-1000 rounded-2xl border-2 border-transparent"
-                style={{ textDecorationColor: "#4a4650" }}
                 placeholder="0"
                 placeholderTextColor={"#4a4650"}
                 activeUnderlineColor="transparent"
                 underlineColor="transparent"
-                disabled={true}
+                editable={false}
                 value={age}
               />
-              <Text className="pl-2">years old</Text>
+              <Text className="pl-2 dark:text-white">years old</Text>
               <Divider
                 style={{
                   height: "100%",
@@ -165,7 +166,7 @@ export default function ProfileScreen() {
                     onPress={() => genderChecked("Male")}
                   />
                   <TouchableOpacity onPress={() => genderChecked("Male")}>
-                    <Text className="text-xl">Male</Text>
+                    <Text className="text-xl dark:text-white">Male</Text>
                   </TouchableOpacity>
                 </View>
                 <View className="flex-row items-center">
@@ -176,7 +177,7 @@ export default function ProfileScreen() {
                     onPress={() => genderChecked("Female")}
                   />
                   <TouchableOpacity onPress={() => genderChecked("Female")}>
-                    <Text className="text-xl">Female</Text>
+                    <Text className="text-xl dark:text-white">Female</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -184,10 +185,10 @@ export default function ProfileScreen() {
           </View>
         </View>
 
-        <View className="flex-1 m-2 rounded-2xl  bg-slate-200  ">
+        <View className="flex-1 m-2 rounded-2xl bg-slate-200 border-2 border-slate-400 dark:bg-[#232323] dark:border-2 dark:border-slate-400 ">
           <View className="form space-y-2   ">
             <View className="flex-row px-5 pt-2 items-center justify-between  ">
-              <Text className=" text-xl  ">Change Password</Text>
+              <Text className=" text-xl dark:text-white ">Change Password</Text>
               <TouchableOpacity>
                 <Icon name="edit-3" size={moderateScale(20)} color="#000" />
               </TouchableOpacity>
@@ -199,7 +200,7 @@ export default function ProfileScreen() {
                 activeUnderlineColor="transparent"
                 secureTextEntry={!showPassword}
                 underlineColor="transparent"
-                disabled={true}
+                editable={false}
                 right={<PaperTextInput.Icon icon="lock-remove" />}
               />
               <PaperTextInput
@@ -208,7 +209,7 @@ export default function ProfileScreen() {
                 activeUnderlineColor="transparent"
                 secureTextEntry={!showPassword}
                 underlineColor="transparent"
-                disabled={true}
+                editable={false}
                 right={<PaperTextInput.Icon icon="lock-reset" />}
               />
               <PaperTextInput
@@ -217,14 +218,14 @@ export default function ProfileScreen() {
                 activeUnderlineColor="transparent"
                 secureTextEntry={!showPassword}
                 underlineColor="transparent"
-                disabled={true}
+                editable={false}
                 right={<PaperTextInput.Icon icon="lock-check-outline" />}
               />
             </View>
             <View className="flex-row items-center mb-4 ml-5">
               <Checkbox value={showPassword} onValueChange={setShowPassword} />
               <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                <Text> Show password</Text>
+                <Text className="dark:text-white"> Show password</Text>
               </TouchableOpacity>
             </View>
           </View>
