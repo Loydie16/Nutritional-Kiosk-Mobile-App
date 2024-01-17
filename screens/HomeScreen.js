@@ -10,16 +10,30 @@ import {
   Platform,
   PixelRatio,
 } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native"; // Import useNavigation
 import { LineChart } from "react-native-chart-kit";
 import { textS, widthRatio, heightRatio, moderateScale } from "../utils/sizes";
 import { useColorScheme } from "../theme/colorScheme";
+import { getTheme } from "../utils/asyncStorageTheme.js";
 
 export default function HomeScreen() {
   const navigation = useNavigation(); // Initialize navigation
-  const { colorScheme } = useColorScheme();
+  const { colorScheme, setColorScheme } = useColorScheme();
+
+  const checkIfAlreadyDark = async () => {
+    let darken = await getTheme("darken");
+    if (darken === "1") {
+      setColorScheme("dark");
+    } else {
+      setColorScheme("light");
+    }
+  };
+
+  useEffect(() => {
+    checkIfAlreadyDark();
+  }, []);
 
   const recentRecord = {
     height: "178",
@@ -219,7 +233,6 @@ export default function HomeScreen() {
                 marginVertical: heightRatio(8),
                 paddingHorizontal: 10,
                 borderRadius: moderateScale(16),
-                
               }}
             />
           </ScrollView>

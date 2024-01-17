@@ -10,10 +10,21 @@ import Lottie from "lottie-react-native";
 import Icon from "react-native-vector-icons/Feather";
 import Modal from "react-native-modal";
 import { useColorScheme } from "../theme/colorScheme";
+import { setTheme, removeTheme } from "../utils/asyncStorageTheme";
 
 export default function SettingScreen() {
   const { colorScheme, toggleColorScheme } = useColorScheme();
   const [isModalVisible, setModalVisible] = useState(false);
+
+  const darkTheme = () => {
+    toggleColorScheme();
+    setTheme("darken", "1");
+  };
+
+  const lightTheme = async () => {
+    toggleColorScheme();
+    await removeTheme("darken");
+  };
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -39,7 +50,15 @@ export default function SettingScreen() {
   return (
     <View className="flex-1 flex-col space-y-3 p-4 dark:bg-[#000000]">
       <TouchableOpacity
-        onPress={toggleColorScheme}
+        onPress={() => {
+          if (colorScheme === "dark") {
+            // Switch to light theme
+            lightTheme();
+          } else {
+            // Switch to dark theme
+            darkTheme();
+          }
+        }}
         className="flex-row items-center justify-between rounded-2xl h-16 bg-slate-300 border-2 border-slate-400 dark:bg-[#232323] dark:border-2 dark:border-slate-400  "
       >
         <View className="px-4 flex-row items-center justify-center">
@@ -53,7 +72,15 @@ export default function SettingScreen() {
         <View className="px-4">
           <Switch
             value={colorScheme === "dark"}
-            onValueChange={toggleColorScheme}
+            onValueChange={(value) => {
+              if (value) {
+                // Dark theme is selected
+                darkTheme();
+              } else {
+                // Light theme is selected
+                lightTheme();
+              }
+            }}
           />
         </View>
       </TouchableOpacity>
