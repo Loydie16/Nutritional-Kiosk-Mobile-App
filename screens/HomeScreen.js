@@ -22,18 +22,7 @@ export default function HomeScreen() {
   const navigation = useNavigation(); // Initialize navigation
   const { colorScheme, setColorScheme } = useColorScheme();
 
-  const checkIfAlreadyDark = async () => {
-    let darken = await getTheme("darken");
-    if (darken === "1") {
-      setColorScheme("dark");
-    } else {
-      setColorScheme("light");
-    }
-  };
-
-  useEffect(() => {
-    checkIfAlreadyDark();
-  }, []);
+  
 
   const recentRecord = {
     height: "178",

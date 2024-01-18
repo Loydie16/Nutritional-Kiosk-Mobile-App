@@ -16,6 +16,8 @@ import { TextInput as PaperTextInput } from "react-native-paper";
 import Lottie from "lottie-react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../config/firebase";
 
 export default function LoginScreen() {
   const navigation = useNavigation();
@@ -37,6 +39,17 @@ export default function LoginScreen() {
     password: Yup.string().min(8).required("Required"),
   });
 
+  const handleSubmit = async (values) => {
+    if (values.email && values.password) {
+      try {
+        await signInWithEmailAndPassword(auth, values.email, values.password);
+      } catch (err) {
+        alert(err);
+        console.log("got error", err);
+      }
+    }
+  };
+
   return (
     <ScrollView>
       <View className="flex-1 " style={{ backgroundColor: themeColors.bg1 }}>
@@ -48,6 +61,9 @@ export default function LoginScreen() {
             confirmPassword: "",
           }}
           validationSchema={SignupSchema}
+          onSubmit={(values) => {
+            handleSubmit(values); // Call your custom function with form values
+          }}
         >
           {({
             values,
@@ -147,7 +163,7 @@ export default function LoginScreen() {
                     <TouchableOpacity
                       className="py-3 bg-300 rounded-xl "
                       style={{ backgroundColor: themeColors.bg1 }}
-                      onPress={() => navigation.navigate("BottomNavBar")}
+                      onPress={handleSubmit}
                     >
                       <Text className="text-3xl font-bold text-center text-700 text-white">
                         Login

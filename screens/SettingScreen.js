@@ -11,6 +11,8 @@ import Icon from "react-native-vector-icons/Feather";
 import Modal from "react-native-modal";
 import { useColorScheme } from "../theme/colorScheme";
 import { setTheme, removeTheme } from "../utils/asyncStorageTheme";
+import { signOut } from "firebase/auth";
+import { auth } from "../config/firebase";
 
 export default function SettingScreen() {
   const { colorScheme, toggleColorScheme } = useColorScheme();
@@ -36,6 +38,10 @@ export default function SettingScreen() {
       return true; // prevent default behavior (exit the app)
     }
     return false;
+  };
+
+  const handleLogout = async () => {
+    await signOut(auth);
   };
 
   useEffect(() => {
@@ -190,7 +196,7 @@ export default function SettingScreen() {
             <TouchableOpacity
               className="bg-red-400 rounded-xl w-24 items-center justify-center"
               title="Hide modal"
-              onPress={toggleModal}
+              onPress={handleLogout}
             >
               <Text>Yes</Text>
             </TouchableOpacity>

@@ -19,6 +19,8 @@ import * as Yup from "yup";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { TextInput as PaperTextInput, Divider } from "react-native-paper";
 import { RadioButton } from "react-native-paper";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../config/firebase";
 
 export default function SignUpScreen() {
   const navigation = useNavigation();
@@ -32,8 +34,7 @@ export default function SignUpScreen() {
   const [age, setAge] = useState("");
 
   const onChange = (event, selectedDate) => {
-
-    if (event.type === 'dismissed') {
+    if (event.type === "dismissed") {
       // User dismissed the date picker, do nothing
       setShow(false);
       return;
@@ -44,15 +45,13 @@ export default function SignUpScreen() {
     setDate(currentDate);
 
     // Format the date
-    const day = currentDate.getDate().toString().padStart(2, '0');
-    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+    const day = currentDate.getDate().toString().padStart(2, "0");
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-based
     const year = currentDate.getFullYear();
 
     const formattedDate = `${month}-${day}-${year}`;
 
     setFormattedDate(formattedDate);
-    
-  
 
     // Calculate and set the age
     const birthDate = new Date(currentDate);
@@ -69,7 +68,6 @@ export default function SignUpScreen() {
     }
 
     setAge(age.toString());
-    
   };
 
   const showMode = (currentMode) => {
@@ -115,8 +113,22 @@ export default function SignUpScreen() {
     birthDate: Yup.date()
       .max(new Date(), "Please enter your birthdate.")
       .required("Please enter your birthdate."),
-
   });
+
+  const handleSubmit = async (values) => {
+    if (values.email && values.password) {
+      try {
+        await createUserWithEmailAndPassword(
+          auth,
+          values.email,
+          values.password
+        );
+      } catch (err) {
+        alert(err);
+        console.log("got error", err);
+      }
+    }
+  };
 
   return (
     <ScrollView>
@@ -130,7 +142,9 @@ export default function SignUpScreen() {
           birthDate: new Date(),
         }}
         validationSchema={SignupSchema}
-        onSubmit={(values) => Alert.alert(JSON.stringify(values))}
+        onSubmit={(values) => {
+          handleSubmit(values); // Call your custom function with form values
+        }}
       >
         {({
           values,
