@@ -1,11 +1,10 @@
-import { StatusBar } from "expo-status-bar";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
-import AppNavigation from "./navigation/appNavigation";
+import React, { useState, useEffect, forwardRef } from "react";
 import { useColorScheme } from "./theme/colorScheme";
 import { getTheme } from "./utils/asyncStorageTheme";
-import React, { useState, useEffect } from "react";
+import Toast from "react-native-toast-message";
+import AppNavigation from "./navigation/appNavigation";
 
-export default function App() {
+const App = forwardRef((props, ref) => {
   const { setColorScheme } = useColorScheme();
 
   const checkIfAlreadyDark = async () => {
@@ -21,5 +20,12 @@ export default function App() {
     checkIfAlreadyDark();
   }, []);
 
-  return <AppNavigation />;
-}
+  return (
+    <>
+      <AppNavigation />
+      <Toast />
+    </>
+  );
+});
+
+export default App;

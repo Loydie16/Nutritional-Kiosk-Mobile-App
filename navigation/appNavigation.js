@@ -14,11 +14,12 @@ import useAuth from "../hooks/useAuth";
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigation() {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
 
   const { colorScheme } = useColorScheme();
 
   const [showOnboarding, setShowOnboarding] = useState(null);
+
   useEffect(() => {
     checkIfAlreadyOnboarded();
   }, []);
@@ -28,70 +29,72 @@ export default function AppNavigation() {
     setShowOnboarding(onboarded !== "1");
   };
 
-  if (showOnboarding === null) {
+  // Wait for the authentication check to complete
+  if (loading) {
     return null;
   }
 
-  if (user) {
-    return (
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName={"Details"}>
-          <Stack.Screen
-            name="BottomNavBar"
-            options={{ headerShown: false }}
-            component={BottomNavBar}
-          />
-
-          <Stack.Screen
-            name="Details"
-            options={{
-              headerShown: true,
-              title: "Recommendation",
-              headerTintColor: colorScheme === "dark" ? "#ffffff" : "#151c22",
-              headerStyle: {
-                backgroundColor: colorScheme === "dark" ? "#151c22" : "#ffffff",
-              },
-            }}
-            component={DetailsScreen}
-          />
-          <Stack.Screen
-            name="Results"
-            options={{
-              headerShown: true,
-              title: "Previous Result",
-              headerTintColor: colorScheme === "dark" ? "#ffffff" : "#151c22",
-              headerStyle: {
-                backgroundColor: colorScheme === "dark" ? "#151c22" : "#ffffff",
-              },
-            }}
-            component={ResultScreen}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    );
-  } else {
-    return (
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName={showOnboarding ? "Onboarding" : "Login"}
-        >
-          <Stack.Screen
-            name="Onboarding"
-            options={{ headerShown: false }}
-            component={OnboardingScreen}
-          />
-          <Stack.Screen
-            name="Login"
-            options={{ headerShown: false }}
-            component={LoginScreen}
-          />
-          <Stack.Screen
-            name="SignUp"
-            options={{ headerShown: false }}
-            component={SignUpScreen}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    );
-  }
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName={
+          user ? "BottomNavBar" : showOnboarding ? "Onboarding" : "Login"
+        }
+      >
+        {user ? (
+          <>
+            <Stack.Screen
+              name="BottomNavBar"
+              options={{ headerShown: false }}
+              component={BottomNavBar}
+            />
+            <Stack.Screen
+              name="Details"
+              options={{
+                headerShown: true,
+                title: "Recommendation",
+                headerTintColor: colorScheme === "dark" ? "#ffffff" : "#151c22",
+                headerStyle: {
+                  backgroundColor:
+                    colorScheme === "dark" ? "#151c22" : "#ffffff",
+                },
+              }}
+              component={DetailsScreen}
+            />
+            <Stack.Screen
+              name="Results"
+              options={{
+                headerShown: true,
+                title: "Previous Result",
+                headerTintColor: colorScheme === "dark" ? "#ffffff" : "#151c22",
+                headerStyle: {
+                  backgroundColor:
+                    colorScheme === "dark" ? "#151c22" : "#ffffff",
+                },
+              }}
+              component={ResultScreen}
+            />
+          </>
+        ) : (
+          <>
+            <Stack.Screen
+              name="Onboarding"
+              options={{ headerShown: false }}
+              component={OnboardingScreen}
+            />
+            <Stack.Screen
+              name="Login"
+              options={{ headerShown: false }}
+              component={LoginScreen}
+            />
+            <Stack.Screen
+              name="SignUp"
+              options={{ headerShown: false }}
+              component={SignUpScreen}
+            />
+          </>
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }

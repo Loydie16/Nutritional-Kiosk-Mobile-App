@@ -18,11 +18,29 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/firebase";
+import Toast from "react-native-toast-message";
 
 export default function LoginScreen() {
   const navigation = useNavigation();
 
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [loginError, setLoginError] = useState(false);
+
+  const showToast = (values) => {
+    Toast.show({
+      type: "success",
+      text1: `Hello ${values.email} 👋`,
+      text2: "Successfully logged in!",
+    });
+  };
+
+  const showErrorToast = () => {
+    Toast.show({
+      type: "error",
+      text1: `Invalid Credentials 👋`,
+      text2: "Failed to logged in!",
+    });
+  };
 
   const togglePasswordVisibility = () => {
     setPasswordVisible((prevState) => !prevState);
@@ -43,9 +61,10 @@ export default function LoginScreen() {
     if (values.email && values.password) {
       try {
         await signInWithEmailAndPassword(auth, values.email, values.password);
+        showToast(values);
       } catch (err) {
-        alert(err);
-        console.log("got error", err);
+        showErrorToast();
+        setLoginError(true);
       }
     }
   };
@@ -101,7 +120,7 @@ export default function LoginScreen() {
                     <View>
                       <PaperTextInput
                         className={`bg-gray-300 text-gray-1000 rounded-2xl border-2 border-transparent ${
-                          touched.email && errors.email
+                          (touched.email && errors.email) || loginError
                             ? "border-red-500"
                             : "border-transparent"
                         }`}
@@ -125,7 +144,7 @@ export default function LoginScreen() {
                     <View>
                       <PaperTextInput
                         className={` bg-gray-300 text-gray-1000 rounded-2xl border-2 border-transparent ${
-                          touched.password && errors.password
+                          (touched.password && errors.password) || loginError
                             ? "border-red-500"
                             : "border-transparent"
                         }`}

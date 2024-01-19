@@ -13,6 +13,7 @@ import { useColorScheme } from "../theme/colorScheme";
 import { setTheme, removeTheme } from "../utils/asyncStorageTheme";
 import { signOut } from "firebase/auth";
 import { auth } from "../config/firebase";
+import Toast from "react-native-toast-message";
 
 export default function SettingScreen() {
   const { colorScheme, toggleColorScheme } = useColorScheme();
@@ -40,8 +41,17 @@ export default function SettingScreen() {
     return false;
   };
 
+  const showLogoutToast = () => {
+    Toast.show({
+      type: "success",
+      text1: `Goodbye! 👋`,
+      text2: "Successfully Logged Out!",
+    });
+  };
+
   const handleLogout = async () => {
     await signOut(auth);
+    showLogoutToast();
   };
 
   useEffect(() => {
