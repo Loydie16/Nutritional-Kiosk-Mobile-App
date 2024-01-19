@@ -43,7 +43,7 @@ export default function SettingScreen() {
 
   const showLogoutToast = () => {
     Toast.show({
-      type: "success",
+      type: "info",
       text1: `Goodbye! 👋`,
       text2: "Successfully Logged Out!",
     });

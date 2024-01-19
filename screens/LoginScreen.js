@@ -6,6 +6,7 @@ import {
   TextInput,
   ScrollView,
   StatusBar,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -25,6 +26,7 @@ export default function LoginScreen() {
 
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [loginError, setLoginError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const showToast = (values) => {
     Toast.show({
@@ -37,8 +39,8 @@ export default function LoginScreen() {
   const showErrorToast = () => {
     Toast.show({
       type: "error",
-      text1: `Invalid Credentials 👋`,
-      text2: "Failed to logged in!",
+      text1: `Invalid Credentials 🥺`,
+      text2: "Check your email and password.",
     });
   };
 
@@ -60,11 +62,17 @@ export default function LoginScreen() {
   const handleSubmit = async (values) => {
     if (values.email && values.password) {
       try {
+        // Set loading to true before making the authentication request
+        setLoading(true);
+
         await signInWithEmailAndPassword(auth, values.email, values.password);
         showToast(values);
       } catch (err) {
         showErrorToast();
         setLoginError(true);
+      } finally {
+        // Reset loading state after authentication request completes (success or error)
+        setLoading(false);
       }
     }
   };
@@ -180,13 +188,23 @@ export default function LoginScreen() {
                     </View>
 
                     <TouchableOpacity
+                      disabled={loading} // Disable the button when loading is true
                       className="py-3 bg-300 rounded-xl "
                       style={{ backgroundColor: themeColors.bg1 }}
                       onPress={handleSubmit}
                     >
-                      <Text className="text-3xl font-bold text-center text-700 text-white">
-                        Login
-                      </Text>
+                      {loading ? (
+                        // If loading is true, show the activity indicator
+
+                        <View className="my-2 flex-row justify-center items-center">
+                          <ActivityIndicator size="large" color="#ffffff" />
+                        </View>
+                      ) : (
+                        // If loading is false, show the login button
+                        <Text className="text-3xl font-bold text-center text-700 text-white">
+                          Login
+                        </Text>
+                      )}
                     </TouchableOpacity>
                   </View>
 

@@ -10,6 +10,7 @@ import ResultScreen from "../screens/ResultScreen";
 import { getItem } from "../utils/asyncStorage.js";
 import { useColorScheme } from "../theme/colorScheme";
 import useAuth from "../hooks/useAuth";
+import { View, ActivityIndicator } from "react-native";
 
 const Stack = createNativeStackNavigator();
 
@@ -29,10 +30,19 @@ export default function AppNavigation() {
     setShowOnboarding(onboarded !== "1");
   };
 
-  // Wait for the authentication check to complete
-  if (loading) {
-    return null;
-  }
+   if (showOnboarding === null) {
+     return null;
+   }
+
+   if (loading) {
+     return (
+       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+         <ActivityIndicator size="large" color="#0000ff" />
+       </View>
+     );
+   }
+
+
 
   return (
     <NavigationContainer>
