@@ -196,7 +196,7 @@ export default function LoginScreen() {
                       {loading ? (
                         // If loading is true, show the activity indicator
 
-                        <View className="my-2 flex-row justify-center items-center">
+                        <View className=" flex-row justify-center items-center">
                           <ActivityIndicator size="large" color="#ffffff" />
                         </View>
                       ) : (

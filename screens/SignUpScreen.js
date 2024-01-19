@@ -20,7 +20,10 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { TextInput as PaperTextInput, Divider } from "react-native-paper";
 import { RadioButton } from "react-native-paper";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../config/firebase";
+import { auth, firestoreDB } from "../config/firebase";
+import { serverTimestamp, doc, setDoc} from "firebase/firestore";
+import Toast from "react-native-toast-message";
+
 
 export default function SignUpScreen() {
   const navigation = useNavigation();
@@ -32,6 +35,22 @@ export default function SignUpScreen() {
   const [show, setShow] = useState(false);
   const [formattedDate, setFormattedDate] = useState("");
   const [age, setAge] = useState("");
+
+  const showToast = (values) => {
+    Toast.show({
+      type: "success",
+      text1: `Hello ${values.username} 👋`,
+      text2: "Successfully account created!",
+    });
+  };
+
+  const showErrorToast = () => {
+    Toast.show({
+      type: "error",
+      text1: `Invalid Credentials 🥺`,
+      text2: "Error.",
+    });
+  };
 
   const onChange = (event, selectedDate) => {
     if (event.type === "dismissed") {
@@ -123,6 +142,18 @@ export default function SignUpScreen() {
           values.email,
           values.password
         );
+
+        const userRef = doc(firestoreDB, "users", auth.currentUser.uid)
+        await setDoc(userRef,{
+          username: values.username,
+          birthdate: formattedDate,
+          age: age,
+          gender: gender,
+          createdAt: serverTimestamp(),
+        });
+
+        showToast(values);
+
       } catch (err) {
         alert(err);
         console.log("got error", err);
@@ -296,7 +327,7 @@ export default function SignUpScreen() {
                     <View className="flex-1 items-start -ml-2 ">
                       <View className="flex-row items-center ">
                         <RadioButton
-                          value="Male "
+                          value="Male"
                           color="skyblue"
                           status={gender === "Male" ? "checked" : "unchecked"}
                           onPress={() => genderChecked("Male")}

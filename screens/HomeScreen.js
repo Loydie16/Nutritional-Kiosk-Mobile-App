@@ -17,12 +17,12 @@ import { LineChart } from "react-native-chart-kit";
 import { textS, widthRatio, heightRatio, moderateScale } from "../utils/sizes";
 import { useColorScheme } from "../theme/colorScheme";
 import { getTheme } from "../utils/asyncStorageTheme.js";
+import { auth, firestoreDB } from "../config/firebase";
+import { serverTimestamp, doc, getDoc } from "firebase/firestore";
 
 export default function HomeScreen() {
   const navigation = useNavigation(); // Initialize navigation
   const { colorScheme, setColorScheme } = useColorScheme();
-
-  
 
   const recentRecord = {
     height: "178",
@@ -132,6 +132,17 @@ export default function HomeScreen() {
   // Set the threshold for enabling scrolling
   const scrollableThreshold = 15;
   const isScrollable = items.length > scrollableThreshold;
+
+  /* const docRef = doc(firestoreDB, "users", auth.currentUser.uid);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    console.log("Document data:", docSnap.data());
+  } else {
+    // docSnap.data() will be undefined in this case
+    console.log("No such document!");
+  } */
+
 
   return (
     <>
