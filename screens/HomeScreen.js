@@ -20,6 +20,7 @@ import { getTheme } from "../utils/asyncStorageTheme.js";
 import { auth, firestoreDB } from "../config/firebase";
 import { serverTimestamp, doc, getDoc } from "firebase/firestore";
 
+
 export default function HomeScreen() {
   const navigation = useNavigation(); // Initialize navigation
   const { colorScheme, setColorScheme } = useColorScheme();
@@ -133,16 +134,28 @@ export default function HomeScreen() {
   const scrollableThreshold = 15;
   const isScrollable = items.length > scrollableThreshold;
 
-  /* const docRef = doc(firestoreDB, "users", auth.currentUser.uid);
-  const docSnap = await getDoc(docRef);
+  const [username, setUsername] = useState("");
 
-  if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
-  } else {
-    // docSnap.data() will be undefined in this case
-    console.log("No such document!");
-  } */
+  useEffect(() => {
+    const fetchUsername = async () => {
+      try {
+        const docRef = doc(firestoreDB, "users", auth.currentUser.uid);
+        const docSnap = await getDoc(docRef);
 
+        if (docSnap.exists()) {
+          const userData = docSnap.data();
+          const fetchedUsername = userData.username; // Replace 'username' with the actual field name in your Firestore document
+          setUsername(fetchedUsername);
+        } else {
+          console.log("No such document!");
+        }
+      } catch (error) {
+        console.error("Error fetching username:", error);
+      }
+    };
+
+    fetchUsername(); // Call the fetchUsername function when the component mounts
+  }, []); // The empty dependency array ensures the useEffect runs only once on mount
 
   return (
     <>
@@ -165,7 +178,7 @@ export default function HomeScreen() {
                   className="font-bold pl-2 dark:text-white"
                   style={{ fontSize: textS(20) }}
                 >
-                  Username!
+                  {username}!
                 </Text>
               </View>
               <View className="items-end   self-center">

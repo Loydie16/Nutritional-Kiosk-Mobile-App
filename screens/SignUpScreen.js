@@ -7,6 +7,7 @@ import {
   TextInput,
   ScrollView,
   StatusBar,
+  ActivityIndicator,
   Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -27,6 +28,7 @@ import Toast from "react-native-toast-message";
 
 export default function SignUpScreen() {
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [gender, genderChecked] = useState("Male");
 
@@ -44,11 +46,11 @@ export default function SignUpScreen() {
     });
   };
 
-  const showErrorToast = () => {
+  const showErrorToast = (err) => {
     Toast.show({
       type: "error",
-      text1: `Invalid Credentials 🥺`,
-      text2: "Error.",
+      text1: `There is an error 🥺`,
+      text2: `${err}`,
     });
   };
 
@@ -137,14 +139,15 @@ export default function SignUpScreen() {
   const handleSubmit = async (values) => {
     if (values.email && values.password) {
       try {
+        setLoading(true);
         await createUserWithEmailAndPassword(
           auth,
           values.email,
           values.password
         );
 
-        const userRef = doc(firestoreDB, "users", auth.currentUser.uid)
-        await setDoc(userRef,{
+        const userRef = doc(firestoreDB, "users", auth.currentUser.uid);
+        await setDoc(userRef, {
           username: values.username,
           birthdate: formattedDate,
           age: age,
@@ -153,10 +156,12 @@ export default function SignUpScreen() {
         });
 
         showToast(values);
-
       } catch (err) {
-        alert(err);
+        showErrorToast(err);
         console.log("got error", err);
+      } finally {
+        // Reset loading state after authentication request completes (success or error)
+        setLoading(false);
       }
     }
   };
@@ -424,9 +429,17 @@ export default function SignUpScreen() {
                     }}
                     onPress={handleSubmit}
                   >
-                    <Text className="text-2xl font-bold text-center  text-white">
-                      Create account
-                    </Text>
+                    {loading ? (
+                      // If loading is true, show the activity indicator
+
+                      <View className=" flex-row justify-center items-center">
+                        <ActivityIndicator size="large" color="#ffffff" />
+                      </View>
+                    ) : (
+                      <Text className="text-2xl font-bold text-center  text-white">
+                        Create account
+                      </Text>
+                    )}
                   </TouchableOpacity>
                 </View>
 
