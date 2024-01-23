@@ -19,6 +19,7 @@ import { useColorScheme } from "../theme/colorScheme";
 import { getTheme } from "../utils/asyncStorageTheme.js";
 import { auth, firestoreDB } from "../config/firebase";
 import { serverTimestamp, doc, getDoc } from "firebase/firestore";
+import { Skeleton } from "moti/skeleton";
 
 
 export default function HomeScreen() {
@@ -135,6 +136,7 @@ export default function HomeScreen() {
   const isScrollable = items.length > scrollableThreshold;
 
   const [username, setUsername] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUsername = async () => {
@@ -146,6 +148,7 @@ export default function HomeScreen() {
           const userData = docSnap.data();
           const fetchedUsername = userData.username; // Replace 'username' with the actual field name in your Firestore document
           setUsername(fetchedUsername);
+          setLoading(false);
         } else {
           console.log("No such document!");
         }
@@ -174,12 +177,24 @@ export default function HomeScreen() {
                 >
                   Hello,{" "}
                 </Text>
-                <Text
-                  className="font-bold pl-2 dark:text-white"
-                  style={{ fontSize: textS(20) }}
+                <Skeleton
+                  show={loading}
+                  radius={"round"}
+                  colorMode="light"
+                  backgroundColor="gray"
+                  width={"75%"}
+                  transition={{
+                    type: "timing",
+                    duration: 1500,
+                  }}
                 >
-                  {username}!
-                </Text>
+                  <Text
+                    className="font-bold pl-2 dark:text-white"
+                    style={{ fontSize: textS(20) }}
+                  >
+                    {username}!
+                  </Text>
+                </Skeleton>
               </View>
               <View className="items-end   self-center">
                 <Image

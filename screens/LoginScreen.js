@@ -56,7 +56,7 @@ export default function LoginScreen() {
   const SignupSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email.").required("Required"),
 
-    password: Yup.string().min(8).required("Required"),
+    password: Yup.string().required("Required"),
   });
 
   const handleSubmit = async (values) => {

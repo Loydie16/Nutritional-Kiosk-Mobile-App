@@ -107,7 +107,7 @@ export default function SignUpScreen() {
   const SignupSchema = Yup.object().shape({
     username: Yup.string()
       .min(6, "Too Short!")
-      .max(50, "Too Long!")
+      .max(8, "Too Long!")
       .required("Please enter username."),
 
     email: Yup.string()
