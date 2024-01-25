@@ -18,9 +18,8 @@ import { textS, widthRatio, heightRatio, moderateScale } from "../utils/sizes";
 import { useColorScheme } from "../theme/colorScheme";
 import { getTheme } from "../utils/asyncStorageTheme.js";
 import { auth, firestoreDB } from "../config/firebase";
-import { serverTimestamp, doc, getDoc } from "firebase/firestore";
-import { Skeleton } from "moti/skeleton";
-
+import { serverTimestamp, doc, getDoc, onSnapshot } from "firebase/firestore";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export default function HomeScreen() {
   const navigation = useNavigation(); // Initialize navigation
@@ -139,25 +138,27 @@ export default function HomeScreen() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchUsername = async () => {
-      try {
-        const docRef = doc(firestoreDB, "users", auth.currentUser.uid);
-        const docSnap = await getDoc(docRef);
+    const docRef = doc(firestoreDB, "users", auth.currentUser.uid);
 
+    const getUsername = onSnapshot(
+      docRef,
+      (docSnap) => {
         if (docSnap.exists()) {
           const userData = docSnap.data();
-          const fetchedUsername = userData.username; // Replace 'username' with the actual field name in your Firestore document
+          const fetchedUsername = userData.username; // Replace with the actual field name
           setUsername(fetchedUsername);
           setLoading(false);
         } else {
           console.log("No such document!");
+          // Handle the case where the document doesn't exist yet
         }
-      } catch (error) {
+      },
+      (error) => {
         console.error("Error fetching username:", error);
       }
-    };
+    );
 
-    fetchUsername(); // Call the fetchUsername function when the component mounts
+    return () => getUsername(); // Cleanup function to getUsername when the component unmounts
   }, []); // The empty dependency array ensures the useEffect runs only once on mount
 
   return (
@@ -165,6 +166,14 @@ export default function HomeScreen() {
       <StatusBar
         backgroundColor="transparent"
         barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
+      />
+      <Spinner
+        visible={loading}
+        textContent={"Loading..."}
+        textStyle={{ color: "#FFF" }}
+        color="#FFFFFF"
+        animation="fade"
+        overlayColor="rgba(0, 0, 0, 0.85)"
       />
       <View className="flex-1 bg-neutral-200 dark:bg-[#000000]  ">
         <View className="h-1/5 bg-neutral-100  dark:bg-[#232323] dark:border-slate-400 rounded-b-3xl">
@@ -177,24 +186,13 @@ export default function HomeScreen() {
                 >
                   Hello,{" "}
                 </Text>
-                <Skeleton
-                  show={loading}
-                  radius={"round"}
-                  colorMode="light"
-                  backgroundColor="gray"
-                  width={"75%"}
-                  transition={{
-                    type: "timing",
-                    duration: 1500,
-                  }}
+
+                <Text
+                  className="font-bold pl-2 dark:text-white"
+                  style={{ fontSize: textS(20) }}
                 >
-                  <Text
-                    className="font-bold pl-2 dark:text-white"
-                    style={{ fontSize: textS(20) }}
-                  >
-                    {username}!
-                  </Text>
-                </Skeleton>
+                  {username}!
+                </Text>
               </View>
               <View className="items-end   self-center">
                 <Image

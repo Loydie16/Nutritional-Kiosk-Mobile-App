@@ -8,7 +8,7 @@ import {
   StatusBar,
   ActivityIndicator,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { themeColors } from "../theme";
 import { useNavigation } from "@react-navigation/native";
@@ -20,6 +20,7 @@ import * as Yup from "yup";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/firebase";
 import Toast from "react-native-toast-message";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function LoginScreen() {
   const navigation = useNavigation();
@@ -27,6 +28,11 @@ export default function LoginScreen() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [loginError, setLoginError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loginAttempts, setLoginAttempts] = useState(2);
+  const [loginDisabledUntil, setLoginDisabledUntil] = useState(null);
+  const [remainingTime, setRemainingTime] = useState(0);
+  const [showText, setShowText] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   const showToast = (values) => {
     Toast.show({
@@ -39,8 +45,8 @@ export default function LoginScreen() {
   const showErrorToast = () => {
     Toast.show({
       type: "error",
-      text1: `Invalid Credentials 🥺`,
-      text2: "Check your email and password.",
+      text1: `Invalid Credentials. 🥺`,
+      text2: `You have only ${loginAttempts} attempts remaining.`,
     });
   };
 
@@ -70,12 +76,78 @@ export default function LoginScreen() {
       } catch (err) {
         showErrorToast();
         setLoginError(true);
+        setLoginAttempts(loginAttempts - 1);
+        if (loginAttempts === 0) {
+          const disabledUntil = Date.now() + 1 * 60 * 1000;
+          setLoginDisabledUntil(disabledUntil);
+          setShowText(true);
+          setDisabled(true);
+          // Store the disabledUntil timestamp in AsyncStorage
+          await AsyncStorage.setItem(
+            "loginDisabledUntil",
+            disabledUntil.toString()
+          );
+          setLoginAttempts(2);
+        }
       } finally {
         // Reset loading state after authentication request completes (success or error)
         setLoading(false);
       }
     }
   };
+
+  useEffect(() => {
+    const loadRemainingTime = async () => {
+      const storedDisabledUntil = await AsyncStorage.getItem(
+        "loginDisabledUntil"
+      );
+
+      if (storedDisabledUntil) {
+        const disabledUntilTimestamp = parseInt(storedDisabledUntil, 10);
+
+        if (disabledUntilTimestamp > Date.now()) {
+          const timeDifference = disabledUntilTimestamp - Date.now();
+          setLoginDisabledUntil(disabledUntilTimestamp);
+          setShowText(true);
+          setDisabled(true);
+
+          // Calculate remaining minutes and seconds
+          const minutes = Math.floor((timeDifference / (1000 * 60)) % 60);
+          const seconds = Math.floor((timeDifference / 1000) % 60);
+
+          // Set the remaining time in the state
+          setRemainingTime(`${minutes}m ${seconds}s`);
+        }
+      }
+    };
+
+    loadRemainingTime();
+
+    const intervalId = setInterval(() => {
+      if (loginDisabledUntil) {
+        const currentTime = Date.now();
+        const timeDifference = loginDisabledUntil - currentTime;
+
+        if (timeDifference > 0) {
+          // Calculate remaining minutes and seconds
+          const minutes = Math.floor((timeDifference / (1000 * 60)) % 60);
+          const seconds = Math.floor((timeDifference / 1000) % 60);
+
+          // Set the remaining time in the state
+          setRemainingTime(`${minutes}m ${seconds}s`);
+        } else {
+          // Clear the interval if the remaining time is less than or equal to 0
+          clearInterval(intervalId);
+          setLoginDisabledUntil(null);
+          setShowText(false);
+          setDisabled(false);
+        }
+      }
+    }, 1000); // Update every second
+
+    // Cleanup the interval when the component is unmounted
+    return () => clearInterval(intervalId);
+  }, [loginDisabledUntil]);
 
   return (
     <ScrollView>
@@ -123,6 +195,14 @@ export default function LoginScreen() {
                         Login
                       </Text>
                     </View>
+                    {showText && (
+                      <View className="flex justify-center items-center bg-red-400 p-3 rounded-2xl">
+                        <Text className="text-white text-center tracking-wide leading-5">
+                          Logging In is currently disabled. Please try again in{" "}
+                          {remainingTime}
+                        </Text>
+                      </View>
+                    )}
 
                     <Text className="text-gray-700 ml-4">Email Address</Text>
                     <View>
@@ -132,6 +212,7 @@ export default function LoginScreen() {
                             ? "border-red-500"
                             : "border-transparent"
                         }`}
+                        disabled={loading || disabled}
                         placeholder="Enter your email"
                         cursorColor="black"
                         selectionColor="black"
@@ -163,6 +244,7 @@ export default function LoginScreen() {
                             onPress={togglePasswordVisibility}
                           />
                         }
+                        disabled={loading || disabled}
                         cursorColor="black"
                         selectionColor="black"
                         activeUnderlineColor="transparent"
@@ -188,9 +270,11 @@ export default function LoginScreen() {
                     </View>
 
                     <TouchableOpacity
-                      disabled={loading} // Disable the button when loading is true
+                      disabled={loading || disabled} // Disable the button when loading is true
                       className="py-3 bg-300 rounded-xl "
-                      style={{ backgroundColor: themeColors.bg1 }}
+                      style={{
+                        backgroundColor: disabled ? "#ababab" : themeColors.bg1,
+                      }}
                       onPress={handleSubmit}
                     >
                       {loading ? (
