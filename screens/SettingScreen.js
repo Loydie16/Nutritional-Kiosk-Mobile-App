@@ -199,7 +199,7 @@ export default function SettingScreen() {
         animationInTiming={500}
       >
         <View className="items-center justify-center bg-white border-2 border-slate-400 rounded-2xl p-6 dark:bg-[#232323] dark:border-2 dark:border-slate-400 ">
-          <Text className="text-xl self-center justify-center dark:text-white">
+          <Text className="text-xl self-center justify-center tracking-wide leading-2 text-center dark:text-white">
             Are you sure you want to logout?
           </Text>
           <View className="flex-row justify-evenly mt-10 w-full h-10 ">

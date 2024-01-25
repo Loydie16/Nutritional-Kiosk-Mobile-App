@@ -7,6 +7,7 @@ import OnboardingScreen from "../screens/OnboardingScreen";
 import BottomNavBar from "../BottomNavBar/BottomNavBar";
 import DetailsScreen from "../screens/DetailsScreen";
 import ResultScreen from "../screens/ResultScreen";
+import ForgotPass from "../screens/ForgotPass";
 import { getItem } from "../utils/asyncStorage.js";
 import { useColorScheme } from "../theme/colorScheme";
 import useAuth from "../hooks/useAuth";
@@ -30,19 +31,17 @@ export default function AppNavigation() {
     setShowOnboarding(onboarded !== "1");
   };
 
-   if (showOnboarding === null) {
-     return null;
-   }
+  if (showOnboarding === null) {
+    return null;
+  }
 
-   if (loading) {
-     return (
-       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-         <ActivityIndicator size="large" color="#0000ff" />
-       </View>
-     );
-   }
-
-
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
 
   return (
     <NavigationContainer>
@@ -101,6 +100,11 @@ export default function AppNavigation() {
               name="SignUp"
               options={{ headerShown: false }}
               component={SignUpScreen}
+            />
+            <Stack.Screen
+              name="ForgotPass"
+              options={{ headerShown: false }}
+              component={ForgotPass}
             />
           </>
         )}

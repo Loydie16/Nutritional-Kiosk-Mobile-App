@@ -78,7 +78,7 @@ export default function LoginScreen() {
         setLoginError(true);
         setLoginAttempts(loginAttempts - 1);
         if (loginAttempts === 0) {
-          const disabledUntil = Date.now() + 1 * 60 * 1000;
+          const disabledUntil = Date.now() + 1 * 30 * 1000;
           setLoginDisabledUntil(disabledUntil);
           setShowText(true);
           setDisabled(true);
@@ -174,7 +174,11 @@ export default function LoginScreen() {
             handleSubmit,
           }) => (
             <>
-              <StatusBar backgroundColor="transparent" translucent={true} />
+              <StatusBar
+                backgroundColor="transparent"
+                translucent={true}
+                barStyle={"dark-content"}
+              />
               <SafeAreaView className="flex items-center ">
                 <View className="flex-row justify-center w-96 h-96 ">
                   <Lottie
@@ -262,7 +266,9 @@ export default function LoginScreen() {
                     </View>
 
                     <View className="flex items-end ">
-                      <TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => navigation.navigate("ForgotPass")}
+                      >
                         <Text className="text-gray-700 mb-5">
                           Forgot Password?
                         </Text>
@@ -279,10 +285,7 @@ export default function LoginScreen() {
                     >
                       {loading ? (
                         // If loading is true, show the activity indicator
-
-                        <View className=" flex-row justify-center items-center">
-                          <ActivityIndicator size="large" color="#ffffff" />
-                        </View>
+                        <ActivityIndicator size="large" color="#ffffff" />
                       ) : (
                         // If loading is false, show the login button
                         <Text className="text-3xl font-bold text-center text-700 text-white">

@@ -22,9 +22,8 @@ import { TextInput as PaperTextInput, Divider } from "react-native-paper";
 import { RadioButton } from "react-native-paper";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, firestoreDB } from "../config/firebase";
-import { serverTimestamp, doc, setDoc} from "firebase/firestore";
+import { serverTimestamp, doc, setDoc } from "firebase/firestore";
 import Toast from "react-native-toast-message";
-
 
 export default function SignUpScreen() {
   const navigation = useNavigation();
