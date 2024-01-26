@@ -145,7 +145,7 @@ export default function ForgotPass() {
                 >
                   {loading ? (
                     // If loading is true, show the activity indicator
-                    <ActivityIndicator size="medium" color="#ffffff" />
+                    <ActivityIndicator size="small" color="#ffffff" />
                   ) : (
                     <Text className=" font-semibold">
                       Send <Icon name="send" size={15} />

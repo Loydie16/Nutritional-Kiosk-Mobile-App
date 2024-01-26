@@ -154,6 +154,8 @@ export default function HomeScreen() {
         if (!user.emailVerified) {
           sendEmailVerification(user).then(() => {
             setModalVisible(true);
+          }).catch((error) => {
+            setModalVisible(true);
           });
         }
       }
@@ -374,9 +376,9 @@ export default function HomeScreen() {
         animationInTiming={500}
       >
         <View className="items-center justify-center bg-white border-4 border-green-500 rounded-2xl p-6">
-          <Text className="text-l self-center justify-center tracking-wide leading-2 text-center">
+          <Text className="text-l self-center justify-center tracking-wide leading-2 text-center ">
             Email verification link has been sent to your email. Verify your
-            email address first!
+            email address first before you can login.
           </Text>
           <Text className="text-m self-center justify-center tracking-wide leading-2 text-center pt-4">
             Check your spam if you can't find it!

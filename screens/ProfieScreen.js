@@ -98,7 +98,14 @@ export default function ProfileScreen() {
               />
             </View>
             <View className="px-5 pt-2 ">
-              <Text className=" text-l dark:text-white ">Email</Text>
+              <View className="flex flex-row ">
+                <Text className=" self-center text-l dark:text-white ">
+                  Email
+                </Text>
+                <View className="px-4 py-1 bg-green-500 rounded-xl ml-4">
+                  <Text>Verified</Text>
+                </View>
+              </View>
               <PaperTextInput
                 className="bg-gray-300 text-black rounded-xl border-2 border-transparent mt-2  "
                 cursorColor="black"

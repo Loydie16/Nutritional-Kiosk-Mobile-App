@@ -69,7 +69,13 @@ export default function LoginScreen() {
   };
 
   const SignupSchema = Yup.object().shape({
-    email: Yup.string().email("Invalid email.").required("Required"),
+    email: Yup.string()
+      .email("Invalid email")
+      .required("Required")
+      .test("is-complete-email", "Email must be complete", function (value) {
+        // Use a regex pattern to check for a complete email address
+        return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value);
+      }),
 
     password: Yup.string().required("Required"),
   });
@@ -77,6 +83,7 @@ export default function LoginScreen() {
   const handleSubmit = async (values) => {
     if (values.email && values.password) {
       try {
+        setLoading(true);
         const userCredential = await signInWithEmailAndPassword(
           auth,
           values.email,
@@ -89,7 +96,6 @@ export default function LoginScreen() {
         } else {
           // Email not verified, prompt the user to verify
           // You can handle this case based on your UI/UX design
-          await signOut(auth);
           showVerifyToast();
         }
       } catch (err) {
