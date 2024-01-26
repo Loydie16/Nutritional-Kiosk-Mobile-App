@@ -26,7 +26,7 @@ export default function ForgotPass() {
   const [loading, setLoading] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
 
-  const showErrorToast = (err) => {
+  const showErrorToast = () => {
     Toast.show({
       type: "error",
       text1: `Invalid Email Address 🥺`,
@@ -161,12 +161,15 @@ export default function ForgotPass() {
               animationInTiming={500}
             >
               <View className="items-center justify-center bg-white border-4 border-green-500 rounded-2xl p-6">
-                <Text className="text-xl self-center justify-center tracking-wide leading-2 text-center">
-                  Reset Password Link has been sent to your email!
+                <Text className="text-l self-center justify-center tracking-wide leading-2 text-center">
+                  Reset Password Link has been sent to your email. Check it now!
+                </Text>
+                <Text className="text-m self-center justify-center tracking-wide leading-2 text-center pt-4">
+                  Check your spam if you can't find it!
                 </Text>
                 <View className="flex-row justify-evenly mt-10 w-full h-10 ">
                   <TouchableOpacity
-                    className="bg-green-400 rounded-xl  items-center justify-center p-2"
+                    className="bg-green-400 rounded-xl  items-center justify-center px-3 "
                     title="Hide modal"
                     onPress={() => navigation.navigate("Login")}
                   >

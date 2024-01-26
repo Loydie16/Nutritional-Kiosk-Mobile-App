@@ -19,7 +19,10 @@ import { useColorScheme } from "../theme/colorScheme";
 import { getTheme } from "../utils/asyncStorageTheme.js";
 import { auth, firestoreDB } from "../config/firebase";
 import { serverTimestamp, doc, getDoc, onSnapshot } from "firebase/firestore";
+import { sendEmailVerification, signOut } from "firebase/auth";
 import Spinner from "react-native-loading-spinner-overlay";
+import Modal from "react-native-modal";
+import Icon from "react-native-vector-icons/Feather";
 
 export default function HomeScreen() {
   const navigation = useNavigation(); // Initialize navigation
@@ -136,9 +139,25 @@ export default function HomeScreen() {
 
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(true);
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const handleLogout = async () => {
+    await signOut(auth);
+  };
 
   useEffect(() => {
     const docRef = doc(firestoreDB, "users", auth.currentUser.uid);
+
+    const checkEmailVerification = () => {
+      const user = auth.currentUser;
+      if (user) {
+        if (!user.emailVerified) {
+          sendEmailVerification(user).then(() => {
+            setModalVisible(true);
+          });
+        }
+      }
+    };
 
     const getUsername = onSnapshot(
       docRef,
@@ -157,6 +176,8 @@ export default function HomeScreen() {
         console.error("Error fetching username:", error);
       }
     );
+
+    checkEmailVerification(); // Check email verification on component mount
 
     return () => getUsername(); // Cleanup function to getUsername when the component unmounts
   }, []); // The empty dependency array ensures the useEffect runs only once on mount
@@ -346,6 +367,33 @@ export default function HomeScreen() {
           </View>
         </View>
       </View>
+
+      <Modal
+        isVisible={isModalVisible}
+        animationIn={"fadeInUp"}
+        animationInTiming={500}
+      >
+        <View className="items-center justify-center bg-white border-4 border-green-500 rounded-2xl p-6">
+          <Text className="text-l self-center justify-center tracking-wide leading-2 text-center">
+            Email verification link has been sent to your email. Verify your
+            email address first!
+          </Text>
+          <Text className="text-m self-center justify-center tracking-wide leading-2 text-center pt-4">
+            Check your spam if you can't find it!
+          </Text>
+          <View className="flex-row justify-evenly mt-10 w-full h-10 ">
+            <TouchableOpacity
+              className="bg-green-400 rounded-xl  items-center justify-center px-3 "
+              title="Hide modal"
+              onPress={handleLogout}
+            >
+              <Text className="self-center justify-center tracking-wide leading-2 text-center">
+                <Icon name="arrow-left" size={15} /> Back to login Page
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 }

@@ -17,7 +17,7 @@ import { TextInput as PaperTextInput } from "react-native-paper";
 import Lottie from "lottie-react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth } from "../config/firebase";
 import Toast from "react-native-toast-message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -50,6 +50,15 @@ export default function LoginScreen() {
     });
   };
 
+  const showVerifyToast = () => {
+    Toast.show({
+      type: "error",
+      text1: `Email address not verified. 🥺`,
+      text2: `Check your email for a verification link.`,
+      visibilityTime: 5000,
+    });
+  };
+
   const togglePasswordVisibility = () => {
     setPasswordVisible((prevState) => !prevState);
   };
@@ -68,11 +77,21 @@ export default function LoginScreen() {
   const handleSubmit = async (values) => {
     if (values.email && values.password) {
       try {
-        // Set loading to true before making the authentication request
-        setLoading(true);
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          values.email,
+          values.password
+        );
 
-        await signInWithEmailAndPassword(auth, values.email, values.password);
-        showToast(values);
+        // Check if the user's email is verified
+        if (userCredential.user && userCredential.user.emailVerified) {
+          showToast(values); // Proceed with login
+        } else {
+          // Email not verified, prompt the user to verify
+          // You can handle this case based on your UI/UX design
+          await signOut(auth);
+          showVerifyToast();
+        }
       } catch (err) {
         showErrorToast();
         setLoginError(true);
