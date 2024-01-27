@@ -14,11 +14,11 @@ import { textS, widthRatio, heightRatio, moderateScale } from "../utils/sizes";
 import Icon from "react-native-vector-icons/Feather";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { RadioButton } from "react-native-paper";
-import Checkbox from "expo-checkbox";
-
+import { sendPasswordResetEmail, signOut } from "firebase/auth";
+import { auth } from "../config/firebase";
+import Toast from "react-native-toast-message";
 
 export default function ProfileScreen() {
-  
   const [gender, genderChecked] = useState();
   const [showPassword, setShowPassword] = useState(false);
   const [age, setAge] = useState("");
@@ -27,7 +27,6 @@ export default function ProfileScreen() {
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const [formattedDate, setFormattedDate] = useState("");
-
 
   const onChange = (event, selectedDate) => {
     if (event.type === "dismissed") {
@@ -77,6 +76,30 @@ export default function ProfileScreen() {
 
   const showTimepicker = () => {
     showMode("time");
+  };
+
+  const showToast = () => {
+    Toast.show({
+      type: "success",
+      text1: `Reset Password Link Sent 🥳`,
+      text2: "Logged out due to password reset.",
+      duration: 5000,
+    });
+  };
+
+
+  const resetPass = async () => {
+    sendPasswordResetEmail(auth, auth.currentUser.email)
+      .then(() => {
+        showToast();
+        signOut(auth);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode);
+        // ..
+      });
   };
 
   return (
@@ -202,51 +225,16 @@ export default function ProfileScreen() {
 
         <View className="flex-1 m-2 rounded-2xl bg-slate-200 border-2 border-slate-400 dark:bg-[#232323] dark:border-2 dark:border-slate-400 ">
           <View className="form space-y-2   ">
-            <View className="flex-row px-5 pt-2 items-center justify-between  ">
+            <View className="px-5 pt-2">
               <Text className=" text-xl dark:text-white ">Change Password</Text>
-              <TouchableOpacity>
-                <Icon name="edit-3" size={moderateScale(20)} color="#000" />
-              </TouchableOpacity>
+              <Text className=" my-4 text-xs text-gray-400 dark:text-gray-500">
+                Click the button to send an reset password link to your email.
+              </Text>
             </View>
-            <View className="px-5 ">
-              <PaperTextInput
-                className="bg-gray-300 text-black rounded-xl border-2 border-transparent mt-2  "
-                placeholder="Old Password"
-                cursorColor="black"
-                selectionColor="black"
-                activeUnderlineColor="transparent"
-                secureTextEntry={!showPassword}
-                underlineColor="transparent"
-                editable={false}
-                right={<PaperTextInput.Icon icon="lock-remove" />}
-              />
-              <PaperTextInput
-                className="bg-gray-300 text-black rounded-xl border-2 border-transparent mt-2  "
-                placeholder="New Password"
-                cursorColor="black"
-                selectionColor="black"
-                activeUnderlineColor="transparent"
-                secureTextEntry={!showPassword}
-                underlineColor="transparent"
-                editable={false}
-                right={<PaperTextInput.Icon icon="lock-reset" />}
-              />
-              <PaperTextInput
-                className="bg-gray-300 text-black rounded-xl border-2 border-transparent mt-2  "
-                placeholder="Confirm New Password"
-                cursorColor="black"
-                selectionColor="black"
-                activeUnderlineColor="transparent"
-                secureTextEntry={!showPassword}
-                underlineColor="transparent"
-                editable={false}
-                right={<PaperTextInput.Icon icon="lock-check-outline" />}
-              />
-            </View>
-            <View className="flex-row items-center mb-4 ml-5">
-              <Checkbox value={showPassword} onValueChange={setShowPassword} />
-              <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                <Text className="dark:text-white"> Show password</Text>
+
+            <View className="px-5 pt-2 items-center justify-center m-4">
+              <TouchableOpacity className="p-4 bg-red-400 rounded-xl" onPress={resetPass}>
+                <Text>Reset Password</Text>
               </TouchableOpacity>
             </View>
           </View>

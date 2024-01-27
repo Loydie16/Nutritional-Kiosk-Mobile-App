@@ -378,7 +378,7 @@ export default function HomeScreen() {
         <View className="items-center justify-center bg-white border-4 border-green-500 rounded-2xl p-6">
           <Text className="text-l self-center justify-center tracking-wide leading-2 text-center ">
             Email verification link has been sent to your email. Verify your
-            email address first before you can login.
+            email address first to proceed!
           </Text>
           <Text className="text-m self-center justify-center tracking-wide leading-2 text-center pt-4">
             Check your spam if you can't find it!

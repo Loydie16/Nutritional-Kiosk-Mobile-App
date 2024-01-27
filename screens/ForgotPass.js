@@ -13,7 +13,8 @@ import * as Yup from "yup";
 import { TextInput as PaperTextInput } from "react-native-paper";
 import Icon from "react-native-vector-icons/Feather";
 import { useNavigation } from "@react-navigation/native";
-import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { auth  } from "../config/firebase";
 import Modal from "react-native-modal";
 import Toast from "react-native-toast-message";
 
@@ -38,7 +39,6 @@ export default function ForgotPass() {
     if (values.email) {
       try {
         setLoading(true);
-        const auth = getAuth();
         sendPasswordResetEmail(auth, values.email)
           .then(() => {
             setModalVisible(true);
