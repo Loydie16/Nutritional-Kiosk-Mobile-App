@@ -17,7 +17,10 @@ import { TextInput as PaperTextInput } from "react-native-paper";
 import Lottie from "lottie-react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 import { auth } from "../config/firebase";
 import Toast from "react-native-toast-message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -55,7 +58,7 @@ export default function LoginScreen() {
       type: "error",
       text1: `Email address not verified. 🥺`,
       text2: `Check your email for a verification link.`,
-      visibilityTime: 5000,
+      visibilityTime: 7000,
     });
   };
 
@@ -96,9 +99,11 @@ export default function LoginScreen() {
         } else {
           // Email not verified, prompt the user to verify
           // You can handle this case based on your UI/UX design
+          auth.signOut();
           showVerifyToast();
         }
       } catch (err) {
+        console.log(err);
         showErrorToast();
         setLoginError(true);
         setLoginAttempts(loginAttempts - 1);

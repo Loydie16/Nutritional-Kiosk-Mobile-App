@@ -20,9 +20,19 @@ import * as Yup from "yup";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { TextInput as PaperTextInput, Divider } from "react-native-paper";
 import { RadioButton } from "react-native-paper";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signOut,
+  sendEmailVerification,
+} from "firebase/auth";
 import { auth, firestoreDB } from "../config/firebase";
-import { serverTimestamp, doc, setDoc } from "firebase/firestore";
+import {
+  serverTimestamp,
+  doc,
+  setDoc,
+  addDoc,
+  collection,
+} from "firebase/firestore";
 import Toast from "react-native-toast-message";
 
 export default function SignUpScreen() {
@@ -40,8 +50,9 @@ export default function SignUpScreen() {
   const showToast = (values) => {
     Toast.show({
       type: "success",
-      text1: `Hello ${values.username} 👋`,
-      text2: "Successfully account created!",
+      text1: `Successfully account created!`,
+      text2: "Logged out due to unverified email. Please verify.",
+      duration: 10000,
     });
   };
 
@@ -139,6 +150,7 @@ export default function SignUpScreen() {
     if (values.email && values.password) {
       try {
         setLoading(true);
+
         await createUserWithEmailAndPassword(
           auth,
           values.email,
@@ -146,6 +158,9 @@ export default function SignUpScreen() {
         );
 
         const userRef = doc(firestoreDB, "users", auth.currentUser.uid);
+        // Add an empty 'results' subcollection document
+        const resultsCollectionRef = collection(userRef, "results");
+
         await setDoc(userRef, {
           username: values.username,
           birthdate: formattedDate,
@@ -154,7 +169,16 @@ export default function SignUpScreen() {
           createdAt: serverTimestamp(),
         });
 
-        showToast(values);
+        sendEmailVerification(auth.currentUser)
+          .then(() => {
+            console.log("Email verification sent!");
+          })
+          .catch((error) => {
+            console.log("Error sending email verification", error);
+          });
+
+        await signOut(auth);
+        showToast();
       } catch (err) {
         showErrorToast(err);
         console.log("got error", err);

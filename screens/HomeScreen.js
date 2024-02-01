@@ -18,7 +18,14 @@ import { textS, widthRatio, heightRatio, moderateScale } from "../utils/sizes";
 import { useColorScheme } from "../theme/colorScheme";
 import { getTheme } from "../utils/asyncStorageTheme.js";
 import { auth, firestoreDB } from "../config/firebase";
-import { serverTimestamp, doc, getDoc, onSnapshot } from "firebase/firestore";
+import {
+  serverTimestamp,
+  doc,
+  getDocs,
+  onSnapshot,
+  collection,
+  query,
+} from "firebase/firestore";
 import { sendEmailVerification, signOut } from "firebase/auth";
 import Spinner from "react-native-loading-spinner-overlay";
 import Modal from "react-native-modal";
@@ -28,118 +35,17 @@ export default function HomeScreen() {
   const navigation = useNavigation(); // Initialize navigation
   const { colorScheme, setColorScheme } = useColorScheme();
 
-  const recentRecord = {
-    height: "178",
-    weight: "60",
-    date: "11/25/23",
-    time: "12:45:55",
-    bmi: "20",
-    classification: "Normal",
-  };
-
-  const items = [
-    {
-      id: 1,
-      height: "170",
-      weight: "60",
-      date: "11/24/23",
-      time: "11:55:43",
-      bmi: "20",
-      classification: "Normal",
-    },
-    {
-      id: 2,
-      height: "165",
-      weight: "70",
-      date: "11/25/23",
-      time: "09:30:21",
-      bmi: "25.7",
-      classification: "Overweight",
-    },
-    {
-      id: 3,
-      height: "180",
-      weight: "80",
-      date: "11/26/23",
-      time: "14:15:10",
-      bmi: "24.7",
-      classification: "Normal",
-    },
-    {
-      id: 4,
-      height: "160",
-      weight: "55",
-      date: "11/27/23",
-      time: "16:45:55",
-      bmi: "21.5",
-      classification: "Normal",
-    },
-    {
-      id: 5,
-      height: "175",
-      weight: "90",
-      date: "11/28/23",
-      time: "08:20:37",
-      bmi: "29.4",
-      classification: "Obese",
-    },
-    {
-      id: 6,
-      height: "155",
-      weight: "50",
-      date: "11/29/23",
-      time: "10:10:15",
-      bmi: "20.9",
-      classification: "Normal",
-    },
-    {
-      id: 7,
-      height: "168",
-      weight: "75",
-      date: "11/30/23",
-      time: "12:40:28",
-      bmi: "26.6",
-      classification: "Overweight",
-    },
-    {
-      id: 8,
-      height: "162",
-      weight: "68",
-      date: "12/01/23",
-      time: "07:55:43",
-      bmi: "26.0",
-      classification: "Overweight",
-    },
-    {
-      id: 9,
-      height: "178",
-      weight: "88",
-      date: "12/02/23",
-      time: "13:20:17",
-      bmi: "27.8",
-      classification: "Overweight",
-    },
-    {
-      id: 10,
-      height: "163",
-      weight: "57",
-      date: "12/03/23",
-      time: "15:30:02",
-      bmi: "21.4",
-      classification: "Normal",
-    },
-  ];
-
-  const labels = items.map((item) => item.date);
-  const values = items.map((item) => parseFloat(item.bmi));
+  const [results, setResults] = useState([]); // Initialize results state
+  const [recentResults, setRecentResults] = useState([]); // Initialize results state
 
   // Set the threshold for enabling scrolling
   const scrollableThreshold = 15;
-  const isScrollable = items.length > scrollableThreshold;
+  const isScrollable = results.length > scrollableThreshold;
 
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(true);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [noResults, setNoResults] = useState(true);
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -147,19 +53,10 @@ export default function HomeScreen() {
 
   useEffect(() => {
     const docRef = doc(firestoreDB, "users", auth.currentUser.uid);
+    const usersRef = collection(firestoreDB, "users");
 
-    const checkEmailVerification = () => {
-      const user = auth.currentUser;
-      if (user) {
-        if (!user.emailVerified) {
-          sendEmailVerification(user).then(() => {
-            setModalVisible(true);
-          }).catch((error) => {
-            setModalVisible(true);
-          });
-        }
-      }
-    };
+    // Get a reference to the 'results' subcollection for a specific user (replace with actual user ID)
+    const resultsRef = collection(usersRef, auth.currentUser.uid, "results");
 
     const getUsername = onSnapshot(
       docRef,
@@ -179,9 +76,46 @@ export default function HomeScreen() {
       }
     );
 
-    checkEmailVerification(); // Check email verification on component mount
+    const fetchResults = async () => {
+      try {
+        const q = query(
+          collection(firestoreDB, "users", auth.currentUser.uid, "results")
+        );
+        const querySnapshot = await getDocs(q);
+        // Check if the subcollection is empty
+        if (querySnapshot.empty) {
+          console.log("The results subcollection is empty.");
+          setResults([
+            {
+              bmi: 0,
+              classification: "0",
+              date: "0",
+              height: 0,
+              time: "0",
+              weight: 0,
+            },
+          ]);
+          setNoResults(false);
+        } else {
+          const fetchedResults = [];
+          querySnapshot.forEach((doc) => {
+            fetchedResults.push(doc.data());
+          });
+          setResults(fetchedResults);
+          setRecentResults(fetchedResults.slice(-1)[0]);
+          setNoResults(false);
+        }
+        setLoading(false);
+      } catch (error) {
+        console.log("Error getting documents: ", error);
+      }
+    };
 
-    return () => getUsername(); // Cleanup function to getUsername when the component unmounts
+    fetchResults();
+
+    return () => {
+      getUsername();
+    }; // Cleanup function to getUsername when the component unmounts
   }, []); // The empty dependency array ensures the useEffect runs only once on mount
 
   return (
@@ -239,52 +173,68 @@ export default function HomeScreen() {
           >
             Line chart of all BMI records
           </Text>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            className="self-center"
-          >
-            <LineChart
-              data={{
-                labels,
-                datasets: [
-                  {
-                    data: values,
-                    strokeWidth: 2,
-                  },
-                ],
-              }}
-              width={isScrollable ? 3000 : Dimensions.get("window").width - 25}
-              height={heightRatio(200)}
-              bezier
-              chartConfig={{
-                backgroundColor: "#1cc910",
-                backgroundGradientFrom:
-                  colorScheme === "dark" ? "#29323c" : "#eff3ff",
-                backgroundGradientTo:
-                  colorScheme === "dark" ? "#485563" : "#efefef",
-                decimalPlaces: 2,
-                color: (opacity = 1) =>
-                  colorScheme === "dark"
-                    ? `#ffffff`
-                    : `rgba(0, 0, 0, ${opacity})`,
-                style: {
-                  borderRadius: 16,
-                },
-                propsForVerticalLabels: {
-                  rotation: 30,
-                  fontSize: 10,
-                },
-                yLabelsOffset: -10,
-                xLabelsOffset: -10,
-              }}
-              style={{
-                marginVertical: heightRatio(8),
-                paddingHorizontal: 10,
-                borderRadius: moderateScale(16),
-              }}
-            />
-          </ScrollView>
+          {loading ? (
+            <View className="items-center justify-center p-10">
+              <Text>Loading...</Text>
+            </View>
+          ) : (
+            <>
+              {!noResults ? ( // Check if results are available
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  className="self-center"
+                >
+                  <LineChart
+                    data={{
+                      labels: results.map((item) => item.date),
+                      datasets: [
+                        {
+                          data: results.map((item) => parseFloat(item.bmi)),
+                          strokeWidth: 2,
+                        },
+                      ],
+                    }}
+                    width={
+                      isScrollable ? 3000 : Dimensions.get("window").width - 25
+                    }
+                    height={heightRatio(200)}
+                    bezier
+                    chartConfig={{
+                      backgroundColor: "#1cc910",
+                      backgroundGradientFrom:
+                        colorScheme === "dark" ? "#29323c" : "#eff3ff",
+                      backgroundGradientTo:
+                        colorScheme === "dark" ? "#485563" : "#efefef",
+                      decimalPlaces: 2,
+                      color: (opacity = 1) =>
+                        colorScheme === "dark"
+                          ? `#ffffff`
+                          : `rgba(0, 0, 0, ${opacity})`,
+                      style: {
+                        borderRadius: 16,
+                      },
+                      propsForVerticalLabels: {
+                        rotation: 30,
+                        fontSize: 10,
+                      },
+                      yLabelsOffset: -10,
+                      xLabelsOffset: -10,
+                    }}
+                    style={{
+                      marginVertical: heightRatio(8),
+                      paddingHorizontal: 10,
+                      borderRadius: moderateScale(16),
+                    }}
+                  />
+                </ScrollView>
+              ) : (
+                <View className="items-center justify-center p-10">
+                  <Text>Loading...</Text>
+                </View> // Render if no results are available
+              )}
+            </>
+          )}
         </View>
 
         <View
@@ -300,7 +250,7 @@ export default function HomeScreen() {
             </Text>
             <TouchableOpacity
               className=" "
-              onPress={() => navigation.navigate("Results", { item: items })}
+              onPress={() => navigation.navigate("Results", { item: results })}
             >
               <Text
                 className="pt-3 pr-4 font-bold "
@@ -310,63 +260,81 @@ export default function HomeScreen() {
               </Text>
             </TouchableOpacity>
           </View>
-
-          <View className="flex-1 bg-slate-200 border-2 border-slate-400 dark:bg-[#131f29] dark:border-2 dark:border-slate-400  m-3 rounded-3xl  ">
-            <View className="flex-row justify-between p-4  ">
-              <Text className="dark:text-white" style={{ fontSize: textS(10) }}>
-                Height: {recentRecord.height} CM
-              </Text>
-              <Text className="dark:text-white" style={{ fontSize: textS(10) }}>
-                Weight: {recentRecord.bmi} KG
-              </Text>
+          {loading ? (
+            <View className="flex-1 items-center justify-center">
+              <Text>Loading...</Text>
             </View>
-
-            <View className=" flex-1 justify-center items-center p-3">
-              <Text
-                className="font-bold dark:text-white"
-                style={{ fontSize: textS(20) }}
-              >
-                BMI: {recentRecord.bmi}
-              </Text>
-              <Text
-                className="font-bold dark:text-white"
-                style={{ fontSize: textS(14) }}
-              >
-                Classification: {recentRecord.classification}
-              </Text>
+          ) : recentResults &&
+            Object.values(recentResults).every(
+              (value) => value === 0 || value === "0"
+            ) ? (
+            <View className="flex-1 items-center justify-center bg-slate-200 border-2 border-slate-400 dark:bg-[#131f29] dark:border-2 dark:border-slate-400  m-3 rounded-3xl">
+              <Text>No Recent Results</Text>
             </View>
-
-            <View className=" flex-row justify-between  ">
-              <Text
-                className="px-4 pb-2 pt-3 dark:text-white"
-                style={{ fontSize: textS(10) }}
-              >
-                Date: {recentRecord.date}
-              </Text>
-              <Text
-                className="px-4 pb-2 pt-3 dark:text-white"
-                style={{ fontSize: textS(10) }}
-              >
-                Time: {recentRecord.time}
-              </Text>
-            </View>
-
-            <View className="justify-center items-center">
-              <TouchableOpacity
-                className=" "
-                onPress={() =>
-                  navigation.navigate("Details", { item: recentRecord })
-                }
-              >
+          ) : (
+            <View className="flex-1 bg-slate-200 border-2 border-slate-400 dark:bg-[#131f29] dark:border-2 dark:border-slate-400  m-3 rounded-3xl  ">
+              <View className="flex-row justify-between p-4  ">
                 <Text
-                  className="pb-2 italic dark:text-white"
-                  style={{ fontSize: textS(8) }}
+                  className="dark:text-white"
+                  style={{ fontSize: textS(10) }}
                 >
-                  Click this to View Recommendation
+                  Height: {recentResults.height} CM
                 </Text>
-              </TouchableOpacity>
+                <Text
+                  className="dark:text-white"
+                  style={{ fontSize: textS(10) }}
+                >
+                  Weight: {recentResults.bmi} KG
+                </Text>
+              </View>
+
+              <View className=" flex-1 justify-center items-center p-3">
+                <Text
+                  className="font-bold dark:text-white"
+                  style={{ fontSize: textS(20) }}
+                >
+                  BMI: {recentResults.bmi}
+                </Text>
+                <Text
+                  className="font-bold dark:text-white"
+                  style={{ fontSize: textS(14) }}
+                >
+                  Classification: {recentResults.classification}
+                </Text>
+              </View>
+
+              <View className=" flex-row justify-between  ">
+                <Text
+                  className="px-4 pb-2 pt-3 dark:text-white"
+                  style={{ fontSize: textS(10) }}
+                >
+                  Date: {recentResults.date}
+                </Text>
+                <Text
+                  className="px-4 pb-2 pt-3 dark:text-white"
+                  style={{ fontSize: textS(10) }}
+                >
+                  Time: {recentResults.time}
+                </Text>
+              </View>
+
+              <View className="justify-center items-center">
+                <TouchableOpacity
+                  className=" "
+                  onPress={() =>
+                    navigation.navigate("Details", { item: recentResults })
+                  }
+                >
+                  <Text
+                    className="pb-2 italic dark:text-white"
+                    style={{ fontSize: textS(8) }}
+                  >
+                    Click this to View Recommendation
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
+          )}
         </View>
       </View>
 
