@@ -11,13 +11,16 @@ import Icon from "react-native-vector-icons/Feather";
 import Modal from "react-native-modal";
 import { useColorScheme } from "../theme/colorScheme";
 import { setTheme, removeTheme } from "../utils/asyncStorageTheme";
-import { signOut } from "firebase/auth";
-import { auth } from "../config/firebase";
+import { signOut, deleteUser } from "firebase/auth";
+import { auth, firestoreDB } from "../config/firebase";
+import { doc, deleteDoc } from "firebase/firestore";
 import Toast from "react-native-toast-message";
 
 export default function SettingScreen() {
   const { colorScheme, toggleColorScheme } = useColorScheme();
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isModalDeleteVisible, setModalDeleteVisible] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const darkTheme = () => {
     toggleColorScheme();
@@ -31,6 +34,14 @@ export default function SettingScreen() {
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
+  };
+
+  const toggleDeleteModal = () => {
+    setModalDeleteVisible(!isModalDeleteVisible);
+    setIsDisabled(true);
+    setTimeout(() => {
+      setIsDisabled(false);
+    }, 5000);
   };
 
   const handleBackPress = () => {
@@ -52,6 +63,24 @@ export default function SettingScreen() {
   const handleLogout = async () => {
     await signOut(auth);
     showLogoutToast();
+  };
+
+  const deleteAcc = async () => {
+    const user = auth.currentUser;
+
+    await deleteDoc(doc(firestoreDB, "users", auth.currentUser.uid));
+
+    deleteUser(user)
+      .then(() => {
+        Toast.show({
+          type: "success",
+          text1: `Successfully deleted account!`,
+          text2: "Sad to see you go! 😢",
+        });
+      })
+      .catch((error) => {
+        console.log("Error deleting user:", error);
+      });
   };
 
   useEffect(() => {
@@ -171,26 +200,34 @@ export default function SettingScreen() {
 
       <View className="flex-1" />
 
-      <TouchableOpacity
-        className="flex-row items-center justify-between rounded-2xl h-16 bg-red-400 border-2 border-red-600"
-        onPress={toggleModal}
-      >
-        <View className="px-4 flex-row items-center justify-center">
-          <Icon
-            name="log-out"
-            size={20}
-            color={colorScheme === "dark" ? "#ffffff" : "#000"}
-          />
-          <Text className="text-xl dark:text-white"> Logout </Text>
-        </View>
-        <View className="px-4">
-          <Icon
-            name="chevron-right"
-            size={20}
-            color={colorScheme === "dark" ? "#ffffff" : "#000"}
-          />
-        </View>
-      </TouchableOpacity>
+      <View className="flex-row justify-between">
+        <TouchableOpacity
+          className="flex-row items-center justify-between rounded-2xl h-16 bg-red-700 border-2 border-red-600"
+          onPress={toggleDeleteModal}
+        >
+          <View className="px-4 flex-row items-center justify-center">
+            <Icon
+              name="trash-2"
+              size={20}
+              color={colorScheme === "dark" ? "#ffffff" : "#000"}
+            />
+            
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          className="flex-row items-center justify-between rounded-2xl h-16 bg-red-400 border-2 border-red-500"
+          onPress={toggleModal}
+        >
+          <View className="px-8 flex-row items-center justify-center">
+            <Icon
+              name="log-out"
+              size={20}
+              color={colorScheme === "dark" ? "#ffffff" : "#000"}
+            />
+            <Text className="text-xl dark:text-white"> Logout </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
 
       <Modal
         isVisible={isModalVisible}
@@ -214,6 +251,41 @@ export default function SettingScreen() {
               className="bg-green-400 rounded-xl w-24 items-center justify-center"
               title="Hide modal"
               onPress={toggleModal}
+            >
+              <Text>No</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        isVisible={isModalDeleteVisible}
+        onBackdropPress={() => setModalDeleteVisible(false)}
+        animationIn={"fadeInUp"}
+        animationInTiming={500}
+      >
+        <View className="items-center justify-center bg-white border-2 border-slate-400 rounded-2xl p-6 dark:bg-[#232323] dark:border-2 dark:border-slate-400 ">
+          <Text className="text-xl self-center justify-center tracking-wide leading-2 text-center dark:text-white">
+            Are you sure you want to delete your account?
+          </Text>
+          <View className="flex-row justify-evenly mt-10 w-full h-10 ">
+            <TouchableOpacity
+              className="flex-row bg-red-400 rounded-xl w-24 items-center justify-center"
+              title="Hide modal"
+              disabled={isDisabled}
+              onPress={deleteAcc}
+            >
+              <Icon
+                name="alert-octagon"
+                size={20}
+                color={colorScheme === "dark" ? "#ffffff" : "#000"}
+              />
+              <Text> Yes</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="bg-green-400 rounded-xl w-24 items-center justify-center"
+              title="Hide modal"
+              onPress={toggleDeleteModal}
             >
               <Text>No</Text>
             </TouchableOpacity>

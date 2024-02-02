@@ -25,6 +25,7 @@ import {
   onSnapshot,
   collection,
   query,
+  orderBy,
 } from "firebase/firestore";
 import { sendEmailVerification, signOut } from "firebase/auth";
 import Spinner from "react-native-loading-spinner-overlay";
@@ -76,15 +77,15 @@ export default function HomeScreen() {
       }
     );
 
-    const fetchResults = async () => {
+    const fetchResults = async () => {  
       try {
         const q = query(
-          collection(firestoreDB, "users", auth.currentUser.uid, "results")
+          collection(firestoreDB, "users", auth.currentUser.uid, "results"),
+          orderBy("timestamp", "desc")
         );
         const querySnapshot = await getDocs(q);
         // Check if the subcollection is empty
         if (querySnapshot.empty) {
-          console.log("The results subcollection is empty.");
           setResults([
             {
               bmi: 0,
@@ -93,6 +94,7 @@ export default function HomeScreen() {
               height: 0,
               time: "0",
               weight: 0,
+              recommendation: "0"
             },
           ]);
           setNoResults(false);
@@ -102,7 +104,7 @@ export default function HomeScreen() {
             fetchedResults.push(doc.data());
           });
           setResults(fetchedResults);
-          setRecentResults(fetchedResults.slice(-1)[0]);
+          setRecentResults(fetchedResults.slice(0)[0]);
           setNoResults(false);
         }
         setLoading(false);
@@ -175,7 +177,7 @@ export default function HomeScreen() {
           </Text>
           {loading ? (
             <View className="items-center justify-center p-10">
-              <Text>Loading...</Text>
+              <Text className="dark:text-white">Loading...</Text>
             </View>
           ) : (
             <>
@@ -187,10 +189,16 @@ export default function HomeScreen() {
                 >
                   <LineChart
                     data={{
-                      labels: results.map((item) => item.date),
+                      labels: results
+                        .slice()
+                        .reverse()
+                        .map((item) => item.date),
                       datasets: [
                         {
-                          data: results.map((item) => parseFloat(item.bmi)),
+                          data: results
+                            .slice()
+                            .reverse()
+                            .map((item) => parseFloat(item.bmi)),
                           strokeWidth: 2,
                         },
                       ],
@@ -230,7 +238,7 @@ export default function HomeScreen() {
                 </ScrollView>
               ) : (
                 <View className="items-center justify-center p-10">
-                  <Text>Loading...</Text>
+                  <Text className="dark:text-white">Loading...</Text>
                 </View> // Render if no results are available
               )}
             </>
@@ -269,7 +277,7 @@ export default function HomeScreen() {
               (value) => value === 0 || value === "0"
             ) ? (
             <View className="flex-1 items-center justify-center bg-slate-200 border-2 border-slate-400 dark:bg-[#131f29] dark:border-2 dark:border-slate-400  m-3 rounded-3xl">
-              <Text>No Recent Results</Text>
+              <Text className="dark:text-white">No Recent Results</Text>
             </View>
           ) : (
             <View className="flex-1 bg-slate-200 border-2 border-slate-400 dark:bg-[#131f29] dark:border-2 dark:border-slate-400  m-3 rounded-3xl  ">

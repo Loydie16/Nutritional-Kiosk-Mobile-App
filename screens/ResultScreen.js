@@ -34,7 +34,7 @@ function ResultScreen({ route }) {
             <View className="flex-1 bg-slate-200 border-2 border-slate-400 m-3 rounded-3xl dark:bg-[#151c22] dark:border-2 dark:border-slate-400  ">
               {isNoResults ? (
                 <View className="items-center justify-center p-10">
-                  <Text>No Previous Result</Text>
+                  <Text className="dark:text-white" >No Previous Result</Text>
                 </View>
               ) : (
                 <>

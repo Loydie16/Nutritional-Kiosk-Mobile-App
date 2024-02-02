@@ -88,15 +88,6 @@ export default function BottomNavBar() {
             headerStyle: {
               backgroundColor: colorScheme === "dark" ? "#151c22" : "#ffffff",
             },
-            headerRight: () => (
-              <TouchableOpacity>
-                <Text
-                  style={{ color: "#1e81b0", fontSize: 18, marginRight: 15 }}
-                >
-                  Edit <Icon name="edit" size={15} />
-                </Text>
-              </TouchableOpacity>
-            ),
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons
                 name="account"
