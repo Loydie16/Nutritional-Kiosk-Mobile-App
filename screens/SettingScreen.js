@@ -15,12 +15,14 @@ import { signOut, deleteUser } from "firebase/auth";
 import { auth, firestoreDB } from "../config/firebase";
 import { doc, deleteDoc } from "firebase/firestore";
 import Toast from "react-native-toast-message";
+import { TextInput as PaperTextInput } from "react-native-paper";
 
 export default function SettingScreen() {
   const { colorScheme, toggleColorScheme } = useColorScheme();
   const [isModalVisible, setModalVisible] = useState(false);
   const [isModalDeleteVisible, setModalDeleteVisible] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [deleteInputValue, setDeleteInputValue] = useState("");
+  const [isDeleteButtonEnabled, setDeleteButtonEnabled] = useState(false);
 
   const darkTheme = () => {
     toggleColorScheme();
@@ -38,10 +40,7 @@ export default function SettingScreen() {
 
   const toggleDeleteModal = () => {
     setModalDeleteVisible(!isModalDeleteVisible);
-    setIsDisabled(true);
-    setTimeout(() => {
-      setIsDisabled(false);
-    }, 5000);
+
   };
 
   const handleBackPress = () => {
@@ -68,10 +67,17 @@ export default function SettingScreen() {
   const deleteAcc = async () => {
     const user = auth.currentUser;
 
-    await deleteDoc(doc(firestoreDB, "users", auth.currentUser.uid));
+    if (!user) {
+      console.log("No user is currently signed in.");
+      return;
+    }
+
+    const userId = user.uid;
 
     deleteUser(user)
-      .then(() => {
+      .then(async () => {
+        // Make the function async
+        await deleteDoc(doc(firestoreDB, "users", userId));
         Toast.show({
           type: "success",
           text1: `Successfully deleted account!`,
@@ -79,7 +85,11 @@ export default function SettingScreen() {
         });
       })
       .catch((error) => {
-        console.log("Error deleting user:", error);
+        Toast.show({
+          type: "error",
+          text1: `Error deleting account!`,
+          text2: error.code + " Log out and try again.",
+        });
       });
   };
 
@@ -91,6 +101,11 @@ export default function SettingScreen() {
 
     return () => backHandler.remove();
   }, []);
+
+  useEffect(() => {
+    // Enable or disable the delete button based on the text input value
+    setDeleteButtonEnabled(deleteInputValue === "delete");
+  }, [deleteInputValue]);
 
   return (
     <View className="flex-1 flex-col space-y-3 p-4 dark:bg-[#000000]">
@@ -211,7 +226,6 @@ export default function SettingScreen() {
               size={20}
               color={colorScheme === "dark" ? "#ffffff" : "#000"}
             />
-            
           </View>
         </TouchableOpacity>
         <TouchableOpacity
@@ -260,7 +274,6 @@ export default function SettingScreen() {
 
       <Modal
         isVisible={isModalDeleteVisible}
-        onBackdropPress={() => setModalDeleteVisible(false)}
         animationIn={"fadeInUp"}
         animationInTiming={500}
       >
@@ -268,12 +281,35 @@ export default function SettingScreen() {
           <Text className="text-xl self-center justify-center tracking-wide leading-2 text-center dark:text-white">
             Are you sure you want to delete your account?
           </Text>
-          <View className="flex-row justify-evenly mt-10 w-full h-10 ">
+          <View className="flex-row items-center justify-between py-6 px-4">
+            <PaperTextInput
+              className={
+                "w-full bg-gray-300 text-gray-1000 rounded-2xl border-2 border-transparent "
+              }
+              placeholder='Type "delete"'
+              cursorColor="black"
+              selectionColor="black"
+              activeUnderlineColor="transparent"
+              underlineColor="transparent"
+              value={deleteInputValue}
+              onChangeText={(text) => setDeleteInputValue(text)}
+              autoCapitalize="none"
+            />
+          </View>
+          <View className="flex-row justify-evenly w-full h-10 ">
             <TouchableOpacity
-              className="flex-row bg-red-400 rounded-xl w-24 items-center justify-center"
+              className={`flex-row bg-red-400 rounded-xl w-24 items-center justify-center ${
+                isDeleteButtonEnabled ? "" : "opacity-40"
+              }`}
               title="Hide modal"
-              disabled={isDisabled}
-              onPress={deleteAcc}
+              onPress={() => {
+                if (isDeleteButtonEnabled) {
+                  deleteAcc(); // Invoke deleteAcc function
+                  setDeleteInputValue(""); // Clear the value of deleteInputValue
+                  toggleDeleteModal(); // Close the modal
+                }
+              }}
+              disabled={!isDeleteButtonEnabled}
             >
               <Icon
                 name="alert-octagon"
@@ -285,7 +321,10 @@ export default function SettingScreen() {
             <TouchableOpacity
               className="bg-green-400 rounded-xl w-24 items-center justify-center"
               title="Hide modal"
-              onPress={toggleDeleteModal}
+              onPress={() => {
+                setDeleteInputValue(""); // Clear the value of deleteInputValue
+                toggleDeleteModal(); // Close the modal
+              }}
             >
               <Text>No</Text>
             </TouchableOpacity>
