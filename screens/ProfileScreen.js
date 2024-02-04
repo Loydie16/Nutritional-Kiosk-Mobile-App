@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Button,
+  ActivityIndicator,
 } from "react-native";
 import { TextInput as PaperTextInput, Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -17,6 +18,7 @@ import { RadioButton } from "react-native-paper";
 import { sendPasswordResetEmail, signOut } from "firebase/auth";
 import { auth, firestoreDB } from "../config/firebase";
 import Toast from "react-native-toast-message";
+import Spinner from "react-native-loading-spinner-overlay";
 import {
   serverTimestamp,
   doc,
@@ -36,7 +38,8 @@ export default function ProfileScreen() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(true);
-
+  const [loadingSave, setLoadingSave] = useState(false);
+  const [loadingReset, setLoadingReset] = useState(false);
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
@@ -131,41 +134,46 @@ export default function ProfileScreen() {
     });
   };
 
-
   const resetPass = async () => {
-    sendPasswordResetEmail(auth, auth.currentUser.email)
-      .then(() => {
-        showResetToast();
-        signOut(auth);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode);
-        // ..
-      });
+    setLoadingReset(true);
+    try {
+      await sendPasswordResetEmail(auth, auth.currentUser.email);
+      showResetToast();
+      signOut(auth);
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode);
+      // Handle error if needed
+    } finally {
+      // Code in the finally block will always execute, regardless of whether an error occurred or not.
+      setLoadingReset(false); // For example, you can reset loading state here.
+    }
   };
 
-    const updateData = async () => {
-      const docRef = doc(firestoreDB, "users", auth.currentUser.uid);
-      const updates = {
-        username: username,
-        birthdate: formattedDate,
-        age: age,
-        gender: gender,
-      };
-
-      try {
-        await updateDoc(docRef, updates);
-        setEditMode(false);
-        showUpdateToast();
-      } catch (error) {
-        console.error("Error updating document: ", error);
-      }
+  const updateData = async () => {
+    setLoadingSave(true);
+    const docRef = doc(firestoreDB, "users", auth.currentUser.uid);
+    const updates = {
+      username: username,
+      birthdate: formattedDate,
+      age: age,
+      gender: gender,
     };
 
+    try {
+      await updateDoc(docRef, updates);
+      setEditMode(false);
+      showUpdateToast();
+    } catch (error) {
+      console.error("Error updating document: ", error);
+    }
+    finally {
+      setLoadingSave(false);
+    }
+  };
 
-   useEffect(() => {
+  useEffect(() => {
     const docRef = doc(firestoreDB, "users", auth.currentUser.uid);
     const usersRef = collection(firestoreDB, "users");
 
@@ -177,7 +185,7 @@ export default function ProfileScreen() {
           const fetchedUsername = userData.username;
           const fetchedEmail = auth.currentUser.email;
           const fetchedBirthdate = userData.birthdate;
-          const fetchedAge = userData.age; 
+          const fetchedAge = userData.age;
           const fetchedGender = userData.gender;
 
           setOriginalUsername(fetchedUsername);
@@ -199,14 +207,18 @@ export default function ProfileScreen() {
         console.error("Error fetching username:", error);
       }
     );
-
-    
-   }, []);
-
-  
+  }, []);
 
   return (
     <>
+      <Spinner
+        visible={loading}
+        textContent={"Loading..."}
+        textStyle={{ color: "#FFF" }}
+        color="#FFFFFF"
+        animation="fade"
+        overlayColor="rgba(0, 0, 0, 0.50)"
+      />
       <ScrollView className="flex-1 dark:bg-[#000000]">
         <View className="flex-1 m-2 rounded-2xl  bg-slate-200 border-2 border-slate-400 dark:bg-[#232323] dark:border-2 dark:border-slate-400 ">
           <View className="form space-y-2   ">
@@ -380,10 +392,16 @@ export default function ProfileScreen() {
                 <TouchableOpacity
                   className="p-4 bg-green-400 rounded-xl"
                   onPress={updateData}
+                  disabled={loadingSave}
                 >
-                  <Text>
-                    <Icon name="save" size={15} /> Save Changes
-                  </Text>
+                  {loadingSave ? (
+                    // If loading is true, show the activity indicator
+                    <ActivityIndicator size="large" color="#ffffff" />
+                  ) : (
+                    <Text>
+                      <Icon name="save" size={15} /> Save Changes
+                    </Text>
+                  )}
                 </TouchableOpacity>
               )}
             </View>
@@ -429,7 +447,12 @@ export default function ProfileScreen() {
               title="Hide modal"
               onPress={resetPass}
             >
-              <Text>Yes</Text>
+              {loadingReset ? (
+                // If loading is true, show the activity indicator
+                <ActivityIndicator size="small" color="#ffffff" />
+              ) : (
+                <Text>Yes</Text>
+              )}
             </TouchableOpacity>
             <TouchableOpacity
               className="bg-green-400 rounded-xl w-24 items-center justify-center"

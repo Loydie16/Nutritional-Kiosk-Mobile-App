@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   BackHandler,
   Switch,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import Lottie from "lottie-react-native";
@@ -23,6 +24,7 @@ export default function SettingScreen() {
   const [isModalDeleteVisible, setModalDeleteVisible] = useState(false);
   const [deleteInputValue, setDeleteInputValue] = useState("");
   const [isDeleteButtonEnabled, setDeleteButtonEnabled] = useState(false);
+  const [loadingLogout, setLoadingLogout] = useState(false);
 
   const darkTheme = () => {
     toggleColorScheme();
@@ -60,10 +62,21 @@ export default function SettingScreen() {
   };
 
   const handleLogout = async () => {
-    await signOut(auth);
-    showLogoutToast();
+    setLoadingLogout(true);
+    try {
+      await signOut(auth);
+      showLogoutToast();
+    } catch (error) {
+      // Handle error if necessary
+      Toast.show({
+        type: "error",  
+        text1: `Error logging out!`,
+        text2: error + ". Please try again.",
+      });
+    } finally {
+      setLoadingLogout(false); // Reset loading state
+    }
   };
-
   const deleteAcc = async () => {
     const user = auth.currentUser;
 
@@ -259,7 +272,12 @@ export default function SettingScreen() {
               title="Hide modal"
               onPress={handleLogout}
             >
-              <Text>Yes</Text>
+              {loadingLogout ? (
+                // If loading is true, show the activity indicator
+                <ActivityIndicator size="large" color="#ffffff" />
+              ) : (
+                <Text>Yes</Text>
+              )}
             </TouchableOpacity>
             <TouchableOpacity
               className="bg-green-400 rounded-xl w-24 items-center justify-center"

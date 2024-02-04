@@ -1,5 +1,5 @@
 import Home from "./HomeScreen"
-import Profile  from "./ProfieScreen"
+import Profile  from "./ProfileScreen"
 import BMIScreen from "./BMIScreen"
 import QRScanner from "./QRScanner"
 import SettingScreen from "./SettingScreen"

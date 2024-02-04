@@ -171,6 +171,7 @@ export default function LoginScreen() {
           setLoginDisabledUntil(null);
           setShowText(false);
           setDisabled(false);
+          setLoginError(false);
         }
       }
     }, 1000); // Update every second

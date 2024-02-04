@@ -132,7 +132,7 @@ export default function HomeScreen() {
         textStyle={{ color: "#FFF" }}
         color="#FFFFFF"
         animation="fade"
-        overlayColor="rgba(0, 0, 0, 0.85)"
+        overlayColor="rgba(0, 0, 0, 0.50)"
       />
       <View className="flex-1 bg-neutral-200 dark:bg-[#000000]  ">
         <View className="h-1/5 bg-neutral-100  dark:bg-[#232323] dark:border-slate-400 rounded-b-3xl">
