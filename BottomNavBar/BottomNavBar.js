@@ -64,6 +64,7 @@ export default function BottomNavBar() {
           component={QRScanner}
           options={{
             tabBarLabel: "Scan",
+            headerShown: false,
             headerTintColor: colorScheme === "dark" ? "#ffffff" : "#151c22",
             headerStyle: {
               backgroundColor: colorScheme === "dark" ? "#151c22" : "#ffffff",

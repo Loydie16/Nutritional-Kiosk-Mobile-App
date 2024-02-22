@@ -353,7 +353,7 @@ export default function ProfileScreen() {
                 bold={true}
                 horizontalInset={true}
               />
-              <View className="flex-1 items-start -ml-2 mr-16 dark:bg-slate-400 dark:rounded-xl">
+              <View className="flex-1 items-start -ml-2  dark:bg-slate-400 dark:rounded-xl">
                 <View className="flex-row items-center   ">
                   <RadioButton
                     value="Male "
