@@ -6,6 +6,8 @@ import {
   getReactNativePersistence,
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { getDatabase } from "firebase/database";
+import "firebase/compat/database";
 import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -16,6 +18,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyAgwMvS2OM3pfcpPkmdE08gXiUIbqCDe28",
   authDomain: "thesisdb-96833.firebaseapp.com",
   projectId: "thesisdb-96833",
+  databaseURL: "https://thesisdb-96833-default-rtdb.asia-southeast1.firebasedatabase.app/",
   storageBucket: "thesisdb-96833.appspot.com",
   messagingSenderId: "53808496578",
   appId: "1:53808496578:web:7550ebce84ad252a14605b",
@@ -31,6 +34,8 @@ const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(ReactNativeAsyncStorage),
 });
 
-export { auth, firestoreDB };
+const database = getDatabase(app);
+
+export { auth, firestoreDB, database };
 
 

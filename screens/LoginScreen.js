@@ -353,18 +353,9 @@ export default function LoginScreen() {
                         onPress={handleReset}
                       >
                         {" "}
-                        Terms{" "}
+                        Terms and Agreements
                       </Text>
-                    </TouchableOpacity>
-                    <Text className="text-gray-500 font-semibold text-m">
-                      and
-                    </Text>
-                    <TouchableOpacity>
-                      <Text className="font-semibold text-blue-500 text-m">
-                        {" "}
-                        Agreements
-                      </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity>                         
                   </View>
                   <View className="m-3"></View>
                 </View>

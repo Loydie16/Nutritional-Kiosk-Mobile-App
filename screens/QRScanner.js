@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button, Touchable, TouchableOpacity, StatusBar, ActivityIndicator } from 'react-native';
+import { Text, View, TouchableOpacity, StatusBar, ActivityIndicator } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useColorScheme } from "../theme/colorScheme";
+import { auth, database } from "../config/firebase";
+import { getDatabase, ref, onValue, get, child, set} from "firebase/database";
+import { useNavigation } from "@react-navigation/native"; // Import useNavigation
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const { colorScheme } = useColorScheme();
   const [cameraType, setCameraType] = useState(BarCodeScanner.Constants.Type.back);
+  const navigation = useNavigation(); // Initialize navigation
+
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
@@ -22,8 +27,52 @@ export default function App() {
   const handleBarCodeScanned = ({ type, data }) => {
     //setScanned(true);
      if (!scanned) {
+      const dbRef = ref(getDatabase());
+      get(child(dbRef, `sessions`))
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const sessions = snapshot.val();
+
+            // Initialize variables to hold the most recent session data
+            let mostRecentSessionId = null;
+            let mostRecentCreatedAt = null;
+
+            // Iterate through each session
+            Object.keys(sessions).forEach((sessionId) => {
+              const session = sessions[sessionId];
+              const createdAt = new Date(session.created_at);
+
+              // Check if the session is more recent than the current most recent session
+              if (!mostRecentCreatedAt || createdAt > mostRecentCreatedAt) {
+                mostRecentSessionId = sessionId;
+                mostRecentCreatedAt = createdAt;
+              }
+            });
+
+            if (mostRecentSessionId) {
+              if (mostRecentSessionId == data) {
+                console.log(mostRecentSessionId);
+                console.log(data);
+                set(ref(database, `sessions/${mostRecentSessionId}/userID`), auth.currentUser.uid);
+                alert("Successfully Logged In");
+                
+              } else {
+                alert("Invalid QR Code");
+                console.log(mostRecentSessionId);
+                console.log(data);
+              }
+            } else {
+              console.log("No session data available");
+            }
+          } else {
+            console.log("No data available");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
        setScanned(true);
-       alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+       
        setTimeout(() => {
          setScanned(false);
        }, 5000); // Adjust the delay time in milliseconds (e.g., 5000 for 5 seconds)
