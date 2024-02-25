@@ -50,7 +50,7 @@ export default function SignUpScreen() {
   const showToast = (values) => {
     Toast.show({
       type: "success",
-      text1: `Successfully account created!`,
+      text1: `Account created successfully!`,
       text2: "Logged out due to unverified email. Please verify.",
       duration: 10000,
     });
@@ -171,17 +171,17 @@ export default function SignUpScreen() {
 
         sendEmailVerification(auth.currentUser)
           .then(() => {
-            console.log("Email verification sent!");
+            alert("Email verification sent!");
           })
           .catch((error) => {
-            console.log("Error sending email verification", error);
+            alert("Error sending email verification: ", error);
           });
 
         await signOut(auth);
         showToast();
       } catch (err) {
         showErrorToast(err);
-        console.log("got error", err);
+        alert(err);
       } finally {
         // Reset loading state after authentication request completes (success or error)
         setLoading(false);

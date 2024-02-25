@@ -51,15 +51,12 @@ export default function App() {
 
             if (mostRecentSessionId) {
               if (mostRecentSessionId == data) {
-                console.log(mostRecentSessionId);
-                console.log(data);
-                set(ref(database, `sessions/${mostRecentSessionId}/userID`), auth.currentUser.uid);
-                alert("Successfully Logged In");
                 
+                set(ref(database, `sessions/${mostRecentSessionId}/userID`), auth.currentUser.uid);
+                alert("You have successfully logged in on the kiosk!");
+                navigation.navigate("Home"); // Navigate to the Home screen
               } else {
-                alert("Invalid QR Code");
-                console.log(mostRecentSessionId);
-                console.log(data);
+                alert("Invalid QR Code");   
               }
             } else {
               console.log("No session data available");
