@@ -77,6 +77,7 @@ export default function SettingScreen() {
       setLoadingLogout(false); // Reset loading state
     }
   };
+  
   const deleteAcc = async () => {
     const user = auth.currentUser;
 

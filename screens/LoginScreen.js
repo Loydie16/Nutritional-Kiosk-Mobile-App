@@ -103,7 +103,7 @@ export default function LoginScreen() {
           showVerifyToast();
         }
       } catch (err) {
-        console.log(err);
+        //console.log(err);
         showErrorToast();
         setLoginError(true);
         setLoginAttempts(loginAttempts - 1);
@@ -234,7 +234,7 @@ export default function LoginScreen() {
                       <View className="flex justify-center items-center bg-red-400 p-3 rounded-2xl">
                         <Text className="text-white text-center tracking-wide leading-5">
                           Logging In is currently disabled. Please try again in{" "}
-                          {remainingTime}
+                          {remainingTime}.
                         </Text>
                       </View>
                     )}
@@ -357,7 +357,11 @@ export default function LoginScreen() {
                       </Text>
                     </TouchableOpacity>                         
                   </View>
-                  <View className="m-3"></View>
+                  <View className="m-6">
+                    <Text className="text-center italic text-gray-500 font-semibold text-m">
+                      version 1.0.0
+                    </Text>
+                  </View>
                 </View>
               </View>
             </>

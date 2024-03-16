@@ -65,10 +65,7 @@ export default function BottomNavBar() {
           options={{
             tabBarLabel: "Scan",
             headerShown: false,
-            headerTintColor: colorScheme === "dark" ? "#ffffff" : "#151c22",
-            headerStyle: {
-              backgroundColor: colorScheme === "dark" ? "#151c22" : "#ffffff",
-            },
+            
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons
                 name="qrcode-scan"

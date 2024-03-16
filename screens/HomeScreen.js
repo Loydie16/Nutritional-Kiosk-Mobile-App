@@ -153,11 +153,12 @@ export default function HomeScreen() {
                   {username}!
                 </Text>
               </View>
-              <View className="items-end   self-center">
+              <View className="items-end self-center">
                 <Image
                   source={require("../assets/images/Profile-icon.png")}
                   style={{
                     tintColor: colorScheme === "dark" ? "#ffffff" : "#000000",
+                  
                   }}
                 />
               </View>
