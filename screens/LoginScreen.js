@@ -350,12 +350,12 @@ export default function LoginScreen() {
                     <TouchableOpacity>
                       <Text
                         className="font-semibold text-blue-500 text-m"
-                        onPress={handleReset}
+                        onPress={() => navigation.navigate("TermsAgreements")}
                       >
                         {" "}
-                        Terms and Agreements
+                        Terms and Conditions
                       </Text>
-                    </TouchableOpacity>                         
+                    </TouchableOpacity>
                   </View>
                   <View className="m-6">
                     <Text className="text-center italic text-gray-500 font-semibold text-m">

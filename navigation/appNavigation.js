@@ -8,6 +8,7 @@ import BottomNavBar from "../BottomNavBar/BottomNavBar";
 import DetailsScreen from "../screens/DetailsScreen";
 import ResultScreen from "../screens/ResultScreen";
 import ForgotPass from "../screens/ForgotPass";
+import TermsAgreementsScreen from "../screens/TermsAgreementsScreen.js";
 import { getItem } from "../utils/asyncStorage.js";
 import { useColorScheme } from "../theme/colorScheme";
 import useAuth from "../hooks/useAuth";
@@ -83,6 +84,19 @@ export default function AppNavigation() {
               }}
               component={ResultScreen}
             />
+            <Stack.Screen
+              name="TermsAgreements"
+              options={{
+                headerShown: true,
+                title: "Terms and Agrrements",
+                headerTintColor: colorScheme === "dark" ? "#ffffff" : "#151c22",
+                headerStyle: {
+                  backgroundColor:
+                    colorScheme === "dark" ? "#151c22" : "#ffffff",
+                },
+              }}
+              component={TermsAgreementsScreen}
+            />
           </>
         ) : (
           <>
@@ -105,6 +119,10 @@ export default function AppNavigation() {
               name="ForgotPass"
               options={{ headerShown: false }}
               component={ForgotPass}
+            />
+            <Stack.Screen
+              name="TermsAgreements"
+              component={TermsAgreementsScreen}
             />
           </>
         )}

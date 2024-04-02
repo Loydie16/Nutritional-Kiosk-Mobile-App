@@ -28,6 +28,7 @@ export default function BottomNavBar() {
           tabBarStyle: {
             backgroundColor: colorScheme === "dark" ? "#151c22" : "#ffffff",
           },
+          //unmountOnBlur: true, // Add this line to prevent unmounting on blur
         }}
       >
         <Tab.Screen
@@ -65,7 +66,7 @@ export default function BottomNavBar() {
           options={{
             tabBarLabel: "Scan",
             headerShown: false,
-            
+
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons
                 name="qrcode-scan"
@@ -73,6 +74,7 @@ export default function BottomNavBar() {
                 size={size}
               />
             ),
+            unmountOnBlur: true, // Add this line to prevent unmounting on blur
           }}
         />
 
