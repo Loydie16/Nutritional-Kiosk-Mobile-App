@@ -108,7 +108,7 @@ export default function LoginScreen() {
         setLoginError(true);
         setLoginAttempts(loginAttempts - 1);
         if (loginAttempts === 0) {
-          const disabledUntil = Date.now() + 1 * 30 * 1000;
+          const disabledUntil = Date.now() + 2 * 60 * 1000;
           setLoginDisabledUntil(disabledUntil);
           setShowText(true);
           setDisabled(true);
@@ -350,10 +350,10 @@ export default function LoginScreen() {
                     <TouchableOpacity>
                       <Text
                         className="font-semibold text-blue-500 text-m"
-                        onPress={() => navigation.navigate("TermsAgreements")}
+                        onPress={() => navigation.navigate("TermsAgreements")} //handleReset()}//
                       >
                         {" "}
-                        Terms and Conditions
+                        Terms and Agreements
                       </Text>
                     </TouchableOpacity>
                   </View>

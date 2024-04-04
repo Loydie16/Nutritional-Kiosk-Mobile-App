@@ -11,7 +11,7 @@ export default function TermsAgreementsScreen() {
           application.
         </Text>
 
-        <Text className="text-justify tracking-wide leading-5 mt-4">
+        <Text className="text-justify tracking-wide leading-5">
           By accessing this mobile application, we assume you accept these terms
           and conditions. Do not continue to use [Your Mobile Application Name]
           if you do not agree to take all of the terms and conditions stated on
@@ -19,7 +19,7 @@ export default function TermsAgreementsScreen() {
         </Text>
       </View>
 
-      <View className="px-6 pt-2">
+      <View className="px-6 pt-10">
         <Text className="font-bold text-xl">License</Text>
         <Text className="text-justify tracking-wide leading-5 mt-4">
           Unless otherwise stated, [Your Company Name] and/or its licensors own
@@ -31,7 +31,7 @@ export default function TermsAgreementsScreen() {
         </Text>
       </View>
 
-      <View className="px-6 pt-6">
+      <View className="px-6 pt-10">
         <Text className="font-bold text-xl">Restrictions</Text>
         <Text className="text-justify tracking-wide leading-5 mt-4 font-semibold">
           You are specifically restricted from all of the following:
@@ -61,6 +61,54 @@ export default function TermsAgreementsScreen() {
           • Engaging in any data mining, data harvesting, data extracting, or
           any other similar activity in relation to [Your Mobile Application
           Name].
+        </Text>
+      </View>
+
+      <View className="px-6 pt-10">
+        <Text className="font-bold text-xl">Your Content</Text>
+        <Text className="text-justify tracking-wide leading-5 mt-4">
+          In these terms and conditions, "Your Content" shall mean any audio,
+          video text, images, or other material you choose to display on [Your
+          Mobile Application Name]. By displaying Your Content, you grant [Your
+          Company Name] a non-exclusive, worldwide, irrevocable, sub-licensable
+          license to use, reproduce, adapt, publish, translate, and distribute
+          it in any and all media.
+        </Text>
+      </View>
+
+      <View className="px-6 pt-10">
+        <Text className="font-bold text-xl">Reservation of Rights</Text>
+        <Text className="text-justify tracking-wide leading-5 mt-4">
+          We reserve the right to request that you remove all links or any
+          particular link to [Your Mobile Application Name]. You approve to
+          immediately remove all links to [Your Mobile Application Name] upon
+          request. We also reserve the right to amend these terms and conditions
+          and it's linking policy at any time. By continuously linking to [Your
+          Mobile Application Name], you agree to be bound to and follow these
+          linking terms and conditions.
+        </Text>
+      </View>
+
+      <View className="px-6 pt-10">
+        <Text className="font-bold text-xl">Governing Law & Jurisdiction</Text>
+        <Text className="text-justify tracking-wide leading-5 mt-4">
+          These terms will be governed by and interpreted in accordance with the
+          laws of the jurisdiction of [Your Country], and you submit to the
+          non-exclusive jurisdiction of the state and federal courts located in
+          [Your Country] for the resolution of any disputes.
+        </Text>
+      </View>
+
+      <View className="px-6 pt-10">
+        <Text className="font-bold text-xl">
+          Changes to These Terms and Conditions
+        </Text>
+        <Text className="text-justify tracking-wide leading-5 mt-4">
+          We reserve the right, at our sole discretion, to modify or replace
+          these terms at any time. By continuing to access or use our mobile
+          application after those revisions become effective, you agree to be
+          bound by the revised terms. If you do not agree to the new terms,
+          please stop using [Your Mobile Application Name].
         </Text>
       </View>
     </ScrollView>

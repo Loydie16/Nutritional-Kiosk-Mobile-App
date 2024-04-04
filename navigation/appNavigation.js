@@ -9,6 +9,7 @@ import DetailsScreen from "../screens/DetailsScreen";
 import ResultScreen from "../screens/ResultScreen";
 import ForgotPass from "../screens/ForgotPass";
 import TermsAgreementsScreen from "../screens/TermsAgreementsScreen.js";
+import HelpSupport from "../screens/HelpSupport.js";
 import { getItem } from "../utils/asyncStorage.js";
 import { useColorScheme } from "../theme/colorScheme";
 import useAuth from "../hooks/useAuth";
@@ -88,7 +89,7 @@ export default function AppNavigation() {
               name="TermsAgreements"
               options={{
                 headerShown: true,
-                title: "Terms and Agrrements",
+                title: "Terms & Agreements",
                 headerTintColor: colorScheme === "dark" ? "#ffffff" : "#151c22",
                 headerStyle: {
                   backgroundColor:
@@ -96,6 +97,20 @@ export default function AppNavigation() {
                 },
               }}
               component={TermsAgreementsScreen}
+            />
+
+            <Stack.Screen
+              name="HelpSupport"
+              options={{
+                headerShown: true,
+                title: "Help & Support",
+                headerTintColor: colorScheme === "dark" ? "#ffffff" : "#151c22",
+                headerStyle: {
+                  backgroundColor:
+                    colorScheme === "dark" ? "#151c22" : "#ffffff",
+                },
+              }}
+              component={HelpSupport}
             />
           </>
         ) : (
@@ -122,6 +137,10 @@ export default function AppNavigation() {
             />
             <Stack.Screen
               name="TermsAgreements"
+              options={{
+                headerShown: true,
+                title: "Terms & Agreements",
+              }}
               component={TermsAgreementsScreen}
             />
           </>
