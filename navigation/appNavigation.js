@@ -10,10 +10,12 @@ import ResultScreen from "../screens/ResultScreen";
 import ForgotPass from "../screens/ForgotPass";
 import TermsAgreementsScreen from "../screens/TermsAgreementsScreen.js";
 import HelpSupport from "../screens/HelpSupport.js";
+import AboutApp from "../screens/AboutApp.js";
 import { getItem } from "../utils/asyncStorage.js";
 import { useColorScheme } from "../theme/colorScheme";
 import useAuth from "../hooks/useAuth";
 import { View, ActivityIndicator } from "react-native";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -39,8 +41,18 @@ export default function AppNavigation() {
 
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" color="#0000ff" />
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: colorScheme === "dark" ? "#000000" : "#ffffff",
+        }}
+      >
+        <ActivityIndicator
+          size="large"
+          color={colorScheme === "dark" ? "#ffffff" : "#000000"}
+        />
       </View>
     );
   }
@@ -111,6 +123,20 @@ export default function AppNavigation() {
                 },
               }}
               component={HelpSupport}
+            />
+
+            <Stack.Screen
+              name="AboutApp"
+              options={{
+                headerShown: true,
+                title: "About App",
+                headerTintColor: colorScheme === "dark" ? "#ffffff" : "#151c22",
+                headerStyle: {
+                  backgroundColor:
+                    colorScheme === "dark" ? "#151c22" : "#ffffff",
+                },
+              }}
+              component={AboutApp}
             />
           </>
         ) : (

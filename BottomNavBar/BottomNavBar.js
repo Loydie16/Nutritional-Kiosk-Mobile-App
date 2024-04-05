@@ -11,13 +11,15 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { Home, Profile, BMIScreen, QRScanner, SettingScreen } from "../screens";
 import Icon from "react-native-vector-icons/Feather";
 import { useColorScheme } from "../theme/colorScheme";
+import { setBackgroundColorAsync } from "expo-navigation-bar";
 
 export default function BottomNavBar() {
   const Tab = createBottomTabNavigator();
   const { colorScheme } = useColorScheme();
-
+  setBackgroundColorAsync(colorScheme === "dark" ? "#000000" : "#ffffff");
   return (
     <>
+
       <StatusBar backgroundColor="transparent" translucent={true} />
       <Tab.Navigator
         initialRouteName="Home"
@@ -26,7 +28,7 @@ export default function BottomNavBar() {
           tabBarInactiveTintColor:
             colorScheme === "dark" ? "#5e5e65" : "#5e5e65",
           tabBarStyle: {
-            backgroundColor: colorScheme === "dark" ? "#151c22" : "#ffffff",
+            backgroundColor: colorScheme === "dark" ? "#151c22" : "#ffffff",      
           },
           //unmountOnBlur: true, // Add this line to prevent unmounting on blur
         }}
@@ -57,6 +59,7 @@ export default function BottomNavBar() {
                 size={size}
               />
             ),
+            unmountOnBlur: true, // Add this line to prevent unmounting on blur
           }}
         />
 

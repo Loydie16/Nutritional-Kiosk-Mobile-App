@@ -28,9 +28,9 @@ export default function SettingScreen() {
   const [loadingLogout, setLoadingLogout] = useState(false);
   const navigation = useNavigation();
 
-  const darkTheme = () => {
+  const darkTheme = async () => {
     toggleColorScheme();
-    setTheme("darken", "1");
+    await setTheme("darken", "1");
   };
 
   const lightTheme = async () => {
@@ -160,7 +160,10 @@ export default function SettingScreen() {
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity className="flex-row items-center justify-between rounded-2xl h-16 bg-slate-300 border-2 border-slate-400 dark:bg-[#232323] dark:border-2 dark:border-slate-400 ">
+      <TouchableOpacity
+        className="flex-row items-center justify-between rounded-2xl h-16 bg-slate-300 border-2 border-slate-400 dark:bg-[#232323] dark:border-2 dark:border-slate-400 "
+        onPress={() => navigation.navigate("AboutApp")}
+      >
         <View className="px-4 flex-row items-center justify-center">
           <Icon
             name="alert-circle"

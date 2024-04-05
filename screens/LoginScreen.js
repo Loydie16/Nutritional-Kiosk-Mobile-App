@@ -24,6 +24,7 @@ import {
 import { auth } from "../config/firebase";
 import Toast from "react-native-toast-message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { setBackgroundColorAsync } from "expo-navigation-bar";
 
 export default function LoginScreen() {
   const navigation = useNavigation();
@@ -36,6 +37,7 @@ export default function LoginScreen() {
   const [remainingTime, setRemainingTime] = useState(0);
   const [showText, setShowText] = useState(false);
   const [disabled, setDisabled] = useState(false);
+  setBackgroundColorAsync("#ffffff");
 
   const showToast = (values) => {
     Toast.show({
@@ -233,7 +235,7 @@ export default function LoginScreen() {
                     {showText && (
                       <View className="flex justify-center items-center bg-red-400 p-3 rounded-2xl">
                         <Text className="text-white text-center tracking-wide leading-5">
-                          Logging In is currently disabled. Please try again in{" "}
+                          Logging in is currently disabled. Please try again in{" "}
                           {remainingTime}.
                         </Text>
                       </View>
