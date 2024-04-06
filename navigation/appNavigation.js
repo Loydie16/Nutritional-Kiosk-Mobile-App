@@ -101,7 +101,7 @@ export default function AppNavigation() {
               name="TermsAgreements"
               options={{
                 headerShown: true,
-                title: "Terms & Agreements",
+                title: "Terms & Conditions",
                 headerTintColor: colorScheme === "dark" ? "#ffffff" : "#151c22",
                 headerStyle: {
                   backgroundColor:
@@ -165,7 +165,7 @@ export default function AppNavigation() {
               name="TermsAgreements"
               options={{
                 headerShown: true,
-                title: "Terms & Agreements",
+                title: "Terms & Conditions",
               }}
               component={TermsAgreementsScreen}
             />

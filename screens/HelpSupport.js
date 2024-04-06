@@ -14,29 +14,33 @@ import Accordion from "react-native-collapsible/Accordion";
 import Icon from "react-native-vector-icons/Feather";
 import { useNavigation } from "@react-navigation/native";
 
-const BACON_IPSUM =
-  "Bacon ipsum dolor amet chuck turducken landjaeger tongue spare ribs. Picanha beef prosciutto meatball turkey shoulder shank salami cupim doner jowl pork belly cow. Chicken shankle rump swine tail frankfurter meatloaf ground round flank ham hock tongue shank andouille boudin brisket. ";
 
 const CONTENT = [
   {
-    title: "First",
-    content: BACON_IPSUM,
+    title: "How can I access my previous results?",
+    content:
+      "You can access your previous results by navigating to the 'Results' section in the app. Here, you'll find a detailed history of your nutritional kiosk interactions.",
   },
   {
-    title: "Second",
-    content: BACON_IPSUM,
+    title: "Can I calculate my BMI using the app?",
+    content:
+      "Yes, you can easily calculate your BMI (Body Mass Index) using the built-in BMI calculator feature. Simply input your height and weight, and the app will provide you with your BMI value.",
   },
   {
-    title: "Third",
-    content: BACON_IPSUM,
+    title:
+      "How do I log in to the kiosk application using the QR Code scanner?",
+    content:
+      "To log in to the kiosk application, simply open the QR Code scanner feature in the mobile app and scan the QR Code displayed on the kiosk. This will automatically log you in and sync your profile.",
   },
   {
-    title: "Fourth",
-    content: BACON_IPSUM,
+    title: "Is it possible to update my profile through the mobile app?",
+    content:
+      "Yes, you can update your profile information directly from the app. Navigate to the 'Profile' section, where you'll find options to edit and update your personal details, including height, weight, and dietary preferences.",
   },
   {
-    title: "Fifth",
-    content: BACON_IPSUM,
+    title: "Does the mobile app offer a dark mode feature?",
+    content:
+      "Yes, our mobile app supports both dark mode and light mode options. You can toggle between these modes by accessing the settings menu within the app and selecting your preferred theme.",
   },
 ];
 
@@ -62,8 +66,10 @@ const App = () => {
           <View className="border-t-2 border-gray-300"></View>
         )}
         <View className="border-b-2 border-gray-300">
-          <View className="px-6 flex-row items-center justify-between h-16">
-            <Text>{section.title}</Text>
+          <View className="px-6 flex-row items-center justify-between h-24">
+            <Text className="w-80">
+              {section.title}
+            </Text>
             <Icon name={isActive ? "chevron-up" : "chevron-down"} size={20} />
           </View>
         </View>
@@ -129,14 +135,17 @@ const App = () => {
             will investigate the issue and work to resolve it as quickly as
             possible.
           </Text>
-          <Text
-            className="text-justify tracking-wide leading-5 mt-4"
-            style={{ color: "blue" }}
-            onPress={() =>
-              Linking.openURL("https://forms.gle/9uNQB7j2zSH2mfFL8")
-            }
-          >
-            • Support/Report a Problem Form
+          <Text className="mt-4">
+            •{" "}
+            <Text
+              className="text-justify tracking-wide leading-5 "
+              style={{ color: "blue" }}
+              onPress={() =>
+                Linking.openURL("https://forms.gle/9uNQB7j2zSH2mfFL8")
+              }
+            >
+              Support/Report a Problem Form
+            </Text>
           </Text>
         </View>
 
@@ -159,7 +168,7 @@ const App = () => {
                 })
               }
             >
-              terms and agreements
+              terms and conditions.
             </Text>
           </Text>
         </View>

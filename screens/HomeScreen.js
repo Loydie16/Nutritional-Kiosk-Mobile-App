@@ -278,7 +278,7 @@ export default function HomeScreen() {
               (value) => value === 0 || value === "0"
             ) ? (
             <View className="flex-1 items-center justify-center bg-slate-200 border-2 border-slate-400 dark:bg-[#131f29] dark:border-2 dark:border-slate-400  m-3 rounded-3xl">
-              <Text className="dark:text-white">No Recent Results</Text>
+              <Text className="dark:text-white">No Recent Record</Text>
             </View>
           ) : (
             <View className="flex-1 bg-slate-200 border-2 border-slate-400 dark:bg-[#131f29] dark:border-2 dark:border-slate-400  m-3 rounded-3xl  ">
