@@ -24,7 +24,7 @@ import {
 import { auth } from "../config/firebase";
 import Toast from "react-native-toast-message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { setBackgroundColorAsync } from "expo-navigation-bar";
+import { setBackgroundColorAsync, setButtonStyleAsync } from "expo-navigation-bar";
 
 export default function LoginScreen() {
   const navigation = useNavigation();
@@ -38,6 +38,7 @@ export default function LoginScreen() {
   const [showText, setShowText] = useState(false);
   const [disabled, setDisabled] = useState(false);
   setBackgroundColorAsync("#ffffff");
+  setButtonStyleAsync("dark");
 
   const showToast = (values) => {
     Toast.show({

@@ -8,15 +8,15 @@ export default function AboutApp() {
     <ScrollView className="flex-1">
       <View className="px-6 pt-6">
         <Text className="text-justify tracking-wide leading-5">
-          Welcome to [Your Mobile Application Name]! Here's everything you need
+          Welcome to NutriKiosk Mobile App! Here's everything you need
           to know about our app
         </Text>
       </View>
 
-      <View className="px-6 ">
+      <View className="px-6 mt-6">
         <Text className="font-bold text-xl">Overview</Text>
         <Text className="text-justify tracking-wide leading-5 mt-4">
-          [Your Mobile Application Name] is a user-friendly platform designed to
+          NutriKiosk Mobile App is a user-friendly platform designed to
           provide seamless access to your nutritional kiosk results, BMI
           calculations, and convenient QR code login functionality. Our mission
           is to empower users to take control of their health and wellness
@@ -76,7 +76,7 @@ export default function AboutApp() {
       <View className="flex flex-1 px-6  ">
         <Text className="font-bold text-xl">Developer Team</Text>
         <Text className="text-justify tracking-wide leading-5 mt-4">
-          [Your Mobile Application Name] was crafted by a committed group of
+          NutriKiosk Mobile App was crafted by a committed group of
           individuals, driven by the aspiration to deliver a superior user
           experience. Get to know our team:
         </Text>
@@ -120,17 +120,17 @@ export default function AboutApp() {
         <Text className="font-bold text-xl">Acknowledgement</Text>
         <Text className="text-justify tracking-wide leading-5 mt-4">
           We extend our heartfelt gratitude to all our users for their
-          continuous support and feedback. [Your Mobile Application Name]
+          continuous support and feedback. NutriKiosk Mobile App
           wouldn't be where it is today without you. Special thanks to our
           dedicated team members and contributors who have worked tirelessly to
           make this app a reality.
         </Text>
       </View>
 
-      <View className="px-6 ">
+      <View className="px-6 mt-6">
         <Text className="font-bold text-xl">Terms and Conditions</Text>
         <Text className="text-justify tracking-wide leading-5 mt-4">
-          By using [Your Mobile Application Name], you agree to abide by the
+          By using NutriKiosk Mobile App, you agree to abide by the
           following terms and conditions:
         </Text>
         <Text className="text-justify tracking-wide leading-5 mt-4">
@@ -188,7 +188,7 @@ export default function AboutApp() {
         </Text>
       </View>
 
-      <View className="px-6 mt-10">
+      <View className="px-6 my-10">
         <Text className="font-bold text-xl">Feedback</Text>
         <Text className="text-justify tracking-wide leading-5 mt-4">
           Your feedback is invaluable to us as we strive to improve [Your Mobile Application

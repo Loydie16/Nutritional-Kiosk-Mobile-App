@@ -11,12 +11,13 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { Home, Profile, BMIScreen, QRScanner, SettingScreen } from "../screens";
 import Icon from "react-native-vector-icons/Feather";
 import { useColorScheme } from "../theme/colorScheme";
-import { setBackgroundColorAsync } from "expo-navigation-bar";
+import { setBackgroundColorAsync, setButtonStyleAsync } from "expo-navigation-bar";
 
 export default function BottomNavBar() {
   const Tab = createBottomTabNavigator();
   const { colorScheme } = useColorScheme();
   setBackgroundColorAsync(colorScheme === "dark" ? "#000000" : "#ffffff");
+  setButtonStyleAsync(colorScheme === "dark" ? "light" : "dark");
   return (
     <>
 

@@ -8,8 +8,6 @@ import {
   Linking,
 } from "react-native";
 import Constants from "expo-constants";
-import * as Animatable from "react-native-animatable";
-import Collapsible from "react-native-collapsible";
 import Accordion from "react-native-collapsible/Accordion";
 import Icon from "react-native-vector-icons/Feather";
 import { useNavigation } from "@react-navigation/native";
@@ -66,7 +64,7 @@ const App = () => {
           <View className="border-t-2 border-gray-300"></View>
         )}
         <View className="border-b-2 border-gray-300">
-          <View className="px-6 flex-row items-center justify-between h-24">
+          <View className="px-4 flex-row items-center justify-between h-24">
             <Text className="w-80">
               {section.title}
             </Text>
@@ -157,7 +155,7 @@ const App = () => {
             Unless otherwise stated, [Your Company Name] and/or its licensors
             own the intellectual property rights for all material on [Your
             Mobile Application Name]. All intellectual property rights are
-            reserved. You may access this from [Your Mobile Application Name]
+            reserved. You may access this from NutriKiosk Mobile App
             for your own personal use subjected to restrictions set in these{" "}
             {""}
             <Text
@@ -177,7 +175,7 @@ const App = () => {
           <Text className="font-bold text-xl">Stay Connected</Text>
           <Text className="text-justify tracking-wide leading-5 mt-4">
             Follow us on social media to stay up-to-date with the latest news,
-            updates, and announcements from [Your Mobile Application Name]. We
+            updates, and announcements from NutriKiosk Mobile App. We
             also encourage you to join our community forums to connect with
             other users and share your experiences.
           </Text>
@@ -198,7 +196,7 @@ const App = () => {
         </View>
 
         <Text className="text-justify tracking-wide leading-5 px-6 my-10">
-          Thank you for using [Your Mobile Application Name]. We appreciate your
+          Thank you for using NutriKiosk Mobile App. We appreciate your
           support and are committed to providing you with an exceptional user
           experience. If there's anything else we can assist you with, please
           don't hesitate to reach out.

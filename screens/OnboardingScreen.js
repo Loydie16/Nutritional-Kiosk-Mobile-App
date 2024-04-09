@@ -4,6 +4,10 @@ import Onboarding from 'react-native-onboarding-swiper';
 import Lottie from 'lottie-react-native';
 import { useNavigation } from '@react-navigation/native';
 import { setItem } from '../utils/asyncStorage';
+import {
+  setBackgroundColorAsync,
+  setButtonStyleAsync,
+} from "expo-navigation-bar";
 
 const {width, height} = Dimensions.get('window');
 
@@ -14,6 +18,9 @@ export default function OnboardingScreen() {
         navigation.navigate('Login');
         setItem('onboarded', '1');
     }
+
+    setBackgroundColorAsync("#ffffff");
+    setButtonStyleAsync("dark");
 
 
   return (
