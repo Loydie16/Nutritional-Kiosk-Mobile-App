@@ -2,8 +2,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image,
-  TextInput,
   ScrollView,
   StatusBar,
   ActivityIndicator,
@@ -12,14 +10,13 @@ import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { themeColors } from "../theme";
 import { useNavigation } from "@react-navigation/native";
-import { removeItem } from "../utils/asyncStorage";
+//import { removeItem } from "../utils/asyncStorage";
 import { TextInput as PaperTextInput } from "react-native-paper";
 import Lottie from "lottie-react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import {
   signInWithEmailAndPassword,
-  sendEmailVerification,
 } from "firebase/auth";
 import { auth } from "../config/firebase";
 import Toast from "react-native-toast-message";
@@ -69,10 +66,10 @@ export default function LoginScreen() {
     setPasswordVisible((prevState) => !prevState);
   };
 
-  const handleReset = async () => {
+/*   const handleReset = async () => {
     await removeItem("onboarded");
     navigation.push("Onboarding");
-  };
+  }; */
 
   const SignupSchema = Yup.object().shape({
     email: Yup.string()
@@ -204,7 +201,6 @@ export default function LoginScreen() {
             touched,
             handleChange,
             setFieldTouched,
-            isValid,
             handleSubmit,
           }) => (
             <>

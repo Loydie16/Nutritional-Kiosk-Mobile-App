@@ -7,7 +7,6 @@ import {
   ActivityIndicator,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import Lottie from "lottie-react-native";
 import Icon from "react-native-vector-icons/Feather";
 import Modal from "react-native-modal";
 import { useColorScheme } from "../theme/colorScheme";
@@ -83,7 +82,7 @@ export default function SettingScreen() {
     const user = auth.currentUser;
 
     if (!user) {
-      console.log("No user is currently signed in.");
+      //console.log("No user is currently signed in.");
       return;
     }
 

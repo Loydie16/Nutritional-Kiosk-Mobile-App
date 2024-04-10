@@ -43,14 +43,12 @@ export default function ForgotPass() {
           .then(() => {
             setModalVisible(true);
           })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
+          .catch(() => {
             showErrorToast();
             // ..
           });
       } catch (err) {
-        console.log(err);
+        //console.log(err);
       } finally {
         // Reset loading state after authentication request completes (success or error)
         setLoading(false);
@@ -74,7 +72,6 @@ export default function ForgotPass() {
         touched,
         handleChange,
         setFieldTouched,
-        isValid,
         handleSubmit,
       }) => (
         <>

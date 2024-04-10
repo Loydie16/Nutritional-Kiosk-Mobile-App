@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, StatusBar } from 'react-native'
+import { View, StatusBar } from 'react-native'
 import React from 'react'
 import Onboarding from 'react-native-onboarding-swiper';
 import Lottie from 'lottie-react-native';
@@ -8,8 +8,6 @@ import {
   setBackgroundColorAsync,
   setButtonStyleAsync,
 } from "expo-navigation-bar";
-
-const {width, height} = Dimensions.get('window');
 
 export default function OnboardingScreen() {
     const navigation = useNavigation();

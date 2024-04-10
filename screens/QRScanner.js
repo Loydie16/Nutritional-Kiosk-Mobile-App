@@ -10,17 +10,17 @@ import { BarCodeScanner } from "expo-barcode-scanner";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useColorScheme } from "../theme/colorScheme";
 import { auth, database } from "../config/firebase";
-import { getDatabase, ref, onValue, get, child, set } from "firebase/database";
-import { useNavigation } from "@react-navigation/native"; // Import useNavigation
+import { getDatabase, ref, get, child, set } from "firebase/database";
+
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-  const { colorScheme, setColorScheme } = useColorScheme();
+  const { colorScheme } = useColorScheme();
   const [cameraType, setCameraType] = useState(
     BarCodeScanner.Constants.Type.back
   );
-  const navigation = useNavigation(); // Initialize navigation
+
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
@@ -31,7 +31,7 @@ export default function App() {
     getBarCodeScannerPermissions();
   }, []);
 
-  const handleBarCodeScanned = ({ type, data }) => {
+  const handleBarCodeScanned = ({ data }) => {
     //setScanned(true);
     if (!scanned) {
       const dbRef = ref(getDatabase());
@@ -68,10 +68,10 @@ export default function App() {
                 alert("Invalid QR Code");
               }
             } else {
-              console.log("No session data available");
+              //console.log("No session data available");
             }
           } else {
-            console.log("No data available");
+            //console.log("No data available");
           }
         })
         .catch((error) => {

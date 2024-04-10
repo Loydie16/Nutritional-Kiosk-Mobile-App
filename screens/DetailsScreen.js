@@ -2,19 +2,12 @@ import React from "react";
 import {
   View,
   Text,
-  TouchableOpacity,
-  Image,
-  TextInput,
   ScrollView,
-  StatusBar,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { textS, widthRatio, heightRatio, moderateScale } from "../utils/sizes";
-import { useColorScheme } from "../theme/colorScheme";
+import { textS } from "../utils/sizes";
 
 function DetailsScreen({ route }) {
   const { item } = route.params;
-  const { colorScheme } = useColorScheme();
 
   return (
     <View className="flex-1 dark:bg-[#001515]">

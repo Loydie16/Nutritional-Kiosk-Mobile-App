@@ -1,15 +1,10 @@
 import {
-  View,
-  Text,
-  Dimensions,
-  TouchableOpacity,
   StatusBar,
 } from "react-native";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Home, Profile, BMIScreen, QRScanner, SettingScreen } from "../screens";
-import Icon from "react-native-vector-icons/Feather";
 import { useColorScheme } from "../theme/colorScheme";
 import { setBackgroundColorAsync, setButtonStyleAsync } from "expo-navigation-bar";
 

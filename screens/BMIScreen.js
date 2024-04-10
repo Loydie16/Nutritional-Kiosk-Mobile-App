@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, BackHandler, ActivityIndicator, StatusBar } from 'react-native';
+import { View, BackHandler, ActivityIndicator } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useColorScheme } from "../theme/colorScheme";
 
-export default function BMIScreen({ navigation }) {
-  const { colorScheme } = useColorScheme();
+export default function BMIScreen() {
+
   const webViewRef = useRef(null);
   const [canGoBack, setCanGoBack] = useState(false);
 

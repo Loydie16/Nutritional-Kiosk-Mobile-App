@@ -2,19 +2,15 @@ import {
   View,
   Text,
   FlatList,
-  Dimensions,
   TouchableOpacity,
-  PixelRatio,
 } from "react-native";
 import React from "react";
-import { textS, widthRatio, heightRatio, moderateScale } from "../utils/sizes";
+import { textS } from "../utils/sizes";
 import { useNavigation } from "@react-navigation/native"; // Import useNavigation
-import { useColorScheme } from "../theme/colorScheme";
 
 function ResultScreen({ route }) {
   const { item } = route.params;
   const navigation = useNavigation(); // Initialize navigation
-  const { colorScheme } = useColorScheme();
 
   return (
     <View className="flex-1 dark:bg-[#001515] ">

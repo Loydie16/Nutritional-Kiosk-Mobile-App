@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "MobileApp",
+    "name": "NutriKiosk Mobile App",
     "slug": "MobileApp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/splash.png",
+    "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -45,7 +45,7 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "f077734e-72b5-4bb2-9b4f-693885df6100"
+        "projectId": "a00eaa35-acba-4161-8696-b2444787ae92"
       }
     }
   }

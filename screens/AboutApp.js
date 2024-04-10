@@ -8,19 +8,19 @@ export default function AboutApp() {
     <ScrollView className="flex-1">
       <View className="px-6 pt-6">
         <Text className="text-justify tracking-wide leading-5">
-          Welcome to NutriKiosk Mobile App! Here's everything you need
-          to know about our app
+          Welcome to NutriKiosk Mobile App! Here's everything you need to know
+          about our app
         </Text>
       </View>
 
       <View className="px-6 mt-6">
         <Text className="font-bold text-xl">Overview</Text>
         <Text className="text-justify tracking-wide leading-5 mt-4">
-          NutriKiosk Mobile App is a user-friendly platform designed to
-          provide seamless access to your nutritional kiosk results, BMI
-          calculations, and convenient QR code login functionality. Our mission
-          is to empower users to take control of their health and wellness
-          journey by offering personalized insights and easy-to-use tools.
+          NutriKiosk Mobile App is a user-friendly platform designed to provide
+          seamless access to your nutritional kiosk results, BMI calculations,
+          and convenient QR code login functionality. Our mission is to empower
+          users to take control of their health and wellness journey by offering
+          personalized insights and easy-to-use tools.
         </Text>
       </View>
 
@@ -76,9 +76,9 @@ export default function AboutApp() {
       <View className="flex flex-1 px-6  ">
         <Text className="font-bold text-xl">Developer Team</Text>
         <Text className="text-justify tracking-wide leading-5 mt-4">
-          NutriKiosk Mobile App was crafted by a committed group of
-          individuals, driven by the aspiration to deliver a superior user
-          experience. Get to know our team:
+          NutriKiosk Mobile App was crafted by a committed group of individuals,
+          driven by the aspiration to deliver a superior user experience. Get to
+          know our team:
         </Text>
 
         <View className="justify-center items-center mt-10">
@@ -120,18 +120,18 @@ export default function AboutApp() {
         <Text className="font-bold text-xl">Acknowledgement</Text>
         <Text className="text-justify tracking-wide leading-5 mt-4">
           We extend our heartfelt gratitude to all our users for their
-          continuous support and feedback. NutriKiosk Mobile App
-          wouldn't be where it is today without you. Special thanks to our
-          dedicated team members and contributors who have worked tirelessly to
-          make this app a reality.
+          continuous support and feedback. NutriKiosk Mobile App wouldn't be
+          where it is today without you. Special thanks to our dedicated team
+          members and contributors who have worked tirelessly to make this app a
+          reality.
         </Text>
       </View>
 
       <View className="px-6 mt-6">
         <Text className="font-bold text-xl">Terms and Conditions</Text>
         <Text className="text-justify tracking-wide leading-5 mt-4">
-          By using NutriKiosk Mobile App, you agree to abide by the
-          following terms and conditions:
+          By using NutriKiosk Mobile App, you agree to abide by the following
+          terms and conditions:
         </Text>
         <Text className="text-justify tracking-wide leading-5 mt-4">
           • You agree not to misuse the app or engage in any illegal activities.
@@ -191,11 +191,11 @@ export default function AboutApp() {
       <View className="px-6 my-10">
         <Text className="font-bold text-xl">Feedback</Text>
         <Text className="text-justify tracking-wide leading-5 mt-4">
-          Your feedback is invaluable to us as we strive to improve [Your Mobile Application
-          Name] continuously. Whether you have suggestions for new features,
-          encounter a bug, or just want to share your thoughts, we'd love to
-          hear from you. Please don't hesitate to send us your feedback via
-          email at{" "}
+          Your feedback is invaluable to us as we strive to improve NutriKiosk
+          Mobile App continuously. Whether you have suggestions for new
+          features, encounter a bug, or just want to share your thoughts, we'd
+          love to hear from you. Please don't hesitate to send us your feedback
+          via email at{" "}
           <Text
             style={{ color: "blue" }}
             onPress={() =>
@@ -203,8 +203,8 @@ export default function AboutApp() {
             }
           >
             talagtag.jonloyd.t.165@cdm.edu.ph
-          </Text>{""}
-          .
+          </Text>
+          {""}.
         </Text>
       </View>
     </ScrollView>

@@ -46,12 +46,7 @@ const App = () => {
   const navigation = useNavigation();
 
   const [activeSections, setActiveSections] = useState([]);
-  const [collapsed, setCollapsed] = useState(true);
-  const [multipleSelect, setMultipleSelect] = useState(false);
-
-  const toggleExpanded = () => {
-    setCollapsed(!collapsed);
-  };
+  const [multipleSelect] = useState(false);
 
   const setSections = (sections) => {
     setActiveSections(sections.includes(undefined) ? [] : sections);
@@ -75,7 +70,7 @@ const App = () => {
     );
   };
 
-  const renderContent = (section, _, isActive) => {
+  const renderContent = (section, _) => {
     return (
       <View style={styles.content}>
         <Text>{section.content}</Text>
@@ -87,10 +82,10 @@ const App = () => {
     <View className="flex flex-1  ">
       <ScrollView className="flex flex-1 pt-6">
         <Text className="text-justify tracking-wide leading-5 px-6">
-          Welcome to the Help and Support page for [Your Mobile Application
-          Name]. We are dedicated to providing you with the assistance you need
-          to make the most out of our application. Below are some resources to
-          help you get started and troubleshoot any issues you may encounter.
+          Welcome to the Help and Support page for NutriKiosk Mobile App. We are
+          dedicated to providing you with the assistance you need to make the
+          most out of our application. Below are some resources to help you get
+          started and troubleshoot any issues you may encounter.
         </Text>
 
         <Text style={styles.title}>Frequently Asked Questions</Text>
@@ -107,10 +102,10 @@ const App = () => {
         <View className="px-6 pt-10">
           <Text className="font-bold text-xl">Contact Us</Text>
           <Text className="text-justify tracking-wide leading-5 mt-4">
-            If you have any questions, concerns, or feedback about [Your Mobile
-            Application Name], our team is here to help! You can contact us via
-            email or through our support form. Please allow up to [X hours/days]
-            for a response.
+            If you have any questions, concerns, or feedback about NutriKiosk
+            Mobile App, our team is here to help! You can contact us via email
+            or through our support form. Please allow up to 24 hours for a
+            response.
           </Text>
           <Text className="text-justify tracking-wide leading-5 mt-4">
             • Email:{" "}
@@ -152,12 +147,11 @@ const App = () => {
             Privacy Policy and Terms of Service
           </Text>
           <Text className="text-justify tracking-wide leading-5 mt-4">
-            Unless otherwise stated, [Your Company Name] and/or its licensors
-            own the intellectual property rights for all material on [Your
-            Mobile Application Name]. All intellectual property rights are
-            reserved. You may access this from NutriKiosk Mobile App
-            for your own personal use subjected to restrictions set in these{" "}
-            {""}
+            Unless otherwise stated, our company and/or its licensors own the
+            intellectual property rights for all material on NutriKiosk Mobile
+            App. All intellectual property rights are reserved. You may access
+            this from NutriKiosk Mobile App for your own personal use subjected
+            to restrictions set in these {""}
             <Text
               style={{ color: "blue" }}
               onPress={() =>
@@ -175,9 +169,9 @@ const App = () => {
           <Text className="font-bold text-xl">Stay Connected</Text>
           <Text className="text-justify tracking-wide leading-5 mt-4">
             Follow us on social media to stay up-to-date with the latest news,
-            updates, and announcements from NutriKiosk Mobile App. We
-            also encourage you to join our community forums to connect with
-            other users and share your experiences.
+            updates, and announcements from NutriKiosk Mobile App. We also
+            encourage you to join our community forums to connect with other
+            users and share your experiences.
           </Text>
           <View className="flex flex-row gap-10 items-center justify-center py-6">
             <TouchableOpacity>
@@ -196,8 +190,8 @@ const App = () => {
         </View>
 
         <Text className="text-justify tracking-wide leading-5 px-6 my-10">
-          Thank you for using NutriKiosk Mobile App. We appreciate your
-          support and are committed to providing you with an exceptional user
+          Thank you for using NutriKiosk Mobile App. We appreciate your support
+          and are committed to providing you with an exceptional user
           experience. If there's anything else we can assist you with, please
           don't hesitate to reach out.
         </Text>

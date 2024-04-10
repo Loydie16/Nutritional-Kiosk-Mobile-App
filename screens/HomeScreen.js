@@ -6,9 +6,6 @@ import {
   Dimensions,
   TouchableOpacity,
   StatusBar,
-  FlatList,
-  Platform,
-  PixelRatio,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -16,10 +13,8 @@ import { useNavigation } from "@react-navigation/native"; // Import useNavigatio
 import { LineChart } from "react-native-chart-kit";
 import { textS, widthRatio, heightRatio, moderateScale } from "../utils/sizes";
 import { useColorScheme } from "../theme/colorScheme";
-import { getTheme } from "../utils/asyncStorageTheme.js";
 import { auth, firestoreDB } from "../config/firebase";
 import {
-  serverTimestamp,
   doc,
   getDocs,
   onSnapshot,
@@ -27,14 +22,14 @@ import {
   query,
   orderBy,
 } from "firebase/firestore";
-import { sendEmailVerification, signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import Spinner from "react-native-loading-spinner-overlay";
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Feather";
 
 export default function HomeScreen() {
   const navigation = useNavigation(); // Initialize navigation
-  const { colorScheme, setColorScheme } = useColorScheme();
+  const { colorScheme } = useColorScheme();
 
   const [results, setResults] = useState([]); // Initialize results state
   const [recentResults, setRecentResults] = useState([]); // Initialize results state
@@ -45,7 +40,7 @@ export default function HomeScreen() {
 
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(true);
-  const [isModalVisible, setModalVisible] = useState(false);
+  const [isModalVisible] = useState(false);
   const [noResults, setNoResults] = useState(true);
 
   const handleLogout = async () => {
@@ -54,10 +49,10 @@ export default function HomeScreen() {
 
   useEffect(() => {
     const docRef = doc(firestoreDB, "users", auth.currentUser.uid);
-    const usersRef = collection(firestoreDB, "users");
+    //const usersRef = collection(firestoreDB, "users");
 
     // Get a reference to the 'results' subcollection for a specific user (replace with actual user ID)
-    const resultsRef = collection(usersRef, auth.currentUser.uid, "results");
+    //const resultsRef = collection(usersRef, auth.currentUser.uid, "results");
 
     const getUsername = onSnapshot(
       docRef,
@@ -68,12 +63,13 @@ export default function HomeScreen() {
           setUsername(fetchedUsername);
           setLoading(false);
         } else {
-          console.log("No such document!");
+          //console.log("No such document!");
           // Handle the case where the document doesn't exist yet
         }
       },
       (error) => {
-        console.error("Error fetching username:", error);
+        //console.error("Error fetching username:", error);
+        alert("Error fetching username:", error);
       }
     );
 
@@ -109,7 +105,7 @@ export default function HomeScreen() {
         }
         setLoading(false);
       } catch (error) {
-        console.log("Error getting documents: ", error);
+        //console.log("Error getting documents: ", error);
       }
     };
 

@@ -3,12 +3,9 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image,
-  TextInput,
   ScrollView,
   StatusBar,
   ActivityIndicator,
-  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { themeColors } from "../theme";
@@ -30,8 +27,6 @@ import {
   serverTimestamp,
   doc,
   setDoc,
-  addDoc,
-  collection,
 } from "firebase/firestore";
 import Toast from "react-native-toast-message";
 
@@ -47,7 +42,7 @@ export default function SignUpScreen() {
   const [formattedDate, setFormattedDate] = useState("");
   const [age, setAge] = useState("");
 
-  const showToast = (values) => {
+  const showToast = () => {
     Toast.show({
       type: "success",
       text1: `Account created successfully!`,
@@ -110,9 +105,9 @@ export default function SignUpScreen() {
     showMode("date");
   };
 
-  const showTimepicker = () => {
+/*   const showTimepicker = () => {
     showMode("time");
-  };
+  }; */
 
   const SignupSchema = Yup.object().shape({
     username: Yup.string()
@@ -159,7 +154,7 @@ export default function SignUpScreen() {
 
         const userRef = doc(firestoreDB, "users", auth.currentUser.uid);
         // Add an empty 'results' subcollection document
-        const resultsCollectionRef = collection(userRef, "results");
+        /* const resultsCollectionRef = collection(userRef, "results"); */
 
         await setDoc(userRef, {
           username: values.username,
@@ -211,7 +206,6 @@ export default function SignUpScreen() {
           touched,
           handleChange,
           setFieldTouched,
-          setFieldValue,
           isValid,
           handleSubmit,
         }) => (

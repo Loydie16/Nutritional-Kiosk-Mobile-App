@@ -2,16 +2,11 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
-  StatusBar,
   ScrollView,
   TouchableOpacity,
-  Button,
   ActivityIndicator,
 } from "react-native";
 import { TextInput as PaperTextInput, Divider } from "react-native-paper";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Picker } from "@react-native-picker/picker";
-import { textS, widthRatio, heightRatio, moderateScale } from "../utils/sizes";
 import Icon from "react-native-vector-icons/Feather";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { RadioButton } from "react-native-paper";
@@ -19,21 +14,11 @@ import { sendPasswordResetEmail, signOut } from "firebase/auth";
 import { auth, firestoreDB } from "../config/firebase";
 import Toast from "react-native-toast-message";
 import Spinner from "react-native-loading-spinner-overlay";
-import {
-  serverTimestamp,
-  doc,
-  getDocs,
-  onSnapshot,
-  collection,
-  query,
-  updateDoc,
-} from "firebase/firestore";
+import { doc, onSnapshot, collection, updateDoc } from "firebase/firestore";
 import Modal from "react-native-modal";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 export default function ProfileScreen() {
   const [gender, genderChecked] = useState();
-  const [showPassword, setShowPassword] = useState(false);
   const [age, setAge] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -112,9 +97,9 @@ export default function ProfileScreen() {
     showMode("date");
   };
 
-  const showTimepicker = () => {
+  /* const showTimepicker = () => {
     showMode("time");
-  };
+  }; */
 
   const showResetToast = () => {
     Toast.show({
@@ -143,8 +128,7 @@ export default function ProfileScreen() {
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
-      console.log(errorCode);
-      // Handle error if needed
+      alert(errorCode, errorMessage); // Handle error if needed
     } finally {
       // Code in the finally block will always execute, regardless of whether an error occurred or not.
       setLoadingReset(false); // For example, you can reset loading state here.
@@ -167,17 +151,17 @@ export default function ProfileScreen() {
       showUpdateToast();
     } catch (error) {
       console.error("Error updating document: ", error);
-    }
-    finally {
+    } finally {
       setLoadingSave(false);
     }
   };
 
   useEffect(() => {
     const docRef = doc(firestoreDB, "users", auth.currentUser.uid);
-    const usersRef = collection(firestoreDB, "users");
+    //const usersRef = collection(firestoreDB, "users");
 
-    const getUserData = onSnapshot(
+    /* const getUserData =  */
+    onSnapshot(
       docRef,
       (docSnap) => {
         if (docSnap.exists()) {
@@ -199,7 +183,7 @@ export default function ProfileScreen() {
           genderChecked(fetchedGender);
           setLoading(false);
         } else {
-          console.log("No such document!");
+          //console.log("No such document!");
           // Handle the case where the document doesn't exist yet
         }
       },
