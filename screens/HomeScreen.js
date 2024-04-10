@@ -70,6 +70,7 @@ export default function HomeScreen() {
       (error) => {
         //console.error("Error fetching username:", error);
         alert("Error fetching username:", error);
+        setLoading(false);
       }
     );
 
@@ -105,7 +106,8 @@ export default function HomeScreen() {
         }
         setLoading(false);
       } catch (error) {
-        //console.log("Error getting documents: ", error);
+        alert("Error fetching results:", error);
+        setLoading(false);
       }
     };
 

@@ -102,22 +102,32 @@ export default function LoginScreen() {
           auth.signOut();
           showVerifyToast();
         }
-      } catch (err) {
-        //console.log(err);
-        showErrorToast();
-        setLoginError(true);
-        setLoginAttempts(loginAttempts - 1);
-        if (loginAttempts === 0) {
-          const disabledUntil = Date.now() + 2 * 60 * 1000;
-          setLoginDisabledUntil(disabledUntil);
-          setShowText(true);
-          setDisabled(true);
-          // Store the disabledUntil timestamp in AsyncStorage
-          await AsyncStorage.setItem(
-            "loginDisabledUntil",
-            disabledUntil.toString()
-          );
-          setLoginAttempts(2);
+      } catch (error) {
+        //console.log(error.code);
+        if (error.code === "auth/invalid-credential") {
+          showErrorToast();
+          setLoginError(true);
+          setLoginAttempts(loginAttempts - 1);
+          if (loginAttempts === 0) {
+            const disabledUntil = Date.now() + 2 * 60 * 1000;
+            setLoginDisabledUntil(disabledUntil);
+            setShowText(true);
+            setDisabled(true);
+            // Store the disabledUntil timestamp in AsyncStorage
+            await AsyncStorage.setItem(
+              "loginDisabledUntil",
+              disabledUntil.toString()
+            );
+            setLoginAttempts(2);
+          }
+        } else if (error.code === "auth/network-request-failed") {
+          Toast.show({
+            type: "error",
+            text1: `No internet connection. 📶❌`,
+            text2: "Please check your internet connection and try again.",
+          });
+        } else {
+          alert(error);
         }
       } finally {
         // Reset loading state after authentication request completes (success or error)

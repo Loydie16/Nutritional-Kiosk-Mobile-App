@@ -17,6 +17,7 @@ import { doc, deleteDoc } from "firebase/firestore";
 import Toast from "react-native-toast-message";
 import { TextInput as PaperTextInput } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
+import * as Clipboard from "expo-clipboard";
 
 export default function SettingScreen() {
   const { colorScheme, toggleColorScheme } = useColorScheme();
@@ -224,11 +225,12 @@ export default function SettingScreen() {
 
       <TouchableOpacity
         className="flex-row items-center justify-between rounded-2xl h-16 bg-slate-300 border-2 border-slate-400 dark:bg-[#232323] dark:border-2 dark:border-slate-400 "
-        onPress={() => {
+        onPress={ async () => {
+          await Clipboard.setStringAsync("NutriKiosk App Version: 1.0.0`");
           Toast.show({
             type: "info",
-            text1: `You're up to date! 🚀`,
-            text2: "Version 1.0.0",
+            text1: `Version 1.0.0 🚀`,
+            text2: "Copied to clipboard!",
           });
         }}
       >

@@ -150,7 +150,7 @@ export default function ProfileScreen() {
       setEditMode(false);
       showUpdateToast();
     } catch (error) {
-      console.error("Error updating document: ", error);
+      alert(error);
     } finally {
       setLoadingSave(false);
     }
@@ -188,7 +188,7 @@ export default function ProfileScreen() {
         }
       },
       (error) => {
-        console.error("Error fetching username:", error);
+        alert("Error getting document:", error);
       }
     );
   }, []);
