@@ -10,7 +10,7 @@ import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { themeColors } from "../theme";
 import { useNavigation } from "@react-navigation/native";
-//import { removeItem } from "../utils/asyncStorage";
+import { setItem, getItem, removeItem } from "../utils/asyncStorage";
 import { TextInput as PaperTextInput } from "react-native-paper";
 import Lottie from "lottie-react-native";
 import { Formik } from "formik";
@@ -53,11 +53,20 @@ export default function LoginScreen() {
     });
   };
 
+  const showToastWithRemainingAttempts = (attempts) => {
+    Toast.show({
+      type: "info",
+      text1: "Remaining Login Attempts",
+      text2: `You have ${attempts} attempts remaining.`,
+      duration: 3000,
+    });
+  };
+
   const showVerifyToast = () => {
     Toast.show({
       type: "error",
       text1: `Email address not verified. 🥺`,
-      text2: `Check your email for a verification link.`,
+      text2: `Check your email for a verification link.`,   
       visibilityTime: 7000,
     });
   };
@@ -66,7 +75,7 @@ export default function LoginScreen() {
     setPasswordVisible((prevState) => !prevState);
   };
 
-/*   const handleReset = async () => {
+  /*   const handleReset = async () => {
     await removeItem("onboarded");
     navigation.push("Onboarding");
   }; */
@@ -96,6 +105,7 @@ export default function LoginScreen() {
         // Check if the user's email is verified
         if (userCredential.user && userCredential.user.emailVerified) {
           showToast(values); // Proceed with login
+          removeItem("loginAttempts");
         } else {
           // Email not verified, prompt the user to verify
           // You can handle this case based on your UI/UX design
@@ -189,6 +199,33 @@ export default function LoginScreen() {
     // Cleanup the interval when the component is unmounted
     return () => clearInterval(intervalId);
   }, [loginDisabledUntil]);
+
+  // Function to retrieve loginAttempts from AsyncStorage
+  const getLoginAttemptsFromStorage = async () => {
+    try {
+      const storedLoginAttempts = await getItem("loginAttempts");
+      if (storedLoginAttempts !== null) {
+        setLoginAttempts(parseInt(storedLoginAttempts, 10)); 
+        if (parseInt(storedLoginAttempts, 10) + 1 < 3) {
+          showToastWithRemainingAttempts(parseInt(storedLoginAttempts, 10) + 1);
+        }
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  useEffect(() => {
+      getLoginAttemptsFromStorage(); // Retrieve loginAttempts when component mounts
+  }, []);
+
+  useEffect(() => {
+    // Update loginAttempts in AsyncStorage whenever it changes
+    setItem("loginAttempts", loginAttempts.toString()).catch(
+      (error) =>
+        alert(error)
+    );
+  }, [loginAttempts]);
 
   return (
     <ScrollView>
