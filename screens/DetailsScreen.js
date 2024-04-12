@@ -53,9 +53,9 @@ function DetailsScreen({ route }) {
       </View>
 
       <View className="flex-1 bg-slate-300 border-2 border-slate-400 rounded-3xl mx-3 mb-3 dark:bg-[#151c22] dark:border-2 dark:border-slate-400">
-        <ScrollView className=" flex-1  " showsVerticalScrollIndicator={false}>
+        <ScrollView className=" flex-1  " showsVerticalScrollIndicator={false} >
           <Text
-            className="text-justify tracking-wide leading-5 mx-5 my-2 dark:text-white"
+            className="text-justify tracking-wide leading-5 mx-5 my-4 dark:text-white"
             style={{ fontSize: textS(10) }}
           >
             {item.recommendation}
