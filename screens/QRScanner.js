@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StatusBar,
   ActivityIndicator,
+  Vibration,
 } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -63,9 +64,14 @@ export default function App() {
                   auth.currentUser.uid
                 );
                 alert("You have successfully logged in on the kiosk!");
+                Vibration.vibrate(500);
                 //navigation.navigate("Home"); 
               } else {
                 alert("Invalid QR Code");
+                Vibration.vibrate(300);
+                setTimeout(() => {
+                  Vibration.vibrate(300);
+                }, 500);
               }
             } else {
               //console.log("No session data available");
