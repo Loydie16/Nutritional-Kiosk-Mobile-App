@@ -40,26 +40,55 @@ export default function LoginScreen() {
   const showToast = (values) => {
     Toast.show({
       type: "success",
-      text1: `Hello ${values.email} 👋`,
-      text2: "Successfully logged in!",
+      text1: "Successfully logged in!",
+      text2: `Welcome ${values.email}! 🎉`,
+      position: "bottom",
+      duraation: 5000,
+      bottomOffset: 60,
     });
   };
 
   const showErrorToast = () => {
-    Toast.show({
-      type: "error",
-      text1: `Invalid Credentials. 🥺`,
-      text2: `You have only ${loginAttempts} attempts remaining.`,
-    });
+    if (loginAttempts === 1) {
+      Toast.show({
+        type: "error",
+        text1: `Invalid Credentials. 🥺`,
+        text2: `You have only ${loginAttempts} attempt remaining.`,
+      });
+    } else if (loginAttempts === 0) {
+      Toast.show({
+        type: "error",
+        text1: `Login Disabled ❌`,
+        text2: `Please try again after the time remaining.`,
+      });
+    } else {
+      Toast.show({
+        type: "error",
+        text1: `Invalid Credentials. 🥺`,
+        text2: `You have only ${loginAttempts} attempts remaining.`,
+      });
+    }
+    
   };
 
   const showToastWithRemainingAttempts = (attempts) => {
-    Toast.show({
-      type: "info",
-      text1: "Remaining Login Attempts",
-      text2: `You have ${attempts} attempts remaining.`,
-      duration: 3000,
-    });
+    if (attempts <= 1) {
+      Toast.show({
+        type: "info",
+        text1: "Remaining Login Attempt 🚨",
+        text2: `You have ${attempts} attempt remaining.`,
+        duration: 3000,
+      });
+    } 
+    else {
+      Toast.show({
+        type: "info",
+        text1: "Remaining Login Attempts 🚨",
+        text2: `You have ${attempts} attempts remaining.`,
+        duration: 3000,
+      });
+    }
+    
   };
 
   const showVerifyToast = () => {
