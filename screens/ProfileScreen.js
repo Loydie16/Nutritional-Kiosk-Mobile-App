@@ -14,7 +14,7 @@ import { sendPasswordResetEmail, signOut } from "firebase/auth";
 import { auth, firestoreDB } from "../config/firebase";
 import Toast from "react-native-toast-message";
 import Spinner from "react-native-loading-spinner-overlay";
-import { doc, onSnapshot, collection, updateDoc } from "firebase/firestore";
+import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import Modal from "react-native-modal";
 
 export default function ProfileScreen() {
@@ -146,9 +146,17 @@ export default function ProfileScreen() {
     };
 
     try {
-      await updateDoc(docRef, updates);
-      setEditMode(false);
-      showUpdateToast();
+      if (username === "") {
+        Toast.show({
+          type: "error",
+          text1: `Username cannot be empty! 😢`,
+          text2: "Please enter a username!",
+        });
+      } else {
+        await updateDoc(docRef, updates);
+        setEditMode(false);
+        showUpdateToast();
+      }
     } catch (error) {
       alert(error);
     } finally {

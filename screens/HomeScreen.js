@@ -47,7 +47,7 @@ export default function HomeScreen() {
     await signOut(auth);
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     const docRef = doc(firestoreDB, "users", auth.currentUser.uid);
     //const usersRef = collection(firestoreDB, "users");
 
@@ -111,12 +111,134 @@ export default function HomeScreen() {
       }
     };
 
-    fetchResults();
+    const fetchResults = async () => {
+      try {
+        const q = query(
+          collection(firestoreDB, "users", auth.currentUser.uid, "results"),
+          orderBy("timestamp", "desc")
+        );
+
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+          if (snapshot.empty) {
+            setResults([
+              {
+                bmi: 0,
+                classification: "0",
+                date: "0",
+                height: 0,
+                time: "0",
+                weight: 0,
+                recommendation: "0",
+              },
+            ]);
+            setNoResults(false);
+          } else {
+            const fetchedResults = [];
+            snapshot.forEach((doc) => {
+              fetchedResults.push(doc.data());
+            });
+            setResults(fetchedResults);
+            setRecentResults(fetchedResults.slice(0)[0]);
+            setNoResults(false);
+          }
+          setLoading(false);
+        });
+
+        // Returning unsubscribe function to clean up the listener when component unmounts
+        return unsubscribe;
+      } catch (error) {
+        alert("Error fetching results:", error);
+        setLoading(false);
+      }
+    };
+
+    const unsubscribeResults = fetchResults();
+
+    // Cleanup functions
+    return () => {
+      getUsername();
+      unsubscribeResults();
+    };
+  }, []); */
+
+
+    /* fetchResults();
 
     return () => {
       getUsername();
     }; // Cleanup function to getUsername when the component unmounts
-  }, []); // The empty dependency array ensures the useEffect runs only once on mount
+  }, []); // The empty dependency array ensures the useEffect runs only once on mount */
+
+  const fetchResults = () => {
+    try {
+      const q = query(
+        collection(firestoreDB, "users", auth.currentUser.uid, "results"),
+        orderBy("timestamp", "desc")
+      );
+
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        if (snapshot.empty) {
+          setResults([
+            {
+              bmi: 0,
+              classification: "0",
+              date: "0",
+              height: 0,
+              time: "0",
+              weight: 0,
+              recommendation: "0",
+            },
+          ]);
+          setNoResults(false);
+        } else {
+          const fetchedResults = [];
+          snapshot.forEach((doc) => {
+            fetchedResults.push(doc.data());
+          });
+          setResults(fetchedResults);
+          setRecentResults(fetchedResults.slice(0)[0]);
+          setNoResults(false);
+        }
+        setLoading(false);
+      });
+
+      return unsubscribe; // Ensure unsubscribe function is returned
+    } catch (error) {
+      alert("Error fetching results:", error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const docRef = doc(firestoreDB, "users", auth.currentUser.uid);
+
+    const getUsername = onSnapshot(
+      docRef,
+      (docSnap) => {
+        if (docSnap.exists()) {
+          const userData = docSnap.data();
+          const fetchedUsername = userData.username;
+          setUsername(fetchedUsername);
+          setLoading(false);
+        } else {
+          // Handle the case where the document doesn't exist yet
+        }
+      },
+      (error) => {
+        alert("Error fetching username:", error);
+        setLoading(false);
+      }
+    );
+
+    const unsubscribeResults = fetchResults();
+
+    // Cleanup functions
+    return () => {
+      getUsername();
+      unsubscribeResults(); // Ensure unsubscribe function is called properly
+    };
+  }, []);
+
 
   return (
     <>
@@ -291,7 +413,7 @@ export default function HomeScreen() {
                   className="dark:text-white"
                   style={{ fontSize: textS(10) }}
                 >
-                  Weight: {recentResults.bmi} KG
+                  Weight: {recentResults.weight} KG
                 </Text>
               </View>
 
