@@ -265,7 +265,7 @@ export default function ProfileScreen() {
                 </View>
               </View>
               <PaperTextInput
-                className="bg-gray-300 text-black rounded-xl border-2 border-transparent mt-2  "
+                className="bg-gray-300 text-black rounded-xl border-2 border-transparent mt-2 text-xs "
                 cursorColor="black"
                 selectionColor="black"
                 activeUnderlineColor="transparent"

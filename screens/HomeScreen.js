@@ -16,7 +16,6 @@ import { useColorScheme } from "../theme/colorScheme";
 import { auth, firestoreDB } from "../config/firebase";
 import {
   doc,
-  getDocs,
   onSnapshot,
   collection,
   query,
@@ -42,6 +41,7 @@ export default function HomeScreen() {
   const [loading, setLoading] = useState(true);
   const [isModalVisible] = useState(false);
   const [noResults, setNoResults] = useState(true);
+  const [gender, setGender] = useState("Male");
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -171,6 +171,25 @@ export default function HomeScreen() {
 
   const fetchResults = () => {
     try {
+      const docRef = doc(firestoreDB, "users", auth.currentUser.uid);
+
+      onSnapshot(
+        docRef,
+        (docSnap) => {
+          if (docSnap.exists()) {
+            const userData = docSnap.data();
+            const fetchedGender = userData.gender;
+            setGender(fetchedGender);         
+          } else {
+            //console.log("No such document!");
+            // Handle the case where the document doesn't exist yet
+          }
+        },
+        (error) => {
+          alert("Error getting document:", error);
+        }
+      );
+
       const q = query(
         collection(firestoreDB, "users", auth.currentUser.uid, "results"),
         orderBy("timestamp", "desc")
@@ -274,13 +293,25 @@ export default function HomeScreen() {
                 </Text>
               </View>
               <View className="items-end self-center">
-                <Image
-                  source={require("../assets/images/Profile-icon.png")}
-                  style={{
-                    tintColor: colorScheme === "dark" ? "#ffffff" : "#000000",
-                  
-                  }}
-                />
+                {gender === "Male" ? (
+                  <Image
+                    source={require("../assets/images/man.png")}
+                    style={{
+                      //tintColor: colorScheme === "dark" ? "#ffffff" : "#000000",
+                      width: 60,
+                      height: 60,
+                    }}
+                  />
+                ) : (
+                  <Image
+                    source={require("../assets/images/woman.png")}
+                    style={{
+                      //tintColor: colorScheme === "dark" ? "#ffffff" : "#000000",
+                      width: 60,
+                      height: 60,
+                    }}
+                  />
+                )}
               </View>
             </View>
           </SafeAreaView>

@@ -27,6 +27,9 @@ import {
   serverTimestamp,
   doc,
   setDoc,
+  collection,
+  addDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import Toast from "react-native-toast-message";
 
@@ -110,9 +113,9 @@ export default function SignUpScreen() {
   }; */
 
   const SignupSchema = Yup.object().shape({
-    username: Yup.string()
-      .min(6, "Too Short!")
-      .max(8, "Too Long!")
+    username: Yup.string() 
+      .min(2, "Too Short!")
+      .max(12, "Too Long!")
       .required("Please enter username."),
 
     email: Yup.string()
@@ -164,9 +167,24 @@ export default function SignUpScreen() {
           createdAt: serverTimestamp(),
         });
 
+        // Create 'results' subcollection
+        const resultsCollectionRef = collection(userRef, "results");
+        // Add an empty document to the subcollection
+        const specificDocRef = doc(
+          resultsCollectionRef,
+          "willDeleteThisDocLater"
+        );
+        await setDoc(specificDocRef, {
+          /* empty data fields */
+        });
+
+        
+
         sendEmailVerification(auth.currentUser)
           .then(() => {
-            alert("Email verification sent!");
+            alert(
+              "Logged out due to unverified email. Email verification sent. Please verify."
+            );
           })
           .catch((error) => {
             alert("Error sending email verification: ", error);
@@ -175,8 +193,16 @@ export default function SignUpScreen() {
         await signOut(auth);
         showToast();
       } catch (err) {
-        showErrorToast(err);
-        alert(err);
+        if(err.code === "auth/email-already-in-use") {
+          Toast.show({
+            type: "error",
+            text1: `Account already exists! 🥺`,
+            text2: `Email is already in use. Please use another email.`,
+          });
+        } else {
+          showErrorToast(err);
+          alert(err);
+        }
       } finally {
         // Reset loading state after authentication request completes (success or error)
         setLoading(false);

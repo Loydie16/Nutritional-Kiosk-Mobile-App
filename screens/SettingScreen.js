@@ -95,7 +95,7 @@ export default function SettingScreen() {
         await deleteDoc(doc(firestoreDB, "users", userId));
         Toast.show({
           type: "success",
-          text1: `Successfully deleted account!`,
+          text1: `Account deleted successfully!`,
           text2: "Sad to see you go! 😢",
         });
       })
