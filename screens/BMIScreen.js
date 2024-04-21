@@ -2,15 +2,20 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, BackHandler, ActivityIndicator } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useColorScheme } from "../theme/colorScheme";
 
 export default function BMIScreen() {
 
   const webViewRef = useRef(null);
   const [canGoBack, setCanGoBack] = useState(false);
+  const { colorScheme } = useColorScheme();
 
   const renderLoadingIndicator = () => (
     <View className="h-full dark:bg-black items-center justify-center">
-      <ActivityIndicator size="large" color="#0000ff" />
+      <ActivityIndicator
+        size="large"
+        color={colorScheme === "dark" ? "#ffffff" : "#000000"}
+      />
     </View>
   );
 

@@ -209,7 +209,7 @@ export default function ProfileScreen() {
         textStyle={{ color: "#FFF" }}
         color="#FFFFFF"
         animation="fade"
-        overlayColor="rgba(0, 0, 0, 0.50)"
+        overlayColor="rgba(0, 0, 0, 0.80)"
       />
       <ScrollView className="flex-1 dark:bg-[#000000]">
         <View className="flex-1 m-2 rounded-2xl  bg-slate-200 border-2 border-slate-400 dark:bg-[#232323] dark:border-2 dark:border-slate-400 ">

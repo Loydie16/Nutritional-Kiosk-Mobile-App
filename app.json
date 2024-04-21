@@ -1,10 +1,10 @@
 {
   "expo": {
     "name": "NutriKiosk Mobile App",
-    "slug": "MobileApp",
+    "slug": "nutrikiosk-mobile-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -20,17 +20,17 @@
         "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access camera.",
         "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone"
       },
-      "bundleIdentifier": "com.loydie16.MobileApp"
+      "bundleIdentifier": "com.loydie16.nutrikiosk-mobile-app"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/images/logo.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
         "android.permission.CAMERA"
       ],
-      "package": "com.loydie16.MobileApp"
+      "package": "com.loydie16.nutrikioskmobileapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -45,7 +45,7 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "a00eaa35-acba-4161-8696-b2444787ae92"
+        "projectId": "d9e5bde8-2b57-4778-986f-f961078009ee"
       }
     }
   }

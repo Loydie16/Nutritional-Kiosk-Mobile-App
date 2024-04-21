@@ -266,18 +266,18 @@ export default function HomeScreen() {
         barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
       />
       <Spinner
-        visible={loading}
+        visible={false}
         textContent={"Loading..."}
         textStyle={{ color: "#FFF" }}
         color="#FFFFFF"
         animation="fade"
-        overlayColor="rgba(0, 0, 0, 0.50)"
+        overlayColor="rgba(0, 0, 0, 0.80)"
       />
       <View className="flex-1 bg-neutral-200 dark:bg-[#000000]  ">
         <View className="h-1/5 bg-neutral-100  dark:bg-[#232323] dark:border-slate-400 rounded-b-3xl">
           <SafeAreaView className="flex-1 p-4  ">
             <View className="flex-row items-center w-full">
-              <View className="w-5/6    ">
+              <View className="w-4/5 ">
                 <Text
                   className="font-bold pl-2 dark:text-white"
                   style={{ fontSize: textS(15) }}
